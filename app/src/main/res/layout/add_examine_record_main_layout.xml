@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".ShowExamineRecord">
+
+    <RelativeLayout
+        android:id="@+id/headlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="安全隐患检查记录"
+            android:textSize="18dp" />
+
+        <Button
+            android:id="@+id/taskAdd"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="110dp"
+            android:layout_toRightOf="@+id/center"
+            android:background="@mipmap/add_task" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="3dp"
+            android:layout_below="@+id/center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:background="@color/huise"
+            android:paddingLeft="1080dp"
+            android:paddingRight="10dp"
+            android:singleLine="true" />
+
+        <!--
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="切换用户"
+                android:id="@+id/userbutton"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/center"
+                />-->
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/headlayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/headlayout"
+        android:layout_marginTop="10dp">
+
+        <EditText
+            android:id="@+id/project_name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/edittext"
+            android:hint="请输入项目名称"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/loginTextColor" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"></android.support.design.widget.TextInputLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/headlayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/headlayout1"
+        android:layout_marginTop="10dp">
+
+        <EditText
+            android:id="@+id/road_site"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/edittext"
+            android:hint="请输入施工地点"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/loginTextColor" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/headlayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/headlayout2"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/center11"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:gravity="fill_vertical"
+            android:text="隧道施工安全检查项目："
+            android:textSize="18dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/headlayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/headlayout4"
+        android:layout_marginTop="10dp">
+
+        <Spinner
+            android:id="@+id/examine_item"
+            android:layout_width="400dp"
+            android:layout_height="50dp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

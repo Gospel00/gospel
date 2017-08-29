@@ -30,7 +30,7 @@
         android:layout_width="300dp"
         android:layout_height="fill_parent"
         android:layout_gravity="start"
-        android:background="@color/common_black_alpha_88"
+        android:background="@color/shouyebg"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:paddingTop="10dp" />

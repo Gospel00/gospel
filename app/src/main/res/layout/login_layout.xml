@@ -38,7 +38,6 @@
         android:background="@drawable/edittextstyle"
         android:hint="请输入用户名"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
         android:singleLine="true"
         android:textColor="@color/loginTextColor" />
 
@@ -57,7 +56,6 @@
         android:hint="请输入密码"
         android:inputType="textPassword"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
         android:singleLine="true"
         android:textColor="@color/loginTextColor" />
 

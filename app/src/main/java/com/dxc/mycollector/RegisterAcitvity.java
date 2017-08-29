@@ -2,8 +2,10 @@ package com.dxc.mycollector;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,14 +39,17 @@ public class RegisterAcitvity extends Activity {
     private EditText repassword;
     private EditText phone;
     private EditText adress;
-    private RadioGroup sex;
-    private RadioButton male;
-    private RadioButton female;
+    private EditText realname;
+    private EditText idcard;
+    private EditText gongdian;
+    /* private RadioGroup sex;
+     private RadioButton male;
+     private RadioButton female;*/
     //省级选项值
-    private String[] province = new String[]{"北京", "上海", "天津", "广东"};//,"重庆","黑龙江","江苏","山东","浙江","香港","澳门"};
+    private String[] province = new String[]{"省份", "北京", "上海", "天津", "广东"};//,"重庆","黑龙江","江苏","山东","浙江","香港","澳门"};
     //地级选项值
     private String[][] city = new String[][]
-            {
+            {{"市"},
                     {"东城区", "西城区", "崇文区", "宣武区", "朝阳区", "海淀区", "丰台区", "石景山区", "门头沟区",
                             "房山区", "通州区", "顺义区", "大兴区", "昌平区", "平谷区", "怀柔区", "密云县",
                             "延庆县"},
@@ -58,7 +63,7 @@ public class RegisterAcitvity extends Activity {
 
     //县级选项值
     private String[][][] county = new String[][][]
-            {
+            {{{"区"}},
                     {   //北京
                             {"东单"}, {"人定湖北巷"}, {"天坛公园"}, {"三井社区"}, {"望京"}, {"北京大学"}, {"永定河"}, {"无"}, {"无"}, {"无"},
                             {"无"}, {"后沙峪"}, {"无"}, {"无"}, {"无"}, {"无"}, {"无"}, {"无"}
@@ -81,38 +86,39 @@ public class RegisterAcitvity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_layout);
         setSpinner();
-        setTitle("Register");
         button = (Button) findViewById(R.id.register);
         username = (EditText) findViewById(R.id.siguername);
         password = (EditText) findViewById(R.id.sigpassword);
         repassword = (EditText) findViewById(R.id.sigrepassword);
         phone = (EditText) findViewById(R.id.sigphone);
         adress = (EditText) findViewById(R.id.sigaddress);
-        sex = (RadioGroup) this.findViewById(R.id.radiogroup1);
+        realname = (EditText) findViewById(R.id.sigrealname);
+        idcard = (EditText) findViewById(R.id.sigidcard);
+        gongdian = (EditText) findViewById(R.id.siggongdian);
+       /* sex = (RadioGroup) this.findViewById(R.id.radiogroup1);
         male = (RadioButton) this.findViewById(R.id.male);
-        female = (RadioButton) this.findViewById(R.id.female);
+        female = (RadioButton) this.findViewById(R.id.female);*/
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UserService userServices = new UserService(context);
-//                User user = new User();
-//                user.setuName("Gospel");
-//                user.setuAge("30");
-//                user.setuPhone("15210769058");
-//                user.setuPwd("111111");
-//                user.setuSex("0");//0女1男
-//                user.setuAddress("北京市朝阳区金兴路一号院");
                 User newUser = GetText();
                 if (!isEmpty(newUser)) {
 //                boolean isTure = userServices.register(user);
                     int isTure = SqliteDB.getInstance(getApplicationContext()).saveUser(newUser);
                     if (isTure == 1) {
-                        Toast.makeText(RegisterAcitvity.this, "Register Successful", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterAcitvity.this, "注册成功", Toast.LENGTH_LONG).show();
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     } else if (isTure == -1) {
-                        Toast.makeText(RegisterAcitvity.this, "this user is Registered", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterAcitvity.this, "该用户已存在", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(RegisterAcitvity.this, "Register Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterAcitvity.this, "注册失败", Toast.LENGTH_SHORT).show();
                     }
 //                Toast.makeText(RegisterAcitvity.this, "Create Success ", Toast.LENGTH_SHORT).show();
                 }
@@ -128,14 +134,16 @@ public class RegisterAcitvity extends Activity {
         user.setuAddress(adress.getText().toString().trim());
         user.setuRePwd(repassword.getText().toString().trim());
         user.setuAddress(adress.getText().toString().trim());
-        user.setuSex(sex.getCheckedRadioButtonId() + "");
-
+        //user.setuSex(sex.getCheckedRadioButtonId() + "");
+        user.seturealName(realname.getText().toString().trim());
+        user.setidCard(idcard.getText().toString().trim());
+        user.setgongDian(gongdian.getText().toString().trim());
         return user;
     }
 
     private boolean isEmpty(User user) {
 //        GetText();
-
+        Log.i("register", "pao ");
         if (TextUtils.isEmpty(user.getuName())) {
             Toast.makeText(RegisterAcitvity.this, "用户名不能为空", Toast.LENGTH_SHORT).show();
             return true;
@@ -154,14 +162,19 @@ public class RegisterAcitvity extends Activity {
         } else if (TextUtils.isEmpty(user.getuPhone())) {
             Toast.makeText(RegisterAcitvity.this, "电话号码不能为空", Toast.LENGTH_SHORT).show();
             return true;
+        } else if (TextUtils.isEmpty(user.geturealName())) {
+            Toast.makeText(RegisterAcitvity.this, "真实姓名不能为空", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (TextUtils.isEmpty(user.getidCard())) {
+            Toast.makeText(RegisterAcitvity.this, "18位证件号不能为空", Toast.LENGTH_SHORT).show();
+            return true;
         } else if (TextUtils.isEmpty(user.getuAddress())) {
             Toast.makeText(RegisterAcitvity.this, "地址不能为空", Toast.LENGTH_SHORT).show();
             return true;
-        } else if (!male.isChecked() && !female.isChecked()) {
-            Toast.makeText(RegisterAcitvity.this, "pls choose sex", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(user.getgongDian())) {
+            Toast.makeText(RegisterAcitvity.this, "您的工点不能为空", Toast.LENGTH_SHORT).show();
             return true;
         }
-
         return false;
     }
 
@@ -174,10 +187,10 @@ public class RegisterAcitvity extends Activity {
         provinceAdapter = new ArrayAdapter<String>(RegisterAcitvity.this,
                 android.R.layout.simple_spinner_item, province);
         provinceSpinner.setAdapter(provinceAdapter);
-        provinceSpinner.setSelection(3, true);  //设置默认选中项，此处为默认选中第4个值
+        provinceSpinner.setSelection(0, true);  //设置默认选中项，此处为默认选中第4个值
 
         cityAdapter = new ArrayAdapter<String>(RegisterAcitvity.this,
-                android.R.layout.simple_spinner_item, city[3]);
+                android.R.layout.simple_spinner_item, city[0]);
         citySpinner.setAdapter(cityAdapter);
         citySpinner.setSelection(0, true);  //默认选中第0个
 

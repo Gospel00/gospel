@@ -14,7 +14,9 @@ public class User {
     private String uSex;
     private String uPhone;
     private String uAddress;
-
+    private String urealName;
+    private String idCard;
+    private String gongDian;
     public int getId() {
         return id;
     }
@@ -77,5 +79,29 @@ public class User {
 
     public void setuSex(String uSex) {
         this.uSex = uSex;
+    }
+
+    public void setgongDian(String gongDian) {
+        this.gongDian = gongDian;
+    }
+
+    public void seturealName(String urealName) {
+        this.urealName = urealName;
+    }
+
+    public void setidCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public String geturealName() {
+        return urealName;
+    }
+
+    public String getidCard() {
+        return idCard;
+    }
+
+    public String getgongDian() {
+        return gongDian;
     }
 }

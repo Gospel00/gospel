@@ -40,9 +40,9 @@ public class BaseActivity extends Activity implements
     protected DrawerLayout drawerLayout;
     protected ListView drawerList;
     protected FrameLayout frameLayout;
-    protected String[] planetTitles = {"个人信息", "任务管理", "数据管理", "仪器设置", "系统升级", "关于系统"};
+    protected String[] planetTitles = {"个人信息", "任务管理", "数据管理", "安全管理", "仪器设置", "系统升级", "关于系统"};
     protected int[] imagesId = {R.drawable.assignment, R.drawable.down,
-            R.drawable.data, R.drawable.measure, R.drawable.update, R.drawable.system};
+            R.drawable.data, R.drawable.surc, R.drawable.measure, R.drawable.update, R.drawable.system};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,10 +127,13 @@ public class BaseActivity extends Activity implements
                 startActivity(new Intent(this, BlueToothFolder.class));
                 break;
             case 3:
+                startActivity(new Intent(this, ShowExamineRecord.class));
                 break;
             case 4:
                 break;
             case 5:
+                break;
+            case 6:
                 break;
         }
     }

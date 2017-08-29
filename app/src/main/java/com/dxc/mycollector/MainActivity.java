@@ -41,6 +41,7 @@ public class MainActivity extends Activity {
         //这个是选择将图片绘制在EditText的位置，参数对应的是：左、上、右、下
         username.setCompoundDrawables(username_drawable, null, null, null);
         lgpwd.setCompoundDrawables(password_drawable, null, null, null);
+
         context = this;
         /**
          * 登录按钮的点击事件
@@ -49,26 +50,26 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (username != null && username.length() > 0) {
-                    if (lgpwd != null && lgpwd.length() >= 6 && lgpwd.length() <= 20) {
-                        UserService userServices = new UserService(context);
+//                    if (lgpwd != null && lgpwd.length() >= 6 && lgpwd.length() <= 20) {
+                    UserService userServices = new UserService(context);
 //                        boolean isTure = userServices.login(username.getText().toString(), lgpwd.getText().toString());
-                        int isTure = SqliteDB.getInstance(getApplicationContext()).Quer(lgpwd.getText().toString(), username.getText().toString());
-                        if (isTure == 1) {
-                            Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                    int isTure = SqliteDB.getInstance(getApplicationContext()).Quer(lgpwd.getText().toString(), username.getText().toString());
+                    if (isTure == 1) {
+                        Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_LONG).show();
                             /*登录成功，进入任务下载页面*/
 //                            startActivity(new Intent(context, TaskDownloadActivity.class));
-                            startActivity(new Intent(context, PersonAcitvity.class));
+                        startActivity(new Intent(context, PersonAcitvity.class));
 //                            startActivity(new Intent(context, BlueToothFolder.class));
-                        } else if (isTure == 0) {
-                            Toast.makeText(MainActivity.this, "This User is no Register!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(MainActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
-                        }
+                    } else if (isTure == 0) {
+                        Toast.makeText(MainActivity.this, "用户不存在", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(MainActivity.this, "密码错误，请重新输入", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
                     }
+//                    } else {
+//                        Toast.makeText(MainActivity.this, "密码错误，请重新输入", Toast.LENGTH_SHORT).show();
+//                    }
                 } else {
-                    Toast.makeText(MainActivity.this, "username is not null", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "用户名不能为空", Toast.LENGTH_SHORT).show();
                 }
             }
         });
