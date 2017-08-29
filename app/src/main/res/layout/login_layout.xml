@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.dxc.mycollector.MainActivity">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+
+    </android.support.design.widget.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/face"
+        android:layout_width="240dp"
+        android:layout_height="90dp"
+        android:layout_gravity="center"
+        android:src="@mipmap/logo1" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp">
+
+    </android.support.design.widget.TextInputLayout>
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/edittextstyle"
+        android:hint="请输入用户名"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:singleLine="true"
+        android:textColor="@color/loginTextColor" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+    </android.support.design.widget.TextInputLayout>
+
+    <EditText
+        android:id="@+id/lgpwd"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/edittextstyle"
+        android:hint="请输入密码"
+        android:inputType="textPassword"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:singleLine="true"
+        android:textColor="@color/loginTextColor" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/login"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@mipmap/btn_bg"
+        android:onClick="onLogin"
+        android:text="登录"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/register"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/buttonstyle"
+        android:onClick="register"
+        android:text="注册"
+        android:textColor="@color/registerTextColor"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/forget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="250dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="忘记密码?"
+        android:textColor="@color/forgetpwd"
+        android:textSize="13sp" />
+</LinearLayout>
