@@ -7,12 +7,6 @@ import android.widget.TextView;
 
 import com.dxc.mycollector.utils.HttpUtils;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Map;
-
 /**
  * Created by gospel on 2017/8/18.
  * About PersonWellcom
