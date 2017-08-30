@@ -1,8 +1,10 @@
 package com.dxc.mycollector;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.dxc.mycollector.utils.HttpUtils;
@@ -14,6 +16,7 @@ import com.dxc.mycollector.utils.HttpUtils;
 public class PersonAcitvity extends BaseActivity {
     TextView textView;
     String result = null;
+   // private Button button;
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
@@ -33,9 +36,11 @@ public class PersonAcitvity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.person_homepage_layout);
         textView = (TextView) findViewById(R.id.textView4);
+       // button=(Button)findViewById(R.id.button);
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               // startActivity(new Intent(PersonAcitvity.this, CeLiangActivity.class));
                 new Thread() {//创建子线程进行网络访问的操作
                     public void run() {
                         try {
