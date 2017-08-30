@@ -74,7 +74,6 @@
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:background="@mipmap/btn_bg"
-        android:onClick="onLogin"
         android:text="登录"
         android:textColor="@android:color/white"
         android:textSize="@dimen/all_btn" />
@@ -85,7 +84,6 @@
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/buttonstyle"
-        android:onClick="register"
         android:text="注册"
         android:textColor="@color/registerTextColor"
         android:textSize="@dimen/all_btn" />
