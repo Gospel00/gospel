@@ -20,6 +20,7 @@ import com.dxc.mycollector.taskDownload.DLApplication;
  */
 public class MainActivity extends Activity {
     private Button button;//登录按钮
+    private Button registerBtn;//注册按钮
     private EditText username;
     private EditText lgpwd;
     Context context;
@@ -30,6 +31,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.login_layout);
 
         button = (Button) findViewById(R.id.login);
+        registerBtn = (Button) findViewById(R.id.register);
         username = (EditText) findViewById(R.id.username);
 //        username.setText("1");
         lgpwd = (EditText) findViewById(R.id.lgpwd);
@@ -75,11 +77,16 @@ public class MainActivity extends Activity {
                 }
             }
         });
-    }
 
 
-    /*注册*/
-    public void register(View view) {
-        startActivity(new Intent(this, RegisterAcitvity.class));
+        /**
+         * 注册按钮的点击事件
+         */
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, RegisterAcitvity.class));
+            }
+        });
     }
 }
