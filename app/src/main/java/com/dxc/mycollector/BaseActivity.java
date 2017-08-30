@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Layout;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,13 +39,14 @@ import java.util.List;
 
 public class BaseActivity extends Activity implements
         ActivityCompat.OnRequestPermissionsResultCallback {
+    String TAG = BaseActivity.class.getSimpleName();
     //    protected String[] planetTitles;
     protected DrawerLayout drawerLayout;
     protected ListView drawerList;
     protected FrameLayout frameLayout;
     protected String[] planetTitles = null;//{"个人信息", "任务管理", "数据管理", "安全管理", "仪器设置", "系统升级", "关于系统"};
     protected int[] imagesId = {R.drawable.assignment, R.drawable.down,
-            R.drawable.data, R.drawable.surc, R.drawable.login, R.drawable.measure, R.drawable.update, R.drawable.system};
+            R.drawable.data, R.drawable.safe, R.drawable.measure, R.drawable.update, R.drawable.system, R.drawable.safe};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,18 +75,33 @@ public class BaseActivity extends Activity implements
                 View layout = View.inflate(getApplicationContext(), R.layout.menu_list_item, null);
                 ImageView imgv = (ImageView) layout.findViewById(R.id.lgface);
                 TextView name1 = (TextView) layout.findViewById(R.id.name1);
+                LinearLayout lin = (LinearLayout) layout.findViewById(R.id.item_lin_1);
+                ImageView face = (ImageView) layout.findViewById(R.id.lgicon);
+                TextView name = (TextView) layout.findViewById(R.id.name);
+                TextView num = (TextView) layout.findViewById(R.id.num);
                 if (position > 0) {
                     imgv.setVisibility(View.GONE);
                     name1.setVisibility(View.GONE);
                     layout.setVisibility(View.VISIBLE);
                     layout.invalidate();
                 }
-                if (!DLApplication.userSession.getuName().equals("1")) {
-//                    continue;
-//                    break;
+                //是否显示任务数
+                if (position != 1 && position != 2 && position != 3) {
+                    num.setVisibility(View.GONE);
+                    layout.setVisibility(View.VISIBLE);
+                    layout.invalidate();
+                }
+                //admin
+                if (!DLApplication.userSession.getuName().equals(DLApplication.amdin)) {
+                    if (position != 7) {
+                        face.setImageResource(imagesId[position]);
+                        name.setText(planetTitles[position]);
+                    } else {
+                        lin.setVisibility(View.GONE);
+                        layout.setVisibility(View.VISIBLE);
+                        layout.invalidate();
+                    }
                 } else {
-                    ImageView face = (ImageView) layout.findViewById(R.id.lgicon);
-                    TextView name = (TextView) layout.findViewById(R.id.name);
                     face.setImageResource(imagesId[position]);
                     name.setText(planetTitles[position]);
                 }
@@ -139,6 +156,9 @@ public class BaseActivity extends Activity implements
             case 5:
                 break;
             case 6:
+                break;
+            case 7:
+                startActivity(new Intent(this, UserListAcitvity.class));
                 break;
         }
     }

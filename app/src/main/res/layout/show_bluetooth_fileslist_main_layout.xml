@@ -22,7 +22,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="测量数据列表"
-            android:textSize="18dp" />
+            android:textSize="@dimen/all_title" />
 
         <TextView
             android:id="@+id/textView"
