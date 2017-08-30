@@ -15,17 +15,22 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BaseActivity"></activity>
-        <activity android:name=".RegisterAcitvity"></activity>
-        <activity android:name=".PersonAcitvity"></activity>
-        <activity android:name=".TaskDownloadActivity"></activity>
-        <activity android:name=".BlueToothFolder"></activity>
-        <activity android:name=".ShowExamineRecord"></activity>
-        <activity android:name=".AddExamineRecord"></activity>
-        <service android:name="com.dxc.mycollector.taskDownload.DownLoadService" />
+        <activity android:name=".BaseActivity" />
+        <activity android:name=".RegisterAcitvity" />
+        <activity android:name=".PersonAcitvity" />
+        <activity android:name=".TaskDownloadActivity" />
+        <activity android:name=".BlueToothFolder" />
+        <activity android:name=".ShowExamineRecord" />
+        <activity android:name=".AddExamineRecord" />
+
+        <service android:name=".taskDownload.DownLoadService" />
+
+        <activity android:name=".CeLiangActivity" />
+        <activity android:name=".SafeUpdateActivity"></activity>
     </application>
 
 </manifest>
