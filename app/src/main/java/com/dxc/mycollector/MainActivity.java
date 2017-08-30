@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.dxc.mycollector.dbhelp.SqliteDB;
 import com.dxc.mycollector.serviecs.UserService;
+import com.dxc.mycollector.taskDownload.DLApplication;
 
 /**
  * Created by gospel on 2017/8/18.
@@ -30,9 +31,9 @@ public class MainActivity extends Activity {
 
         button = (Button) findViewById(R.id.login);
         username = (EditText) findViewById(R.id.username);
-        username.setText("Gospel");
+        username.setText("1");
         lgpwd = (EditText) findViewById(R.id.lgpwd);
-        lgpwd.setText("111111");
+        lgpwd.setText("1");
         Drawable username_drawable = getResources().getDrawable(R.drawable.login);
         Drawable password_drawable = getResources().getDrawable(R.drawable.lock);
         //四个参数分别是设置图片的左、上、右、下的尺寸
@@ -59,6 +60,7 @@ public class MainActivity extends Activity {
                             /*登录成功，进入任务下载页面*/
 //                            startActivity(new Intent(context, TaskDownloadActivity.class));
                         startActivity(new Intent(context, PersonAcitvity.class));
+                        DLApplication.userSession.setuName(username.getText().toString());
 //                            startActivity(new Intent(context, BlueToothFolder.class));
                     } else if (isTure == 0) {
                         Toast.makeText(MainActivity.this, "用户不存在", Toast.LENGTH_SHORT).show();
