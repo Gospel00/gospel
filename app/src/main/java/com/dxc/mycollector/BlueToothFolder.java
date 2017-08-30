@@ -68,8 +68,6 @@ public class BlueToothFolder extends BaseActivity {
         fileList = (ListView) findViewById(R.id.showbluetoothfilelistView);
         context = this;
         String aa = searchFile("");
-        Log.i("bluetoothfile", "onCreate: " + aa);
-        Toast.makeText(this, aa + "--" + listf.size(), Toast.LENGTH_LONG).show();
         initDrawerList();
     }
 
@@ -168,6 +166,8 @@ public class BlueToothFolder extends BaseActivity {
                     }
                     changeToJson(htmlCode);
                     showDialog(Arrays.asList(getArrayBcak(personInfos)));
+                    //在这里将解析出来的数据放到MeasureData里，调用saveData方法存起来，再调用select方法显示出来(复核)
+
                 }
             } catch (FileNotFoundException e) {
             } catch (IOException e) {
