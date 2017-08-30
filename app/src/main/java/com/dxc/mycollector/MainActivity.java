@@ -31,9 +31,9 @@ public class MainActivity extends Activity {
 
         button = (Button) findViewById(R.id.login);
         username = (EditText) findViewById(R.id.username);
-        username.setText("1");
+//        username.setText("1");
         lgpwd = (EditText) findViewById(R.id.lgpwd);
-        lgpwd.setText("1");
+//        lgpwd.setText("1");
         Drawable username_drawable = getResources().getDrawable(R.drawable.login);
         Drawable password_drawable = getResources().getDrawable(R.drawable.lock);
         //四个参数分别是设置图片的左、上、右、下的尺寸
@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
                     } else if (isTure == 0) {
                         Toast.makeText(MainActivity.this, "用户不存在", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(MainActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "密码错误，请重新输入", Toast.LENGTH_SHORT).show();
                     }
 //                    } else {
 //                        Toast.makeText(MainActivity.this, "密码错误，请重新输入", Toast.LENGTH_SHORT).show();
