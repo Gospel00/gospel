@@ -76,7 +76,7 @@ public class HttpUtils {
      * @return
      * @throws Exception
      */
-    public static String getJSONObjectString(String path)
+    public static String getJSONObjectString(String uid, String path)
             throws Exception {
         //List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         String result = null;

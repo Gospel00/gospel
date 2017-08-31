@@ -55,9 +55,9 @@ public class BlueToothFolder extends BaseActivity {
     List<String> l = new ArrayList();
     JSONObject tmpObj = null;
     JSONArray jsonArray = new JSONArray();
-    String personInfos="";
-    String createTime="";
-    String hightProcess="";
+    String personInfos = "";
+    String createTime = "";
+    String hightProcess = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,37 +183,35 @@ public class BlueToothFolder extends BaseActivity {
     private void changeToJson(String htmlCode) throws JSONException {
         l.clear();
         tmpObj = new JSONObject();
-        jsonArray= new JSONArray();
+        jsonArray = new JSONArray();
         Document document = (Document) Jsoup.parse(htmlCode);
         Elements elements = document.select("tr");//elements.select("tr").size();
         for (Element ele : elements) {
-                if (ele.select("th").size() > 2) {
-                    for (int a = 0; a < ele.select("th").size(); a++) {
-                        String titles = (ele.select("th").get(a).text()).trim();
-                        String keys = (ele.select("td").get(a).text()).trim();
-                        String oneLine = titles + ":" + keys + "\n";
-                        if (titles != "") {
-                            l.add(oneLine); // Log.i(TAG, "This is PPM .");
-                            tmpObj.put(titles , keys);
-                        }
-                        if(titles.equals("高程"))
-                        {
-                            hightProcess=keys;
-                        }
-                    }
-                } else {
-                    String titles = (ele.select("th").get(0).text()).trim();
-                    String keys = (ele.select("td").get(0).text()).trim();
+            if (ele.select("th").size() > 2) {
+                for (int a = 0; a < ele.select("th").size(); a++) {
+                    String titles = (ele.select("th").get(a).text()).trim();
+                    String keys = (ele.select("td").get(a).text()).trim();
                     String oneLine = titles + ":" + keys + "\n";
                     if (titles != "") {
-                        l.add(oneLine);
-                        tmpObj.put(titles ,keys);
-                        if(titles.equals("创建日期"))
-                        {
-                            createTime=keys;
-                        }
+                        l.add(oneLine); // Log.i(TAG, "This is PPM .");
+                        tmpObj.put(titles, keys);
+                    }
+                    if (titles.equals("高程")) {
+                        hightProcess = keys;
                     }
                 }
+            } else {
+                String titles = (ele.select("th").get(0).text()).trim();
+                String keys = (ele.select("td").get(0).text()).trim();
+                String oneLine = titles + ":" + keys + "\n";
+                if (titles != "") {
+                    l.add(oneLine);
+                    tmpObj.put(titles, keys);
+                    if (titles.equals("创建日期")) {
+                        createTime = keys;
+                    }
+                }
+            }
         }
         jsonArray.put(tmpObj);
         personInfos = jsonArray.toString(); // 将JSONArray转换得到String
@@ -234,14 +232,13 @@ public class BlueToothFolder extends BaseActivity {
         b.show();
     }
 
-    public String[] getArrayBcak(String jsonCode)
-    {
-        String[] a=new String[5];
-        a[0]=jsonCode;
-        a[1]="用户：";
-        a[2]="DateTime:"+createTime;
-        a[3]="高程:"+hightProcess;
-        a[4]="收敛:"+"0";
-        return  a;
+    public String[] getArrayBcak(String jsonCode) {
+        String[] a = new String[5];
+        a[0] = jsonCode;
+        a[1] = "用户：";
+        a[2] = "DateTime:" + createTime;
+        a[3] = "高程:" + hightProcess;
+        a[4] = "收敛:" + "0";
+        return a;
     }
 }

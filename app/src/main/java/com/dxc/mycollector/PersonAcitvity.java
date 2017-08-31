@@ -44,7 +44,7 @@ public class PersonAcitvity extends BaseActivity {
                 new Thread() {//创建子线程进行网络访问的操作
                     public void run() {
                         try {
-                            result = HttpUtils.getJSONObjectString(textView.getText().toString());// HttpUtils.doPost(null, textView.getText().toString());
+                            result = HttpUtils.getJSONObjectString("",textView.getText().toString());// HttpUtils.doPost(null, textView.getText().toString());
                             handler.sendEmptyMessage(0);
                         } catch (Exception e) {
                             e.printStackTrace();

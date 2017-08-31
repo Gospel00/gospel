@@ -21,7 +21,7 @@
         <activity android:name=".BaseActivity"></activity>
         <activity android:name=".RegisterAcitvity"></activity>
         <activity android:name=".PersonAcitvity"></activity>
-        <activity android:name=".TaskDownloadActivity"></activity>
+        <!--<activity android:name=".TaskDownloadActivity"></activity>-->
         <activity android:name=".BlueToothFolder"></activity>
         <activity android:name=".ShowExamineRecord"></activity>
         <activity android:name=".AddExamineRecord"></activity>
