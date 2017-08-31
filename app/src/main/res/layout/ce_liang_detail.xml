@@ -21,14 +21,14 @@
             android:text="测量里程：" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/cllc"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:gravity="right|center_vertical"
-            android:text="3000米" />
+            />
 
     </LinearLayout>
 
@@ -49,14 +49,14 @@
             android:text="测量点：" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/cld"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:gravity="right|center_vertical"
-            android:text="隧道" />
+             />
     </LinearLayout>
 
     <LinearLayout
@@ -75,14 +75,14 @@
             android:text="测量人：" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/clr"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:gravity="right|center_vertical"
-            android:text="大卫" />
+             />
     </LinearLayout>
 
 
@@ -102,14 +102,14 @@
             android:text="测量时间：" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/clsj"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:gravity="right|center_vertical"
-            android:text="2017.8.30" />
+           />
     </LinearLayout>
 
     <LinearLayout
@@ -128,14 +128,14 @@
             android:text="高程：" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/gc"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:gravity="right|center_vertical"
-            android:text="2000米" />
+          />
     </LinearLayout>
 
     <LinearLayout
@@ -154,14 +154,14 @@
             android:text="收敛：" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/sl"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:gravity="right|center_vertical"
-            android:text="30米" />
+            />
     </LinearLayout>
 
     <LinearLayout
