@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import android.annotation.SuppressLint;
 
 import com.google.gson.Gson;
+
 /**
  * Created by Gospel on 2017/8/31 12:57
  * DXC technology
@@ -21,7 +22,7 @@ import com.google.gson.Gson;
 @SuppressLint("SdCardPath")
 public class WriteThread extends Thread {
 
-    public boolean isWriteThreadLive = false;// 写日志线程是否已经在运行�?
+    public boolean isWriteThreadLive = false;// 写日志线程是否已经在运行
 
     private static final String LOG_DIR = "/mnt/sdcard/mytunner/";
     private static final String LOG_SERVICE_LOG_PATH = LOG_DIR + "tunnerRecord.txt";
@@ -54,15 +55,15 @@ public class WriteThread extends Thread {
     public void run() {
         isWriteThreadLive = true;
         Gson gson = new Gson();
-        while (!linkedQueue.isEmpty()) {// 对列不空�?
+        while (!linkedQueue.isEmpty()) {// 队列不空
             try {
-                // 写日志到SD�?
+                // 写日志到SD卡
                 recordStringLog(gson.toJson(linkedQueue.poll()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        isWriteThreadLive = false;// 队列中的日志都写完了，关闭线程（也可以常�? 要测试下�?
+        isWriteThreadLive = false;// 队列中的日志都写完了，关闭线程
     }
 
     /**
@@ -70,7 +71,7 @@ public class WriteThread extends Thread {
      *
      * @return
      */
-    private void recordStringLog(String text) {// 新建或打�?日志文件
+    private void recordStringLog(String text) {// 新建或打开日志文件
         File file = new File(LOG_SERVICE_LOG_PATH);
         if (!file.exists()) {
             file.getParentFile().mkdirs();
