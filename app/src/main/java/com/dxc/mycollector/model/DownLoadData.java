@@ -6,12 +6,12 @@ package com.dxc.mycollector.model;
  */
 
 public class DownLoadData {
-    private String taskId;
-    private String userId;
-    private String taskType;
-    private String measureType;
-    private String startTime;
-    private String endTime;
+    private String taskId;//任务ID
+    private String userId;//用户名称
+    private String taskType;//任务类型
+    private String measureType;//量测设备
+    private String startTime;//开始时间
+    private String endTime;//结束时间
     private String detail;
 
     public String getTaskId() {
@@ -84,13 +84,13 @@ public class DownLoadData {
     }
 
     class DetailData {
-        private String proName;
-        private String section;
-        private String mileageLabel;
-        private String mileageId;
-        private String pointLabel;
-        private String pointId;
-        private String initialValue;
+        private String proName;//项目名称
+        private String section;//所属标段
+        private String mileageLabel;//测点里程
+        private String mileageId;//测点里程ID
+        private String pointLabel;//测量点
+        private String pointId;//测量点ID
+        private String initialValue;//初始值
 
         public String getProName() {
             return proName;
