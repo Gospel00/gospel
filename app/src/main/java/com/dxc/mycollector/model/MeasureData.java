@@ -1,11 +1,13 @@
 package com.dxc.mycollector.model;
 
+import java.io.Serializable;
+
 /**
  * Created by gospel on 2017/8/30.
  * 存放解析后的测量信息
  */
 
-public class MeasureData {
+public class MeasureData implements Serializable {
     private String cllicheng;
     private String cldian;
     private String sources;

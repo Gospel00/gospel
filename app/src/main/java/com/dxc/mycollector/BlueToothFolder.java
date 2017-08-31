@@ -4,8 +4,10 @@ package com.dxc.mycollector;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -170,7 +172,7 @@ public class BlueToothFolder extends BaseActivity {
                         htmlCode = htmlCode + line;
                     }
                     changeToJson(htmlCode);
-                    showDialog(Arrays.asList(getArrayBcak()));
+                   // showDialog(Arrays.asList(getArrayBcak()));
                     //在这里将解析出来的数据放到MeasureData里，调用saveData方法存起来，再调用select方法显示出来(复核)
                     sendToObject();
 
@@ -267,6 +269,19 @@ public class BlueToothFolder extends BaseActivity {
         Logger.e(TAG,sdb.saveMeasure(measureData)+"插入结果");
         if(sdb.saveMeasure(measureData)==1)
         {
+
+            //startActivity(new Intent(BlueToothFolder.this, CeLiangActivity.class));
+
+            Intent intent = new Intent(BlueToothFolder.this, CeLiangActivity.class);
+            intent.putExtra("measureData",  measureData);
+//            intent.putExtra("intentCeliangDian","测量点");
+//            intent.putExtra("intentCeliangRen",DLApplication.userSession.getuName());
+//            intent.putExtra("intentCeliangshijian",dateChange());
+//            intent.putExtra("intentShoulian",hightProcess);
+//            intent.putExtra("intentShoulian","收敛");
+            startActivity(intent);
+            finish();
+
 
 
         }
