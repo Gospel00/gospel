@@ -113,7 +113,6 @@ public class SqliteUtils {
     public int Quer(String pwd, String name) {
         HashMap<String, String> hashmap = new HashMap<String, String>();
         Cursor cursor = db.rawQuery("select * from tbl_users where username=?", new String[]{name});
-        // hashmap.put("name",db.rawQuery("select * from User where name=?",new String[]{name}).toString());
         if (cursor.getCount() > 0) {
             Cursor pwdcursor = db.rawQuery("select * from tbl_users where password=? and username=?", new String[]{pwd, name});
             if (pwdcursor.getCount() > 0) {
