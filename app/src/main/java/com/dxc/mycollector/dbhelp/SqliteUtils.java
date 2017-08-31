@@ -132,8 +132,8 @@ public class SqliteUtils {
     public int saveMeasure(MeasureData measure) {
         if (measure != null) {
             try {
-                db.execSQL("insert into tbl_measure(cllicheng,cldian,clren,cltime,gaocheng,shoulian,status) values(?,?,?,?,?,?,?) ",
-                        new String[]{"里程","测量点",measure.getClren(),measure.getCltime(),measure.getGaocheng(),measure.getShoulian(),measure.getStatus(),measure.getDataType()});
+                db.execSQL("insert into tbl_measure(cllicheng,cldian,clren,cltime,gaocheng,shoulian,status,datatype,sources) values(?,?,?,?,?,?,?,?,?) ",
+                        new String[]{measure.getCllicheng(),measure.getCldian(),measure.getClren(),measure.getCltime(),measure.getGaocheng(),measure.getShoulian(),measure.getStatus(),measure.getDataType(),measure.getSources()});
             } catch (Exception e) {
                 Log.d("错误", e.getMessage().toString());
             }

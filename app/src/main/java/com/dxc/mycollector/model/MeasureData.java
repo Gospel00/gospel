@@ -6,6 +6,8 @@ package com.dxc.mycollector.model;
  */
 
 public class MeasureData {
+    private String cllicheng;
+    private String cldian;
     private String sources;
     private String clren;
     private String cltime;
@@ -14,6 +16,22 @@ public class MeasureData {
     private String dataType;//0是出数值，1是新测量的数据
     private String status;//0是已经上传成功，1否
     public String downloadId;
+
+    public String getCllicheng() {
+        return cllicheng;
+    }
+
+    public void setCllicheng(String cllicheng) {
+        this.cllicheng = cllicheng;
+    }
+
+    public String getCldian() {
+        return cldian;
+    }
+
+    public void setCldian(String cldian) {
+        this.cldian = cldian;
+    }
 
     public String getDataType() {
         return dataType;
@@ -83,13 +101,17 @@ public class MeasureData {
     public String toString() {
         return "MeasureData{" +
                 "sources='" + sources + '\'' +
-//                ", cllicheng='" + cllicheng + '\'' +
-//                ", cldian='" + cldian + '\'' +
+                ", cllicheng='" + cllicheng + '\'' +
+                ", cldian='" + cldian + '\'' +
                 ", clren='" + clren + '\'' +
                 ", cltime='" + cltime + '\'' +
                 ", gaocheng='" + gaocheng + '\'' +
                 ", shoulian='" + shoulian + '\'' +
                 ", status='" + status + '\'' +
+
+                //zrw add
+                ", dataType='" + dataType + '\'' +
+
                 '}';
     }
 }
