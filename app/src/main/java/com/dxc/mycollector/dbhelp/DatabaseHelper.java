@@ -124,7 +124,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "shoulian varchar(2000)," +
                 "status varchar(100)," +
                 "datatype varchar(100)," +
-                "sources varchar(100),";
+                "sources varchar(100))";
         try {
             db.execSQL(sql);
         } catch (Exception e) {
