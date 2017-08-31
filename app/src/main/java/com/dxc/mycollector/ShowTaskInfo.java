@@ -1,8 +1,14 @@
+/*
+ * copyright (c)2018-8-15
+ * DXC technology
+ */
+
 package com.dxc.mycollector;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dxc.mycollector.dbhelp.SqliteUtils;
+import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.TaskInfo;
 import com.dxc.mycollector.taskDownload.adapter.ListAdapter;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +32,7 @@ import java.util.List;
  * About ShowExamineRecord
  */
 
-public class ShowExamineRecord extends BaseActivity {
+public class ShowTaskInfo extends BaseActivity {
     private ListView listview;
     private ListAdapter adapter;
     private Button taskAdd;
@@ -38,15 +44,24 @@ public class ShowExamineRecord extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.show_examine_record_main_layout);
+        this.setContentView(R.layout.task_download_main_layout);
         context = this;
-        taskAdd = (Button) this.findViewById(R.id.taskAdd);
-        listview = (ListView) this.findViewById(R.id.examine_listView);
+        taskAdd = (Button) this.findViewById(R.id.add_task);
+        listview = (ListView) this.findViewById(R.id.task_listView);
         //新增安全检查记录
         taskAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), AddExamineRecord.class));
+//                startActivity(new Intent(getApplicationContext(), AddExamineRecord.class));
+                Toast.makeText(context, "insert.......", Toast.LENGTH_LONG);
+                TaskInfo taskInfo = new TaskInfo();
+                taskInfo.setTaskType("T0101");
+                taskInfo.setMeasureType("T0201");
+                int result = SqliteUtils.getInstance(context).saveTaskInfo(taskInfo);
+                if (result == 1) {
+                    Logger.i(TAG, "insert taskinfo success");
+                }
+                startActivity(new Intent(context, CeLiangActivity.class));
             }
         });
         //获取已经下载的任务信息
@@ -60,6 +75,7 @@ public class ShowExamineRecord extends BaseActivity {
         List<TaskInfo> alltask = SqliteUtils.getInstance(this).loadTasks();
         for (TaskInfo taskinfo : alltask) {
             listtasks.add(taskinfo);
+            Log.i(TAG, "getAllTasks: " + taskinfo.getTaskId() + "-" + taskinfo.getTaskType());
         }
     }
 
@@ -70,21 +86,21 @@ public class ShowExamineRecord extends BaseActivity {
                 Holder holder = null;
                 if (convertView == null) {
                     holder = new Holder();
-                    convertView = LayoutInflater.from(context).inflate(R.layout.show_bluetooth_list_item_layout, null);
-                    holder.fileName = (TextView) convertView.findViewById(R.id.show_bluetoothfile_file_name);
-                    Button upbtn = (Button) convertView.findViewById(R.id.upload);
+                    convertView = LayoutInflater.from(context).inflate(R.layout.task_download_list_item_layout, null);
+                    holder.fileName = (TextView) convertView.findViewById(R.id.show_task_name);
+                    Button upbtn = (Button) convertView.findViewById(R.id.kaishicl);
                     convertView.setTag(holder);
                     upbtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(ShowExamineRecord.this, "接口正在开发中...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ShowTaskInfo.this, "接口正在开发中...", Toast.LENGTH_SHORT).show();
                         }
                     });
 
                 } else {
                     holder = (Holder) convertView.getTag();
                 }
-                holder.fileName.setText(listtasks.get(position).getTaskId());
+                holder.fileName.setText(listtasks.get(position).getTaskId() + "-" + listtasks.get(position).getTaskType());
                 return convertView;
             }
 

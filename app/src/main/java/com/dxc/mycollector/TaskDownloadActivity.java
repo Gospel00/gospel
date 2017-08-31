@@ -42,7 +42,7 @@ public class TaskDownloadActivity extends BaseActivity{
         //下载管理器需要启动一个Service,在刚启动应用的时候需要等Service启动起来后才能获取下载管理器，所以稍微延时获取下载管理器
         handler.sendEmptyMessageDelayed(1, 50);
         taskAdd = (Button) this.findViewById(R.id.taskAdd);
-        listview = (ListView) this.findViewById(R.id.listView);
+        listview = (ListView) this.findViewById(R.id.task_listView);
         //添加下载任务
         taskAdd.setOnClickListener(new View.OnClickListener() {
             @Override

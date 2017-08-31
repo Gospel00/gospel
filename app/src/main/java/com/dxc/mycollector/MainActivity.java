@@ -10,7 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.dxc.mycollector.dbhelp.SqliteDB;
+import com.dxc.mycollector.dbhelp.SqliteUtils;
+import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.serviecs.UserService;
 import com.dxc.mycollector.taskDownload.DLApplication;
 
@@ -19,6 +20,7 @@ import com.dxc.mycollector.taskDownload.DLApplication;
  * About Login
  */
 public class MainActivity extends Activity {
+    String TAG = MainActivity.class.getSimpleName();
     private Button button;//登录按钮
     private Button registerBtn;//注册按钮
     private EditText username;
@@ -53,25 +55,20 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (username != null && username.length() > 0) {
-//                    if (lgpwd != null && lgpwd.length() >= 6 && lgpwd.length() <= 20) {
                     UserService userServices = new UserService(context);
-//                        boolean isTure = userServices.login(username.getText().toString(), lgpwd.getText().toString());
-                    int isTure = SqliteDB.getInstance(getApplicationContext()).Quer(lgpwd.getText().toString(), username.getText().toString());
+                    int isTure = SqliteUtils.getInstance(getApplicationContext()).Quer(lgpwd.getText().toString(), username.getText().toString());
                     if (isTure == 1) {
                         Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_LONG).show();
-                            /*登录成功，进入任务下载页面*/
-//                            startActivity(new Intent(context, TaskDownloadActivity.class));
                         startActivity(new Intent(context, PersonAcitvity.class));
                         DLApplication.userSession.setuName(username.getText().toString());
-//                            startActivity(new Intent(context, BlueToothFolder.class));
+                        Logger.i(TAG, username.getText().toString() + " login success.");
                     } else if (isTure == 0) {
                         Toast.makeText(MainActivity.this, "用户不存在", Toast.LENGTH_SHORT).show();
+                        Logger.i(TAG, username.getText().toString() + " login,User name not found.login failed.");
                     } else {
                         Toast.makeText(MainActivity.this, "密码错误，请重新输入", Toast.LENGTH_SHORT).show();
+                        Logger.i(TAG, username.getText().toString() + " login,password error.login failed.");
                     }
-//                    } else {
-//                        Toast.makeText(MainActivity.this, "密码错误，请重新输入", Toast.LENGTH_SHORT).show();
-//                    }
                 } else {
                     Toast.makeText(MainActivity.this, "用户名不能为空", Toast.LENGTH_SHORT).show();
                 }
