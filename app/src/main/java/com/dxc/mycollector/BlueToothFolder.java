@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dxc.mycollector.dbhelp.SqliteUtils;
+import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.MeasureData;
 import com.dxc.mycollector.taskDownload.DLApplication;
 
@@ -263,7 +264,13 @@ public class BlueToothFolder extends BaseActivity {
         measureData.setCltime(dateChange());
         measureData.setClren(DLApplication.userSession.getuName());
         SqliteUtils sdb=new SqliteUtils(this);
-        sdb.saveMeasure(measureData);
+        Logger.e(TAG,sdb.saveMeasure(measureData)+"插入结果");
+        if(sdb.saveMeasure(measureData)==1)
+        {
+
+
+        }
+
     }
 
     public String dateChange()
