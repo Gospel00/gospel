@@ -146,7 +146,7 @@ public class SqliteUtils {
     /**
      * 将DownloadTask存储到数据库。
      */
-    public int saveDownloadTask(TaskInfo downLoadData) {
+    public int saveTaskInfo(TaskInfo downLoadData) {
         if (downLoadData != null) {
             try {
                 db.execSQL("insert into tbl_task(taskId,userId,taskType,measureType," +

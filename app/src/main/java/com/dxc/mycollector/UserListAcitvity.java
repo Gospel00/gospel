@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.dxc.mycollector.dbhelp.SqliteDB;
+import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.model.User;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class UserListAcitvity extends BaseActivity {
         findViewById(R.id.userbtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<User> userList = SqliteDB.getInstance(getApplicationContext()).loadUser();
+                List<User> userList = SqliteUtils.getInstance(getApplicationContext()).loadUser();
                 String rr = "";
                 for (User user : userList) {
                     rr += user.getuName() + "   --------------  " + user.getuPwd() + "\n";

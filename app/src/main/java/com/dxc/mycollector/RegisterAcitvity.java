@@ -11,12 +11,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.dxc.mycollector.dbhelp.SqliteDB;
+import com.dxc.mycollector.dbhelp.SqliteUtils;
+import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.User;
 import com.dxc.mycollector.serviecs.UserService;
 
@@ -25,6 +24,7 @@ import com.dxc.mycollector.serviecs.UserService;
  * About Register
  */
 public class RegisterAcitvity extends Activity {
+    String TAG = RegisterAcitvity.class.getSimpleName();
     Context context;
     private Button button;
     private Spinner provinceSpinner = null;  //省级（省、直辖市）
@@ -106,21 +106,23 @@ public class RegisterAcitvity extends Activity {
                 User newUser = GetText();
                 if (!isEmpty(newUser)) {
 //                boolean isTure = userServices.register(user);
-                    int isTure = SqliteDB.getInstance(getApplicationContext()).saveUser(newUser);
+                    int isTure = SqliteUtils.getInstance(getApplicationContext()).saveUser(newUser);
                     if (isTure == 1) {
                         Toast.makeText(RegisterAcitvity.this, "注册成功", Toast.LENGTH_LONG).show();
+                        Logger.i(TAG, username.getText().toString() + " register success.");
                         try {
-                            Thread.sleep(1000);
+                            Thread.sleep(500);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     } else if (isTure == -1) {
                         Toast.makeText(RegisterAcitvity.this, "该用户已存在", Toast.LENGTH_SHORT).show();
+                        Logger.i(TAG, username.getText().toString() + " user name exist.register failed.");
                     } else {
                         Toast.makeText(RegisterAcitvity.this, "注册失败", Toast.LENGTH_SHORT).show();
+                        Logger.i(TAG, username.getText().toString() + "register failed.");
                     }
-//                Toast.makeText(RegisterAcitvity.this, "Create Success ", Toast.LENGTH_SHORT).show();
                 }
             }
         });
