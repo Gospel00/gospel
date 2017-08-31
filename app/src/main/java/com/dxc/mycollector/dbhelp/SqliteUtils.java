@@ -115,7 +115,7 @@ public class SqliteUtils {
         Cursor cursor = db.rawQuery("select * from tbl_users where username=?", new String[]{name});
         // hashmap.put("name",db.rawQuery("select * from User where name=?",new String[]{name}).toString());
         if (cursor.getCount() > 0) {
-            Cursor pwdcursor = db.rawQuery("select * from User where password=? and username=?", new String[]{pwd, name});
+            Cursor pwdcursor = db.rawQuery("select * from tbl_users where password=? and username=?", new String[]{pwd, name});
             if (pwdcursor.getCount() > 0) {
                 return 1;
             } else {
@@ -132,7 +132,7 @@ public class SqliteUtils {
     public int saveMeasure(MeasureData measure) {
         if (measure != null) {
             try {
-                db.execSQL("insert into tbl_measure(cllicheng,cldian,clren,cltime,gaocheng,shoulian,status,datatype,sources) values(?,?,?,?,?,?,?,?,?) ",
+             db.execSQL("insert into tbl_measure(cllicheng,cldian,clren,cltime,gaocheng,shoulian,status,datatype,sources) values(?,?,?,?,?,?,?,?,?) ",
                         new String[]{measure.getCllicheng(),measure.getCldian(),measure.getClren(),measure.getCltime(),measure.getGaocheng(),measure.getShoulian(),measure.getStatus(),measure.getDataType(),measure.getSources()});
             } catch (Exception e) {
                 Log.d("错误", e.getMessage().toString());
