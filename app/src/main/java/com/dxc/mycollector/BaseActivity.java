@@ -28,6 +28,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.taskDownload.DLApplication;
 
 import java.util.ArrayList;
@@ -66,6 +67,9 @@ public class BaseActivity extends Activity implements
         setUpNavigation();
     }
 
+    /**
+     * 初始化侧滑菜单
+     */
     private void setUpNavigation() {
         planetTitles = getResources().getStringArray(R.array.planets_array);
         drawerList = (ListView) findViewById(R.id.left_drawer);
@@ -144,21 +148,28 @@ public class BaseActivity extends Activity implements
                 break;
             case 1:
                 startActivity(new Intent(this, TaskDownloadActivity.class));
+                Logger.i(TAG, "click task download.");
                 break;
             case 2:
                 startActivity(new Intent(this, BlueToothFolder.class));
+                Logger.i(TAG, "click bluetooth folder  search.");
                 break;
             case 3:
                 startActivity(new Intent(this, ShowExamineRecord.class));
+                Logger.i(TAG, "click safety examine.");
                 break;
             case 4:
+                Logger.i(TAG, "click devices setting.");
                 break;
             case 5:
+                Logger.i(TAG, "click update system.");
                 break;
             case 6:
+                Logger.i(TAG, "click about system.");
                 break;
             case 7:
                 startActivity(new Intent(this, UserListAcitvity.class));
+                Logger.i(TAG, "click user list.This operation belongs to the administrator.");
                 break;
         }
     }
@@ -238,6 +249,8 @@ public class BaseActivity extends Activity implements
         for (int result : grantResults) {
             if (result != PackageManager.PERMISSION_GRANTED) {
                 return false;
+            } else {
+                Logger.i(TAG, " PERMISSION request success.");
             }
         }
         return true;
