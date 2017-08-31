@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dxc.mycollector.dbhelp.SqliteDB;
 import com.dxc.mycollector.model.MeasureData;
 import com.dxc.mycollector.taskDownload.DLApplication;
 
@@ -171,6 +172,7 @@ public class BlueToothFolder extends BaseActivity {
                     showDialog(Arrays.asList(getArrayBcak()));
                     //在这里将解析出来的数据放到MeasureData里，调用saveData方法存起来，再调用select方法显示出来(复核)
                     sendToObject();
+
                 }
             } catch (FileNotFoundException e) {
             } catch (IOException e) {
@@ -248,7 +250,7 @@ public class BlueToothFolder extends BaseActivity {
         return  a;
     }
 
-    public void sendToObject( )
+    public  void sendToObject( )
     {
         MeasureData measureData = new MeasureData();
         measureData.setSources(personInfos);
@@ -256,6 +258,8 @@ public class BlueToothFolder extends BaseActivity {
         measureData.setShoulian("");
         measureData.setCltime(dateChange());
         measureData.setClren(DLApplication.userSession.getuName());
+        SqliteDB sdb=new SqliteDB();
+        sdb.saveMeasure(measureData);
     }
 
     public String dateChange()
