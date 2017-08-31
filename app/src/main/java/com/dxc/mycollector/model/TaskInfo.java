@@ -5,14 +5,23 @@ package com.dxc.mycollector.model;
  * 下载测量任务-详细信息
  */
 
-public class DownLoadData {
+public class TaskInfo {
+    private int id;
     private String taskId;//任务ID
     private String userId;//用户名称
     private String taskType;//任务类型
     private String measureType;//量测设备
     private String startTime;//开始时间
     private String endTime;//结束时间
-    private String detail;
+    private DetailData detailData;//详细信息
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTaskId() {
         return taskId;
@@ -62,28 +71,27 @@ public class DownLoadData {
         this.endTime = endTime;
     }
 
-    public String getDetail() {
-        return detail;
+    public DetailData getDetailData() {
+        return detailData;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
+    public void setDetailData(DetailData detailData) {
+        this.detailData = detailData;
     }
 
     @Override
     public String toString() {
-        return "DownLoadData{" +
+        return "TaskInfo{" +
                 "taskId='" + taskId + '\'' +
                 ", userId='" + userId + '\'' +
                 ", taskType='" + taskType + '\'' +
                 ", measureType='" + measureType + '\'' +
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
-                ", detail='" + detail + '\'' +
                 '}';
     }
 
-    class DetailData {
+    public class DetailData {
         private String proName;//项目名称
         private String section;//所属标段
         private String mileageLabel;//测点里程
