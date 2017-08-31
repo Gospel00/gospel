@@ -26,6 +26,8 @@
         <activity android:name=".ShowExamineRecord"></activity>
         <activity android:name=".AddExamineRecord"></activity>
         <activity android:name=".UserListAcitvity"></activity>
+        <activity android:name=".ShowTaskInfo"></activity>
+        <activity android:name=".CeLiangActivity"></activity>
 
         <service android:name="com.dxc.mycollector.taskDownload.DownLoadService" />
     </application>

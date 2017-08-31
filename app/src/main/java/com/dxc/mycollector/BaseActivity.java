@@ -147,7 +147,7 @@ public class BaseActivity extends Activity implements
                 startActivity(new Intent(this, PersonAcitvity.class));
                 break;
             case 1:
-                startActivity(new Intent(this, TaskDownloadActivity.class));
+                startActivity(new Intent(this, ShowTaskInfo.class));
                 Logger.i(TAG, "click task download.");
                 break;
             case 2:
