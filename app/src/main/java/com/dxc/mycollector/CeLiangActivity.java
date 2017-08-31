@@ -1,3 +1,8 @@
+/*
+ * copyright (c)2018-8-15
+ * DXC technology
+ */
+
 package com.dxc.mycollector;
 
 import android.content.Intent;
