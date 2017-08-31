@@ -2,94 +2,163 @@ package com.dxc.mycollector.model;
 
 /**
  * Created by gospel on 2017/8/30.
- * 存放解析后的测量信息
+ * 下载测量任务-详细信息
  */
 
 public class DownLoadData {
-    private String sources;
-    private String cllicheng;
-    private String cldian;
-    private String clren;
-    private String cltime;
-    private String gaocheng;
-    private String shoulian;
-    private String status;//0是出数值，1是新测量的数据
+    private String taskId;
+    private String userId;
+    private String taskType;
+    private String measureType;
+    private String startTime;
+    private String endTime;
+    private String detail;
 
-    public String getSources() {
-        return sources;
+    public String getTaskId() {
+        return taskId;
     }
 
-    public void setSources(String sources) {
-        this.sources = sources;
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
     }
 
-    public String getCllicheng() {
-        return cllicheng;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setCllicheng(String cllicheng) {
-        this.cllicheng = cllicheng;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getCldian() {
-        return cldian;
+    public String getTaskType() {
+        return taskType;
     }
 
-    public void setCldian(String cldian) {
-        this.cldian = cldian;
+    public void setTaskType(String taskType) {
+        this.taskType = taskType;
     }
 
-    public String getClren() {
-        return clren;
+    public String getMeasureType() {
+        return measureType;
     }
 
-    public void setClren(String clren) {
-        this.clren = clren;
+    public void setMeasureType(String measureType) {
+        this.measureType = measureType;
     }
 
-    public String getCltime() {
-        return cltime;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setCltime(String cltime) {
-        this.cltime = cltime;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
-    public String getGaocheng() {
-        return gaocheng;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setGaocheng(String gaocheng) {
-        this.gaocheng = gaocheng;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
-    public String getShoulian() {
-        return shoulian;
+    public String getDetail() {
+        return detail;
     }
 
-    public void setShoulian(String shoulian) {
-        this.shoulian = shoulian;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     @Override
     public String toString() {
-        return "MeasureData{" +
-                "sources='" + sources + '\'' +
-                ", cllicheng='" + cllicheng + '\'' +
-                ", cldian='" + cldian + '\'' +
-                ", clren='" + clren + '\'' +
-                ", cltime='" + cltime + '\'' +
-                ", gaocheng='" + gaocheng + '\'' +
-                ", shoulian='" + shoulian + '\'' +
-                ", status='" + status + '\'' +
+        return "DownLoadData{" +
+                "taskId='" + taskId + '\'' +
+                ", userId='" + userId + '\'' +
+                ", taskType='" + taskType + '\'' +
+                ", measureType='" + measureType + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", detail='" + detail + '\'' +
                 '}';
+    }
+
+    class DetailData {
+        private String proName;
+        private String section;
+        private String mileageLabel;
+        private String mileageId;
+        private String pointLabel;
+        private String pointId;
+        private String initialValue;
+
+        public String getProName() {
+            return proName;
+        }
+
+        public void setProName(String proName) {
+            this.proName = proName;
+        }
+
+        public String getSection() {
+            return section;
+        }
+
+        public void setSection(String section) {
+            this.section = section;
+        }
+
+        public String getMileageLabel() {
+            return mileageLabel;
+        }
+
+        public void setMileageLabel(String mileageLabel) {
+            this.mileageLabel = mileageLabel;
+        }
+
+        public String getMileageId() {
+            return mileageId;
+        }
+
+        public void setMileageId(String mileageId) {
+            this.mileageId = mileageId;
+        }
+
+        public String getPointLabel() {
+            return pointLabel;
+        }
+
+        public void setPointLabel(String pointLabel) {
+            this.pointLabel = pointLabel;
+        }
+
+        public String getPointId() {
+            return pointId;
+        }
+
+        public void setPointId(String pointId) {
+            this.pointId = pointId;
+        }
+
+        public String getInitialValue() {
+            return initialValue;
+        }
+
+        public void setInitialValue(String initialValue) {
+            this.initialValue = initialValue;
+        }
+
+        @Override
+        public String toString() {
+            return "DownLoadDetailData{" +
+                    "proName='" + proName + '\'' +
+                    ", section='" + section + '\'' +
+                    ", mileageLabel='" + mileageLabel + '\'' +
+                    ", mileageId='" + mileageId + '\'' +
+                    ", pointLabel='" + pointLabel + '\'' +
+                    ", pointId='" + pointId + '\'' +
+                    ", initialValue='" + initialValue + '\'' +
+                    '}';
+        }
     }
 }
