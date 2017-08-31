@@ -33,14 +33,14 @@ public class MainActivity extends Activity {
         button = (Button) findViewById(R.id.login);
         registerBtn = (Button) findViewById(R.id.register);
         username = (EditText) findViewById(R.id.username);
-//        username.setText("1");
+        username.setText("gospel");
         lgpwd = (EditText) findViewById(R.id.lgpwd);
-//        lgpwd.setText("1");
+        lgpwd.setText("gospel5200");
         Drawable username_drawable = getResources().getDrawable(R.drawable.login);
         Drawable password_drawable = getResources().getDrawable(R.drawable.lock);
         //四个参数分别是设置图片的左、上、右、下的尺寸
-        username_drawable.setBounds(0, 0, 50, 50);
-        password_drawable.setBounds(0, 0, 50, 50);
+        username_drawable.setBounds(0, 0, 60, 60);
+        password_drawable.setBounds(0, 0, 60, 60);
         //这个是选择将图片绘制在EditText的位置，参数对应的是：左、上、右、下
         username.setCompoundDrawables(username_drawable, null, null, null);
         lgpwd.setCompoundDrawables(password_drawable, null, null, null);

@@ -17,6 +17,7 @@ public class User {
     private String urealName;
     private String idCard;
     private String gongDian;
+
     public int getId() {
         return id;
     }
@@ -103,5 +104,22 @@ public class User {
 
     public String getgongDian() {
         return gongDian;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", uName='" + uName + '\'' +
+                ", uPwd='" + uPwd + '\'' +
+                ", uRePwd='" + uRePwd + '\'' +
+                ", uAge='" + uAge + '\'' +
+                ", uSex='" + uSex + '\'' +
+                ", uPhone='" + uPhone + '\'' +
+                ", uAddress='" + uAddress + '\'' +
+                ", urealName='" + urealName + '\'' +
+                ", idCard='" + idCard + '\'' +
+                ", gongDian='" + gongDian + '\'' +
+                '}';
     }
 }

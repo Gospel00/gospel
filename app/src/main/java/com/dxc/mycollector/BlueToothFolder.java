@@ -15,6 +15,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,7 +31,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -40,13 +45,19 @@ import static android.content.ContentValues.TAG;
 public class BlueToothFolder extends BaseActivity {
     Context context;
     private ListView fileList;//文件列表
-    private List<String> listf;
-    private String pathFile = "";
+    private String pathFile = "";//文件路径
     private TextView text;//解析按钮
+    private List<String> listf;
+
     /**
      * html change to json
      */
     List<String> l = new ArrayList();
+    JSONObject tmpObj = null;
+    JSONArray jsonArray = new JSONArray();
+    String personInfos="";
+    String createTime="";
+    String hightProcess="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +68,6 @@ public class BlueToothFolder extends BaseActivity {
         fileList = (ListView) findViewById(R.id.showbluetoothfilelistView);
         context = this;
         String aa = searchFile("");
-        Log.i("bluetoothfile", "onCreate: " + aa);
-        Toast.makeText(this, aa + "--" + listf.size(), Toast.LENGTH_LONG).show();
         initDrawerList();
     }
 
@@ -77,14 +86,12 @@ public class BlueToothFolder extends BaseActivity {
 
                         @Override
                         public void onClick(View v) {
-                            // getHtmlCode( "http://www.baidu.com");
                             int i = 0;
                             try {
                                 readFile(pathFile);
                             } catch (Exception e) {
                                 String dff = e.toString();
                                 e.printStackTrace();
-                                //String dff=e.toString();
                             }
                         }
                     });
@@ -141,7 +148,7 @@ public class BlueToothFolder extends BaseActivity {
     /**
      * @param filePath Memory card Bluetooth path address
      */
-    private void readFile(String filePath) {
+    private void readFile(String filePath) throws JSONException {
         String htmlCode = "";
         if (filePath == null) return;
         File file = new File(filePath);
@@ -158,7 +165,9 @@ public class BlueToothFolder extends BaseActivity {
                         htmlCode = htmlCode + line;
                     }
                     changeToJson(htmlCode);
-                    showDialog(l);
+                    showDialog(Arrays.asList(getArrayBcak(personInfos)));
+                    //在这里将解析出来的数据放到MeasureData里，调用saveData方法存起来，再调用select方法显示出来(复核)
+
                 }
             } catch (FileNotFoundException e) {
             } catch (IOException e) {
@@ -171,29 +180,43 @@ public class BlueToothFolder extends BaseActivity {
      *
      * @param htmlCode get one page's html code
      */
-    private void changeToJson(String htmlCode) {
+    private void changeToJson(String htmlCode) throws JSONException {
         l.clear();
+        tmpObj = new JSONObject();
+        jsonArray= new JSONArray();
         Document document = (Document) Jsoup.parse(htmlCode);
-        Elements elements = document.select("tr");//int TRlength = elements.select("tr").size();
+        Elements elements = document.select("tr");//elements.select("tr").size();
         for (Element ele : elements) {
-            {
                 if (ele.select("th").size() > 2) {
                     for (int a = 0; a < ele.select("th").size(); a++) {
-                        String titles = (ele.select("th").get(a).text());
-                        String keys = (ele.select("td").get(a).text());
+                        String titles = (ele.select("th").get(a).text()).trim();
+                        String keys = (ele.select("td").get(a).text()).trim();
                         String oneLine = titles + ":" + keys + "\n";
-                        l.add(oneLine);//Log.i(TAG, "changeToJson: " + dfff);
+                        if (titles != "") {
+                            l.add(oneLine); // Log.i(TAG, "This is PPM .");
+                            tmpObj.put(titles , keys);
+                        }
+                        if(titles.equals("高程"))
+                        {
+                            hightProcess=keys;
+                        }
                     }
                 } else {
-                    String titles = (ele.select("th").get(0).text());
-                    String keys = (ele.select("td").get(0).text());
+                    String titles = (ele.select("th").get(0).text()).trim();
+                    String keys = (ele.select("td").get(0).text()).trim();
                     String oneLine = titles + ":" + keys + "\n";
-                    if (keys != null) {
-                        l.add(oneLine);//Log.i(TAG, "changeToJson: " + dfff);
+                    if (titles != "") {
+                        l.add(oneLine);
+                        tmpObj.put(titles ,keys);
+                        if(titles.equals("创建日期"))
+                        {
+                            createTime=keys;
+                        }
                     }
                 }
-            }
         }
+        jsonArray.put(tmpObj);
+        personInfos = jsonArray.toString(); // 将JSONArray转换得到String
     }
 
     /**
@@ -201,8 +224,7 @@ public class BlueToothFolder extends BaseActivity {
      */
     private void showDialog(List<String> list) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("数据列表");//设置对话框的标题
-        // builder.setMessage("你确定要XX吗？");//设置对话框的内容
+        builder.setTitle("数据列表");
         String alllist = "";
         for (String str : list) {
             alllist = alllist + str + "\r\n";
@@ -212,5 +234,14 @@ public class BlueToothFolder extends BaseActivity {
         b.show();
     }
 
-
+    public String[] getArrayBcak(String jsonCode)
+    {
+        String[] a=new String[5];
+        a[0]=jsonCode;
+        a[1]="用户：";
+        a[2]="DateTime:"+createTime;
+        a[3]="高程:"+hightProcess;
+        a[4]="收敛:"+"0";
+        return  a;
+    }
 }
