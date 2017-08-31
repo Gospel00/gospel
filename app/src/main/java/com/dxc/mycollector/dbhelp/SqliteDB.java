@@ -127,7 +127,7 @@ public class SqliteDB {
     public int saveMeasure(MeasureData measure) {
         if (measure != null) {
             try {
-                db.execSQL("insert into measuredata(cllicheng,cldian,clren,cltime,gaocheng,shoulian,status) values(?,?,?,?,?,?,?) ",
+                db.execSQL("insert into measuredata(cllicheng,cldian,clren,cltime,gaocheng,shoulian,dataType,status) values(?,?,?,?,?,?,?,?) ",
                         new String[]{measure.getSources()});
             } catch (Exception e) {
                 Log.d("错误", e.getMessage().toString());

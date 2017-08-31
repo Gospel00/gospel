@@ -15,6 +15,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dxc.mycollector.model.MeasureData;
+import com.dxc.mycollector.taskDownload.DLApplication;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -165,9 +168,9 @@ public class BlueToothFolder extends BaseActivity {
                         htmlCode = htmlCode + line;
                     }
                     changeToJson(htmlCode);
-                    showDialog(Arrays.asList(getArrayBcak(personInfos)));
+                    showDialog(Arrays.asList(getArrayBcak()));
                     //在这里将解析出来的数据放到MeasureData里，调用saveData方法存起来，再调用select方法显示出来(复核)
-
+                    sendToObject();
                 }
             } catch (FileNotFoundException e) {
             } catch (IOException e) {
@@ -234,14 +237,58 @@ public class BlueToothFolder extends BaseActivity {
         b.show();
     }
 
-    public String[] getArrayBcak(String jsonCode)
+    public String[] getArrayBcak()
     {
         String[] a=new String[5];
-        a[0]=jsonCode;
-        a[1]="用户：";
-        a[2]="DateTime:"+createTime;
+        a[0]=personInfos;
+        a[1]="用户："+DLApplication.userSession.getuName();
+        a[2]="DateTime:"+dateChange();
         a[3]="高程:"+hightProcess;
         a[4]="收敛:"+"0";
         return  a;
+    }
+
+    public void sendToObject( )
+    {
+        MeasureData measureData = new MeasureData();
+        measureData.setSources(personInfos);
+        measureData.setGaocheng(hightProcess);
+        measureData.setShoulian("");
+        measureData.setCltime(dateChange());
+        measureData.setClren(DLApplication.userSession.getuName());
+    }
+
+    public String dateChange()
+    {
+        String [] ct=createTime.split(" ");
+        String date="";
+        switch (ct[1])
+        {
+            case  "Jan":
+                date=ct[2]+"-"+"1"+"-"+ct[0];
+            case  "Feb":
+                date=ct[2]+"-"+"2"+"-"+ct[0];
+            case  "Mar":
+                date=ct[2]+"-"+"3"+"-"+ct[0];
+            case  "Apr":
+                date=ct[2]+"-"+"4"+"-"+ct[0];
+            case  "May":
+                date=ct[2]+"-"+"5"+"-"+ct[0];
+            case  "Jun":
+                date=ct[2]+"-"+"6"+"-"+ct[0];
+            case  "Jul":
+                date=ct[2]+"-"+"7"+"-"+ct[0];
+            case  "Aug":
+                date=ct[2]+"-"+"8"+"-"+ct[0];
+            case  "Sep":
+                date=ct[2]+"-"+"9"+"-"+ct[0];
+            case  "Oct":
+                date=ct[2]+"-"+"10"+"-"+ct[0];
+            case  "Nov":
+                date=ct[2]+"-"+"11"+"-"+ct[0];
+            case  "Dec":
+                date=ct[2]+"-"+"12"+"-"+ct[0];
+        }
+        return date;
     }
 }

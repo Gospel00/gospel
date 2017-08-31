@@ -13,7 +13,8 @@ public class MeasureData {
     private String cltime;
     private String gaocheng;
     private String shoulian;
-    private String status;//0是出数值，1是新测量的数据
+    private String dataType;//0是出数值，1是新测量的数据
+    private String status;//0是已经上传成功，1否
 
     public String getSources() {
         return sources;
