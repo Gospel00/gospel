@@ -15,6 +15,14 @@ public class MeasureData {
     private String status;//0是已经上传成功，1否
     public String downloadId;
 
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
     public String getDownloadId() {
         return downloadId;
     }

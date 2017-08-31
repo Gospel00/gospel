@@ -35,7 +35,7 @@ public class SqliteUtils {
 
     private SQLiteDatabase db;
 
-    private SqliteUtils(Context context) {
+    public SqliteUtils(Context context) {
         DatabaseHelper dbHelper = new DatabaseHelper(context, DB_NAME, null, VERSION);
         db = dbHelper.getWritableDatabase();
     }
@@ -133,7 +133,7 @@ public class SqliteUtils {
         if (measure != null) {
             try {
                 db.execSQL("insert into tbl_measure(cllicheng,cldian,clren,cltime,gaocheng,shoulian,status) values(?,?,?,?,?,?,?) ",
-                        new String[]{measure.getSources()});
+                        new String[]{"里程","测量点",measure.getClren(),measure.getCltime(),measure.getGaocheng(),measure.getShoulian(),measure.getStatus(),measure.getDataType()});
             } catch (Exception e) {
                 Log.d("错误", e.getMessage().toString());
             }
