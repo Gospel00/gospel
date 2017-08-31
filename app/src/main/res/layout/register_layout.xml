@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,75 +24,81 @@
             android:layout_marginRight="16dp"
             android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/siguername"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/edittext"
-                    android:hint="请输入您的用户名"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:textColor="#97a1aa"
-                    android:textSize="36px"
-                    android:singleLine="true" />
+            <EditText
+                android:id="@+id/siguername"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext"
+                android:hint="请输入您的用户名"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:singleLine="true"
+                android:textColor="#97a1aa"
+                android:textSize="@dimen/all_edit_text" />
 
 
-                <EditText
-                    android:id="@+id/sigpassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/edittext"
-                    android:hint="请输入6—14位密码"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:singleLine="true" />
+            <EditText
+                android:id="@+id/sigpassword"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext"
+                android:hint="请输入确认密码"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:singleLine="true"
+                android:textSize="@dimen/all_edit_text" />
 
-                <EditText
-                    android:id="@+id/sigrepassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/edittext"
-                    android:hint="确认密码"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:singleLine="true" />
+            <EditText
+                android:id="@+id/sigrepassword"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext"
+                android:hint="请输入确认密码"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:singleLine="true"
+                android:textSize="@dimen/all_edit_text" />
+
             <EditText
                 android:id="@+id/sigphone"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/edittext"
                 android:hint="请输入您的手机号"
                 android:inputType="phone"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:layout_marginTop="10dp"
+                android:singleLine="true"
                 android:textColor="#97a1aa"
-                android:textSize="36px"
-                android:singleLine="true" />
+                android:textSize="@dimen/all_edit_text" />
+
             <EditText
                 android:id="@+id/sigrealname"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/edittext"
                 android:hint="请输入您的真实姓名"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:layout_marginTop="10dp"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textSize="@dimen/all_edit_text" />
 
-                <EditText
-                    android:id="@+id/sigidcard"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/edittext"
-                    android:hint="请输入您的18位证件号码"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:singleLine="true" />
+            <EditText
+                android:id="@+id/sigidcard"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext"
+                android:hint="请输入您的18位证件号码"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:singleLine="true"
+                android:textSize="@dimen/all_edit_text" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -106,17 +111,19 @@
                     android:id="@+id/spin_province"
                     android:layout_width="100dp"
                     android:layout_height="50dp"
-                    />
+                    android:textSize="@dimen/all_edit_text" />
 
                 <Spinner
                     android:id="@+id/spin_city"
                     android:layout_width="100dp"
-                    android:layout_height="50dp" />
+                    android:layout_height="50dp"
+                    android:textSize="@dimen/all_edit_text" />
 
                 <Spinner
                     android:id="@+id/spin_county"
                     android:layout_width="100dp"
-                    android:layout_height="50dp" />
+                    android:layout_height="50dp"
+                    android:textSize="@dimen/all_edit_text" />
             </LinearLayout>
 
 
@@ -124,23 +131,25 @@
                 android:id="@+id/sigaddress"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/edittext"
                 android:hint="请输入详细地址"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:layout_marginTop="10dp"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textSize="@dimen/all_edit_text" />
 
             <EditText
                 android:id="@+id/siggongdian"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/edittext"
                 android:hint="请输入您的工点"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:layout_marginTop="10dp"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textSize="@dimen/all_edit_text" />
 
             <!--<android.support.v7.widget.AppCompatButton
                 android:id="@+id/register"
@@ -160,82 +169,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
+                android:background="@mipmap/btn_bg"
                 android:onClick="register"
                 android:text="注册"
-                android:background="@mipmap/btn_bg"
                 android:textColor="@android:color/white"
-                android:textSize="20sp"/>
+                android:textSize="@dimen/all_btn" />
         </LinearLayout>
-
     </ScrollView>
-
 </LinearLayout>
-
-
-    <!--<RadioGroup
-                android:id="@+id/radiogroup1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/male"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Male"
-                    android:textSize="16sp" />
-
-                <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/female"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Female"
-                    android:textSize="16sp" />
-            </RadioGroup>-->
-
-    <!--
-
-            <code
-                style="display: block; padding: 0px; color: inherit; box-sizing: border-box; font-family: 'Source Code Pro', monospace;font-size:undefined; white-space: pre; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; word-wrap: normal; background: transparent;"
-                class="hljs xml has-numbering">
-
-                <span
-                    style="color: rgb(136, 0, 0); box-sizing: border-box;"
-                    class="hljs-comment">&lt;!&ndash; false 关闭动画 true 开启动画 &ndash;&gt;</span>
-                app:hintAnimationEnabled="false"
-            </code>
-        -->
-
-    <!-- <ProgressBar
-         android:id="@+id/progressBar"
-         style="?android:attr/progressBarStyleHorizontal"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_marginTop="60dp"
-         android:max="100" />-->
-
-    <!--<CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:text="确定你所填写的内容" />-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

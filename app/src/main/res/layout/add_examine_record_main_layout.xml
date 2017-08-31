@@ -21,16 +21,8 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="安全隐患检查记录"
-            android:textSize="18dp" />
-
-        <Button
-            android:id="@+id/taskAdd"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="110dp"
-            android:layout_toRightOf="@+id/center"
-            android:background="@mipmap/add_task" />
+            android:text="增加安全隐患检查"
+            android:textSize="@dimen/all_title" />
 
         <TextView
             android:id="@+id/textView"
@@ -43,16 +35,6 @@
             android:paddingLeft="1080dp"
             android:paddingRight="10dp"
             android:singleLine="true" />
-
-        <!--
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="切换用户"
-                android:id="@+id/userbutton"
-                android:layout_alignParentBottom="true"
-                android:layout_toRightOf="@+id/center"
-                />-->
     </RelativeLayout>
 
     <RelativeLayout
@@ -70,7 +52,8 @@
             android:hint="请输入项目名称"
             android:paddingLeft="10dp"
             android:singleLine="true"
-            android:textColor="@color/loginTextColor" />
+            android:textColor="@color/loginTextColor"
+            android:textSize="@dimen/all_edit_text" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -93,7 +76,8 @@
             android:hint="请输入施工地点"
             android:paddingLeft="10dp"
             android:singleLine="true"
-            android:textColor="@color/loginTextColor" />
+            android:textColor="@color/loginTextColor"
+            android:textSize="@dimen/all_edit_text" />
 
     </RelativeLayout>
 
@@ -111,7 +95,7 @@
             android:layout_centerVertical="true"
             android:gravity="fill_vertical"
             android:text="隧道施工安全检查项目："
-            android:textSize="18dp" />
+            android:textSize="@dimen/personal_text_view" />
 
     </RelativeLayout>
 
@@ -125,7 +109,27 @@
         <Spinner
             android:id="@+id/examine_item"
             android:layout_width="400dp"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp"
+            android:textSize="@dimen/all_edit_text" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/headlayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/headlayout3"
+        android:layout_marginTop="100dp">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/start_examine"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@mipmap/btn_bg"
+            android:text="开始检查"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/all_btn" />
 
     </RelativeLayout>
 

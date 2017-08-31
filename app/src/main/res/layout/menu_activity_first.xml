@@ -33,5 +33,6 @@
         android:background="@color/shouyebg"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
+        android:drawSelectorOnTop="true"
         android:paddingTop="10dp" />
 </android.support.v4.widget.DrawerLayout>

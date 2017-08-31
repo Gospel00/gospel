@@ -39,7 +39,8 @@
         android:hint="请输入用户名"
         android:paddingLeft="10dp"
         android:singleLine="true"
-        android:textColor="@color/loginTextColor" />
+        android:textColor="@color/loginTextColor"
+        android:textSize="@dimen/all_edit_text" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -57,7 +58,8 @@
         android:inputType="textPassword"
         android:paddingLeft="10dp"
         android:singleLine="true"
-        android:textColor="@color/loginTextColor" />
+        android:textColor="@color/loginTextColor"
+        android:textSize="@dimen/all_edit_text" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -66,7 +68,7 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.v7.widget.AppCompatButton
+    <Button
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -74,7 +76,7 @@
         android:background="@mipmap/btn_bg"
         android:text="登录"
         android:textColor="@android:color/white"
-        android:textSize="20sp" />
+        android:textSize="@dimen/all_btn" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/register"
@@ -84,7 +86,7 @@
         android:background="@drawable/buttonstyle"
         android:text="注册"
         android:textColor="@color/registerTextColor"
-        android:textSize="20sp" />
+        android:textSize="@dimen/all_btn" />
 
     <TextView
         android:id="@+id/forget"

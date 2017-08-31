@@ -25,6 +25,8 @@
         <activity android:name=".BlueToothFolder"></activity>
         <activity android:name=".ShowExamineRecord"></activity>
         <activity android:name=".AddExamineRecord"></activity>
+        <activity android:name=".UserListAcitvity"></activity>
+
         <service android:name="com.dxc.mycollector.taskDownload.DownLoadService" />
     </application>
 

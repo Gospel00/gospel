@@ -10,6 +10,7 @@ import com.dxc.mycollector.model.User;
  * About Application startService
  */
 public class DLApplication extends Application {
+    public static final String amdin = "gospel";
     public static User userSession = new User();
 
     @Override

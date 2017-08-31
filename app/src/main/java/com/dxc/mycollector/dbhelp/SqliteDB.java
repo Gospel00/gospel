@@ -3,9 +3,11 @@ package com.dxc.mycollector.dbhelp;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.icu.util.Measure;
 import android.util.Log;
 
 
+import com.dxc.mycollector.model.MeasureData;
 import com.dxc.mycollector.model.User;
 
 import java.util.ArrayList;
@@ -114,6 +116,23 @@ public class SqliteDB {
             } else {
                 return -1;
             }
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * 将Measure存储到数据库。
+     */
+    public int saveMeasure(MeasureData measure) {
+        if (measure != null) {
+            try {
+                db.execSQL("insert into measuredata(cllicheng,cldian,clren,cltime,gaocheng,shoulian,status) values(?,?,?,?,?,?,?) ",
+                        new String[]{measure.getSources()});
+            } catch (Exception e) {
+                Log.d("错误", e.getMessage().toString());
+            }
+            return 1;
         } else {
             return 0;
         }
