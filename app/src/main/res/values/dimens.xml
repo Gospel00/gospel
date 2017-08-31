@@ -8,9 +8,9 @@
     <dimen name="all_btn">16dp</dimen>
     <!-- 个人主页文本框 -->
     <dimen name="personal_text_view">16dp</dimen>
-    <dimen name="personal_text_view1">25dp</dimen>
+    <dimen name="personal_text_view1">18dp</dimen>
     <!-- 所有按钮 -->
-    <dimen name="all_title">23dp</dimen>
+    <dimen name="all_title">18dp</dimen>
     <!-- 首页TextView -->
     <dimen name="index_textview">40px</dimen>
     <!-- 登录用户名 -->
