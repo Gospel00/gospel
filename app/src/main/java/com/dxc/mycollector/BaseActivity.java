@@ -27,6 +27,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dxc.mycollector.taskDownload.DLApplication;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,9 +42,9 @@ public class BaseActivity extends Activity implements
     protected DrawerLayout drawerLayout;
     protected ListView drawerList;
     protected FrameLayout frameLayout;
-    protected String[] planetTitles = {"个人信息", "任务管理", "数据管理", "安全管理", "仪器设置", "系统升级", "关于系统"};
+    protected String[] planetTitles = null;//{"个人信息", "任务管理", "数据管理", "安全管理", "仪器设置", "系统升级", "关于系统"};
     protected int[] imagesId = {R.drawable.assignment, R.drawable.down,
-            R.drawable.data, R.drawable.surc, R.drawable.measure, R.drawable.update, R.drawable.system};
+            R.drawable.data, R.drawable.surc, R.drawable.login, R.drawable.measure, R.drawable.update, R.drawable.system};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +61,6 @@ public class BaseActivity extends Activity implements
         // 将传入的layout加载到activity_base的content_frame里面
         getLayoutInflater().inflate(layoutResID, frameLayout, true);
         super.setContentView(drawerLayout);
-
         setUpNavigation();
     }
 
@@ -78,11 +79,15 @@ public class BaseActivity extends Activity implements
                     layout.setVisibility(View.VISIBLE);
                     layout.invalidate();
                 }
-                ImageView face = (ImageView) layout.findViewById(R.id.lgicon);
-                TextView name = (TextView) layout.findViewById(R.id.name);
-                face.setImageResource(imagesId[position]);
-                name.setText(planetTitles[position]);
-
+                if (!DLApplication.userSession.getuName().equals("1")) {
+//                    continue;
+//                    break;
+                } else {
+                    ImageView face = (ImageView) layout.findViewById(R.id.lgicon);
+                    TextView name = (TextView) layout.findViewById(R.id.name);
+                    face.setImageResource(imagesId[position]);
+                    name.setText(planetTitles[position]);
+                }
                 return layout;
             }
 
