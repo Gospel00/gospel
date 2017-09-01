@@ -1,11 +1,16 @@
+/*
+ * copyright (c)2018-8-15
+ * DXC technology
+ */
+
 package com.dxc.mycollector.model;
 
 /**
  * Created by gospel on 2017/8/30.
- * 下载测量任务
+ * 下载测量任务详情
  */
 
-public class DownLoadDetailData {
+public class TaskDetails {
     private String proName;
     private String section;
     private String mileageLabel;
@@ -72,7 +77,7 @@ public class DownLoadDetailData {
 
     @Override
     public String toString() {
-        return "DownLoadDetailData{" +
+        return "TaskDetails{" +
                 "proName='" + proName + '\'' +
                 ", section='" + section + '\'' +
                 ", mileageLabel='" + mileageLabel + '\'' +
