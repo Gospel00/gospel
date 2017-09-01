@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
+import com.dxc.mycollector.model.TaskDetails;
 import com.dxc.mycollector.model.TaskInfo;
 
 import java.util.ArrayList;
@@ -77,10 +78,8 @@ public class ShowTaskInfo extends BaseActivity {
     private void getAllTasks() {
         listtasks = new ArrayList<>();
         List<TaskInfo> alltask = SqliteUtils.getInstance(this).loadTasks();
-        Logger.i(TAG, "alltask.size()====" + alltask.size());
         for (TaskInfo taskinfo : alltask) {
             listtasks.add(taskinfo);
-            Log.i(TAG, "getAllTasks: " + taskinfo.getTaskId() + "-" + taskinfo.getTaskType());
         }
     }
 
@@ -133,7 +132,7 @@ public class ShowTaskInfo extends BaseActivity {
             }
         };
         listview.setAdapter(adapter);
-        drawerList.setOnItemClickListener(new DrawerItemClickListener());
+        listview.setOnItemClickListener(new DrawerItemClickListener());
     }
 
     public String getMeasureType(String measureType) {
@@ -161,7 +160,7 @@ public class ShowTaskInfo extends BaseActivity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
+//            selectItem(position);
         }
     }
 
@@ -173,10 +172,10 @@ public class ShowTaskInfo extends BaseActivity {
     private void selectItem(int position) {
         Toast.makeText(this, planetTitles[position], Toast.LENGTH_SHORT).show();
         TaskInfo taskInfo = listtasks.get(position);
-        TaskInfo.DetailData[] detailDatas = taskInfo.getDetail();
+        TaskDetails[] detailDatas = taskInfo.getDetail();
         String[] strarr = new String[detailDatas.length];
         int i = 0;
-        for (TaskInfo.DetailData detailData : detailDatas) {
+        for (TaskDetails detailData : detailDatas) {
             strarr[i] = detailData.getMileageLabel() + "-" + detailData.getPointLabel() + "(" + detailData.getProName() + ")";
         }
         new AlertDialog.Builder(this)
