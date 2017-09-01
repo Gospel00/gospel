@@ -174,6 +174,16 @@ public class BaseActivity extends Activity implements
         }
     }
 
+    /**
+     * @param list get All Html Key Vules
+     */
+    private void showDialog(List<String> list) {
+        new AlertDialog.Builder(this)
+                .setTitle("列表框")
+                .setItems(new String[]{"列表项1", "列表项2", "列表项3"}, null)
+                .setNegativeButton("确定", null)
+                .show();
+    }
 
     /**
      * 需要进行检测的权限数组

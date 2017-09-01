@@ -14,9 +14,7 @@ import android.widget.Toast;
 
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.model.TaskInfo;
-import com.dxc.mycollector.taskDownload.adapter.ListAdapter;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +26,6 @@ import java.util.List;
 
 public class ShowExamineRecord extends BaseActivity {
     private ListView listview;
-    private ListAdapter adapter;
     private Button taskAdd;
     Context context;
     List<TaskInfo> listtasks = null;
@@ -70,9 +67,10 @@ public class ShowExamineRecord extends BaseActivity {
                 Holder holder = null;
                 if (convertView == null) {
                     holder = new Holder();
-                    convertView = LayoutInflater.from(context).inflate(R.layout.show_bluetooth_list_item_layout, null);
-                    holder.fileName = (TextView) convertView.findViewById(R.id.show_bluetoothfile_file_name);
+                    convertView = LayoutInflater.from(context).inflate(R.layout.show_examine_list_item_layout, null);
+                    holder.fileName = (TextView) convertView.findViewById(R.id.show_examine_name);
                     Button upbtn = (Button) convertView.findViewById(R.id.upload);
+//                    TextView text = (TextView) convertView.findViewById(R.id.jiexi);
                     convertView.setTag(holder);
                     upbtn.setOnClickListener(new View.OnClickListener() {
                         @Override

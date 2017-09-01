@@ -35,7 +35,7 @@ public class SqliteUtils {
 
     private SQLiteDatabase db;
 
-    private SqliteUtils(Context context) {
+    public SqliteUtils(Context context) {
         DatabaseHelper dbHelper = new DatabaseHelper(context, DB_NAME, null, VERSION);
         db = dbHelper.getWritableDatabase();
     }
@@ -131,12 +131,13 @@ public class SqliteUtils {
     public int saveMeasure(MeasureData measure) {
         if (measure != null) {
             try {
-                db.execSQL("insert into tbl_measure(cllicheng,cldian,clren,cltime,gaocheng,shoulian,status,datatype,sources) values(?,?,?,?,?,?,?) ",
-                        new String[]{measure.getSources()});
+             db.execSQL("insert into tbl_measure(cllicheng,cldian,clren,cltime,gaocheng,shoulian,status,datatype,sources) values(?,?,?,?,?,?,?,?,?) ",
+                     new String[]{measure.getCllicheng(),measure.getCldian(),measure.getClren(),measure.getCltime(),measure.getGaocheng(),measure.getShoulian(),measure.getStatus(),measure.getDataType(),measure.getSources()});
+                return 1;
             } catch (Exception e) {
                 Log.d("错误", e.getMessage().toString());
+                return 0;
             }
-            return 1;
         } else {
             return 0;
         }
@@ -153,17 +154,21 @@ public class SqliteUtils {
                                 "pointLabel,pointId,initialValue) values(?,?,?,?,?,?,?,?,?,?,?,?,?) ",
                         new String[]{downLoadData.getTaskId(), downLoadData.getUserId(), downLoadData.getTaskType(),
                                 downLoadData.getMeasureType(), downLoadData.getStartTime(), downLoadData.getEndTime(),
-                                downLoadData.getDetailData().getProName(), downLoadData.getDetailData().getSection(),
-                                downLoadData.getDetailData().getMileageLabel(), downLoadData.getDetailData().getMileageId(),
-                                downLoadData.getDetailData().getPointLabel(), downLoadData.getDetailData().getPointId()
-                                , downLoadData.getDetailData().getInitialValue()});
+                                "", "",
+                                "", "",
+                                "", "", ""});
+                /*new String[]{downLoadData.getTaskId(), downLoadData.getUserId(), downLoadData.getTaskType(),
+                        downLoadData.getMeasureType(), downLoadData.getStartTime(), downLoadData.getEndTime(),
+                        downLoadData.getDetailData().getProName(), downLoadData.getDetailData().getSection(),
+                        downLoadData.getDetailData().getMileageLabel(), downLoadData.getDetailData().getMileageId(),
+                        downLoadData.getDetailData().getPointLabel(), downLoadData.getDetailData().getPointId()
+                        , downLoadData.getDetailData().getInitialValue()});*/
+                return 1;
             } catch (Exception e) {
-                Log.d("错误", e.getMessage().toString());
+                Logger.i(TAG, "保存任务信息异常：" + e.getMessage().toString());
             }
-            return 1;
-        } else {
-            return 0;
         }
+        return 0;
     }
 
     /**
@@ -183,13 +188,13 @@ public class SqliteUtils {
                 downLoadData.setMeasureType(cursor.getString(cursor.getColumnIndex("measureType")));
                 downLoadData.setStartTime(cursor.getString(cursor.getColumnIndex("startTime")));
                 downLoadData.setEndTime(cursor.getString(cursor.getColumnIndex("endTime")));
-                downLoadData.getDetailData().setProName(cursor.getString(cursor.getColumnIndex("proName")));
-                downLoadData.getDetailData().setSection(cursor.getString(cursor.getColumnIndex("section")));
-                downLoadData.getDetailData().setMileageLabel(cursor.getString(cursor.getColumnIndex("mileageLabel")));
-                downLoadData.getDetailData().setMileageId(cursor.getString(cursor.getColumnIndex("mileageId")));
-                downLoadData.getDetailData().setPointLabel(cursor.getString(cursor.getColumnIndex("pointLabel")));
-                downLoadData.getDetailData().setPointId(cursor.getString(cursor.getColumnIndex("pointId")));
-                downLoadData.getDetailData().setInitialValue(cursor.getString(cursor.getColumnIndex("initialValue")));
+//                downLoadData.getDetailData().setProName(cursor.getString(cursor.getColumnIndex("proName")));
+//                downLoadData.getDetailData().setSection(cursor.getString(cursor.getColumnIndex("section")));
+//                downLoadData.getDetailData().setMileageLabel(cursor.getString(cursor.getColumnIndex("mileageLabel")));
+//                downLoadData.getDetailData().setMileageId(cursor.getString(cursor.getColumnIndex("mileageId")));
+//                downLoadData.getDetailData().setPointLabel(cursor.getString(cursor.getColumnIndex("pointLabel")));
+//                downLoadData.getDetailData().setPointId(cursor.getString(cursor.getColumnIndex("pointId")));
+//                downLoadData.getDetailData().setInitialValue(cursor.getString(cursor.getColumnIndex("initialValue")));
                 list.add(downLoadData);
             } while (cursor.moveToNext());
         }

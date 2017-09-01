@@ -1,27 +1,23 @@
 package com.dxc.mycollector.model;
 
+import java.io.Serializable;
+
 /**
  * Created by gospel on 2017/8/30.
  * 存放解析后的测量信息
  */
 
-public class MeasureData {
-    private String sources;
+public class MeasureData implements Serializable {
     private String cllicheng;
     private String cldian;
+    private String sources;
     private String clren;
     private String cltime;
     private String gaocheng;
     private String shoulian;
-    private String status;//0是出数值，1是新测量的数据
-
-    public String getSources() {
-        return sources;
-    }
-
-    public void setSources(String sources) {
-        this.sources = sources;
-    }
+    private String dataType;//0是出数值，1是新测量的数据
+    private String status;//0是已经上传成功，1否
+    public String downloadId;
 
     public String getCllicheng() {
         return cllicheng;
@@ -37,6 +33,30 @@ public class MeasureData {
 
     public void setCldian(String cldian) {
         this.cldian = cldian;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
+    public String getDownloadId() {
+        return downloadId;
+    }
+
+    public void setDownloadId(String downloadId) {
+        this.downloadId = downloadId;
+    }
+
+    public String getSources() {
+        return sources;
+    }
+
+    public void setSources(String sources) {
+        this.sources = sources;
     }
 
     public String getClren() {
@@ -90,6 +110,10 @@ public class MeasureData {
                 ", gaocheng='" + gaocheng + '\'' +
                 ", shoulian='" + shoulian + '\'' +
                 ", status='" + status + '\'' +
+
+                //zrw add
+                ", dataType='" + dataType + '\'' +
+
                 '}';
     }
 }
