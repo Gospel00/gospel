@@ -26,6 +26,7 @@ import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.TaskDetails;
 import com.dxc.mycollector.model.TaskInfo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,24 +95,24 @@ public class ShowTaskInfo extends BaseActivity {
                     convertView = LayoutInflater.from(context).inflate(R.layout.task_download_list_item_layout, null);
                     holder.tasknamepoint = (TextView) convertView.findViewById(R.id.show_task_name_point);
                     holder.taskname = (TextView) convertView.findViewById(R.id.show_task_name);
-                    Button upbtn = (Button) convertView.findViewById(R.id.kaishicl);
                     convertView.setTag(holder);
-                    upbtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            startActivity(new Intent(getApplicationContext(), CeLiangActivity.class));
-//                            Toast.makeText(ShowTaskInfo.this, "接口正在开发中...", Toast.LENGTH_SHORT).show();
-//                            selectItem(position);
-                        }
-                    });
+//                    Button upbtn = (Button) convertView.findViewById(R.id.kaishicl);
+//                    upbtn.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            startActivity(new Intent(getApplicationContext(), CeLiangActivity.class));
+////                            Toast.makeText(ShowTaskInfo.this, "接口正在开发中...", Toast.LENGTH_SHORT).show();
+////                            selectItem(position);
+//                        }
+//                    });
                 } else {
                     holder = (Holder) convertView.getTag();
                 }
                 TaskInfo taskInfo = listtasks.get(position);
                 String showstr = taskInfo.getTaskId() + "-" + (taskInfo.getTaskType().equals("T0101") ? "拱顶沉降" : "水平收敛");
-                showstr += "(" + getMeasureType(taskInfo.getMeasureType()) + ")";
+                showstr += "(" + getMeasureType(taskInfo.getMeasureType()) + ")" + taskInfo.getTaskDetail().getPointLabel() + "-" + taskInfo.getTaskDetail().getSection();
                 holder.tasknamepoint.setText(showstr);
-                holder.taskname.setText(taskInfo.getStartTime() + "-" + taskInfo.getEndTime());
+                holder.taskname.setText(taskInfo.getTaskDetail().getProName() + "-" + taskInfo.getTaskDetail().getMileageLabel() + "-" + taskInfo.getTaskDetail().getPointLabel() + taskInfo.getStartTime().substring(0, 10) + "-" + taskInfo.getEndTime().substring(0, 10));
 
                 return convertView;
             }
@@ -160,9 +161,42 @@ public class ShowTaskInfo extends BaseActivity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Toast.makeText(context, "开始测量", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(ShowTaskInfo.this, CeLiangActivity.class);
+            TaskInfo taskInfo = listtasks.get(position);
+            TaskDetails detailDatas = taskInfo.getTaskDetail();
+            detailDatas.setDateTime(taskInfo.getStartTime().substring(0, 10) + "-" + taskInfo.getEndTime().substring(0, 10));
+            intent.putExtra("detailDatas", detailDatas);
+//            intent.putExtra("intentCeliangDian","测量点");
+//            intent.putExtra("intentCeliangRen",DLApplication.userSession.getuName());
+//            intent.putExtra("intentCeliangshijian",dateChange());
+//            intent.putExtra("intentShoulian",hightProcess);
+//            intent.putExtra("intentShoulian","收敛");
+            startActivity(intent);
+            finish();
 //            selectItem(position);
+//            actionAlertDialog();
         }
     }
+
+    protected void actionAlertDialog() {
+//        ArrayList<Person> list = initData();
+        AlertDialog.Builder builder;
+        AlertDialog alertDialog;
+//        Context context = getApplicationContext();
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+//        LayoutInflater.from(context).inflate(R.layout.task_download_list_item_layout, null);
+        View layout = inflater.inflate(R.layout.task_download_main_layout, (ViewGroup) findViewById(R.id.mylistview));
+//        ListView myListView = (ListView) layout.findViewById(R.id.mylistview);
+//        MyAdapter adapter = new MyAdapter(context, list);
+//        myListView.setAdapter(adapter);
+        builder = new AlertDialog.Builder(context);
+        builder.setView(layout);
+        alertDialog = builder.create();
+        alertDialog.show();
+
+    }
+
 
     /**
      * 选择行
@@ -170,14 +204,14 @@ public class ShowTaskInfo extends BaseActivity {
      * @param position
      */
     private void selectItem(int position) {
-        Toast.makeText(this, planetTitles[position], Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, planetTitles[position], Toast.LENGTH_SHORT).show();
         TaskInfo taskInfo = listtasks.get(position);
-        TaskDetails[] detailDatas = taskInfo.getDetail();
-        String[] strarr = new String[detailDatas.length];
-        int i = 0;
-        for (TaskDetails detailData : detailDatas) {
-            strarr[i] = detailData.getMileageLabel() + "-" + detailData.getPointLabel() + "(" + detailData.getProName() + ")";
-        }
+        TaskDetails detailDatas = taskInfo.getTaskDetail();
+        String[] strarr = new String[1];
+//        int i = 0;
+//        for (TaskDetails detailData : detailDatas) {
+        strarr[0] = detailDatas.getProName() + "-" + detailDatas.getMileageLabel() + "-" + detailDatas.getPointLabel();
+//        }
         new AlertDialog.Builder(this)
                 .setTitle("测量任务列表")
                 .setItems(strarr, null)

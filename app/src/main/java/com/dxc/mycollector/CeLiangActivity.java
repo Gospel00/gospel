@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.MeasureData;
+import com.dxc.mycollector.model.TaskDetails;
 
 public class CeLiangActivity extends AppCompatActivity {
 
@@ -28,24 +29,31 @@ public class CeLiangActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ce_liang_detail);
-
+        etcllc = (TextView) findViewById(R.id.cllc);
+        etcld = (TextView) findViewById(R.id.cld);
+        etclr = (TextView) findViewById(R.id.clr);
+        etclsj = (TextView) findViewById(R.id.clsj);
+        etgc = (TextView) findViewById(R.id.gc);
+        etsl = (TextView) findViewById(R.id.sl);
         Intent intent = getIntent();
         try {
             MeasureData measureData = (MeasureData) intent.getSerializableExtra("measureData");
-
-
-            etcllc = (TextView) findViewById(R.id.cllc);
-            etcllc.setText(measureData.getCllicheng());
-            etcld = (TextView) findViewById(R.id.cld);
-            etcld.setText(measureData.getCldian());
-            etclr = (TextView) findViewById(R.id.clr);
-            etclr.setText(measureData.getClren());
-            etclsj = (TextView) findViewById(R.id.clsj);
-            etclsj.setText(measureData.getCltime());
-            etgc = (TextView) findViewById(R.id.gc);
-            etgc.setText(measureData.getGaocheng());
-            etsl = (TextView) findViewById(R.id.sl);
-            etsl.setText(measureData.getShoulian());
+            if (measureData == null) {
+                TaskDetails detailDatas = (TaskDetails) intent.getSerializableExtra("detailDatas");
+                etcllc.setText(detailDatas.getMileageLabel());
+                etcld.setText(detailDatas.getPointLabel());
+                etclr.setText(detailDatas.getSection());
+                etclsj.setText(detailDatas.getDateTime());
+                etgc.setText(detailDatas.getInitialValue());
+                etsl.setText(detailDatas.getInitialValue());
+            } else {
+                etcllc.setText(measureData.getCllicheng());
+                etcld.setText(measureData.getCldian());
+                etclr.setText(measureData.getClren());
+                etclsj.setText(measureData.getCltime());
+                etgc.setText(measureData.getGaocheng());
+                etsl.setText(measureData.getShoulian());
+            }
         } catch (Exception d) {
             Logger l = new Logger();
             l.e("showCeLiang", String.valueOf(d));

@@ -23,7 +23,7 @@ public class DLApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        this.startService(new Intent(this, DownLoadService.class));
+        this.startService(new Intent(this, DownLoadService.class));
         Logger.i(TAG, "Appliction init. ");
     }
 

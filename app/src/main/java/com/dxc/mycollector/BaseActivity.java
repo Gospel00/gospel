@@ -125,7 +125,7 @@ public class BaseActivity extends Activity implements
     }
 
     private void selectItem(int position) {
-        Toast.makeText(BaseActivity.this, planetTitles[position], Toast.LENGTH_SHORT).show();
+//        Toast.makeText(BaseActivity.this, planetTitles[position], Toast.LENGTH_SHORT).show();
         switch (position) {
             case 0:
                 startActivity(new Intent(this, PersonAcitvity.class));

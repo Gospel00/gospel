@@ -179,6 +179,7 @@ public class SqliteUtils {
      */
     public List<TaskInfo> loadTasks() {
         List<TaskInfo> list = new ArrayList<TaskInfo>();
+        List<TaskDetails> listd = new ArrayList<TaskDetails>();
         Cursor cursor = db
                 .query("tbl_task", null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
@@ -191,13 +192,19 @@ public class SqliteUtils {
                 downLoadData.setMeasureType(cursor.getString(cursor.getColumnIndex("measureType")));
                 downLoadData.setStartTime(cursor.getString(cursor.getColumnIndex("startTime")));
                 downLoadData.setEndTime(cursor.getString(cursor.getColumnIndex("endTime")));
-//                downLoadData.getDetailData().setProName(cursor.getString(cursor.getColumnIndex("proName")));
-//                downLoadData.getDetailData().setSection(cursor.getString(cursor.getColumnIndex("section")));
-//                downLoadData.getDetailData().setMileageLabel(cursor.getString(cursor.getColumnIndex("mileageLabel")));
-//                downLoadData.getDetailData().setMileageId(cursor.getString(cursor.getColumnIndex("mileageId")));
-//                downLoadData.getDetailData().setPointLabel(cursor.getString(cursor.getColumnIndex("pointLabel")));
-//                downLoadData.getDetailData().setPointId(cursor.getString(cursor.getColumnIndex("pointId")));
-//                downLoadData.getDetailData().setInitialValue(cursor.getString(cursor.getColumnIndex("initialValue")));
+
+                //任务详情
+                TaskDetails td = new TaskDetails();
+                td.setProName(cursor.getString(cursor.getColumnIndex("proName")));
+                td.setSection(cursor.getString(cursor.getColumnIndex("section")));
+                td.setMileageLabel(cursor.getString(cursor.getColumnIndex("mileageLabel")));
+                td.setMileageId(cursor.getString(cursor.getColumnIndex("mileageId")));
+                td.setPointLabel(cursor.getString(cursor.getColumnIndex("pointLabel")));
+                td.setPointId(cursor.getString(cursor.getColumnIndex("pointId")));
+                td.setInitialValue(cursor.getString(cursor.getColumnIndex("initialValue")));
+                listd.add(td);
+                //任务详情
+                downLoadData.setTaskDetail(td);
                 list.add(downLoadData);
             } while (cursor.moveToNext());
         }

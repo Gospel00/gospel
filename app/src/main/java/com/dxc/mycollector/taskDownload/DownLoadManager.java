@@ -69,10 +69,39 @@ public class DownLoadManager {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case 0:
-//                    String nJson = resultJson.substring(9, resultJson.length());
-//                    Logger.i(TAG, "resultJson:" + nJson);
-//                    nJson = nJson.substring(0, nJson.length() - 2);
-
+                    Gson gson = new Gson();
+                    JsonArray jsonDatas = new JsonParser().parse(resultJson).getAsJsonObject().getAsJsonArray("data");
+                    TaskInfo[] tempt = new TaskInfo[jsonDatas.size()];
+                    Logger.i(TAG, "jsonDatas:" + jsonDatas.toString());
+                    Logger.i(TAG, "master TaskInfo num:任务数:" + (jsonDatas.size()));
+                    Map<TaskDetails, TaskInfo> maps = new HashMap<TaskDetails, TaskInfo>();
+                    List<TaskDetails> ltd = new ArrayList<TaskDetails>();
+                    int i1 = 0;
+                    for (JsonElement element : jsonDatas) {
+                        taskInfo = gson.fromJson(element, TaskInfo.class);
+                        tempt[i1] = taskInfo;
+                        i1++;
+                        //遍历子任务
+                        JsonArray jsonElements = new JsonParser().parse(element.toString()).getAsJsonObject().getAsJsonArray("detail");
+                        TaskDetails[] temp = new TaskDetails[jsonElements.size()];
+                        int i = 0;
+                        for (JsonElement elementd : jsonElements) {
+                            detailData = gson.fromJson(elementd, TaskDetails.class);
+                            temp[i] = detailData;
+                            i++;
+                            maps.put(detailData, taskInfo);
+                            ltd.add(detailData);
+                        }
+                        taskInfo.setDetail(temp);
+                    }
+                    Logger.i(TAG, "maps:::" + maps.toString());
+                    Logger.i(TAG, "task Details info num:任务数:" + (i + 1));
+                    //根据测量点保存测量任务信息
+                    for (TaskDetails ti : ltd) {
+                        //保存数据
+                        int result = SqliteUtils.getInstance(mycontext).saveTaskInfo(maps.get(ti), ti);
+                        Logger.i(TAG, "任务保存成功。测量详情：" + maps.get(ti).toString());
+                    }
                     break;
                 default:
                     break;
@@ -87,13 +116,7 @@ public class DownLoadManager {
                 try {
                     while (i > 0 && i < 10) {
                         resultJson = HttpUtils.getJSONObjectString(pKey, pUrl);// HttpUtils.doPost(null, textView.getText().toString());
-                        JsonArray jsonData1 = null;
-                        if (resultJson != null && resultJson.indexOf("result") > -1) {
-                            jsonData1 = new JsonParser().parse(resultJson).getAsJsonObject().getAsJsonArray("result");
-                        } else {
-                            jsonData1.add(resultJson);
-                        }
-                        if (jsonData1 != null && jsonData1.toString().indexOf("FAIL") > -1) {
+                        if (resultJson != null && (resultJson.indexOf("FAIL") > -1)) {
                             //下载任务接口返回FAIL,重新请求，3次后不在
                             Logger.i(TAG, "平台任务接口返回失败，resultJson:" + resultJson);
                             Logger.i(TAG, i + " 次请求...");
@@ -104,43 +127,8 @@ public class DownLoadManager {
                         } else {
                             i = 0;
                             Logger.i(TAG, "平台任务接口返回成功，resultJson:" + resultJson);
-                            Gson gson = new Gson();
-//                        String dJson = new JsonParser().parse(nJson).getAsJsonObject().getAsJsonArray("detail").toString();
-//                        Logger.i(TAG, "resultJson:" + dJson);
-//                        detailData = gson.fromJson(dJson, TaskInfo.DetailData.class);
-//                        Logger.i(TAG, "taskInfo::" + detailData.toString());
-                            JsonArray jsonDatas = new JsonParser().parse(resultJson).getAsJsonObject().getAsJsonArray("data");
-                            TaskInfo[] tempt = new TaskInfo[jsonDatas.size()];
-                            Logger.i(TAG, "jsonDatas:" + jsonDatas.toString());
-                            Logger.i(TAG, "master TaskInfo num:任务数:" + (jsonDatas.size()));
-                            Map<TaskDetails, TaskInfo> maps = new HashMap<TaskDetails, TaskInfo>();
-                            List<TaskDetails> ltd = new ArrayList<TaskDetails>();
-                            int i1 = 0;
-                            for (JsonElement element : jsonDatas) {
-                                taskInfo = gson.fromJson(element, TaskInfo.class);
-                                tempt[i1] = taskInfo;
-                                i1++;
-                                //遍历子任务
-                                JsonArray jsonElements = new JsonParser().parse(element.toString()).getAsJsonObject().getAsJsonArray("detail");
-                                TaskDetails[] temp = new TaskDetails[jsonElements.size()];
-                                int i = 0;
-                                for (JsonElement elementd : jsonElements) {
-                                    detailData = gson.fromJson(elementd, TaskDetails.class);
-                                    temp[i] = detailData;
-                                    i++;
-                                    maps.put(detailData, taskInfo);
-                                    ltd.add(detailData);
-                                }
-                                taskInfo.setDetail(temp);
-                            }
-                            Logger.i(TAG, "maps:::" + maps.toString());
-                            Logger.i(TAG, "task Details info num:任务数:" + (i + 1));
-                            //根据测量点保存测量任务信息
-                            for (TaskDetails ti : ltd) {
-                                //保存数据
-                                int result = SqliteUtils.getInstance(mycontext).saveTaskInfo(maps.get(ti), ti);
-                                Logger.i(TAG, "任务保存成功。测量详情：" + maps.get(ti).toString());
-                            }
+                            //处理任务
+                            handler.sendEmptyMessage(0);
                         }
                     }
                 } catch (Exception e) {

@@ -5,12 +5,14 @@
 
 package com.dxc.mycollector.model;
 
+import java.io.Serializable;
+
 /**
  * Created by gospel on 2017/8/30.
  * 下载测量任务详情
  */
 
-public class TaskDetails {
+public class TaskDetails implements Serializable {
     private String proName;
     private String section;
     private String mileageLabel;
@@ -18,6 +20,7 @@ public class TaskDetails {
     private String pointLabel;
     private String pointId;
     private String initialValue;
+    private String dateTime;
 
     public String getProName() {
         return proName;
@@ -73,6 +76,14 @@ public class TaskDetails {
 
     public void setInitialValue(String initialValue) {
         this.initialValue = initialValue;
+    }
+
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
 
     @Override

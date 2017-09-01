@@ -14,6 +14,7 @@ public class TaskInfo {
     private String startTime;//开始时间
     private String endTime;//结束时间
     private TaskDetails[] detail;//详细信息
+    private TaskDetails taskDetail;//存放单条
 
     public int getId() {
         return id;
@@ -77,6 +78,14 @@ public class TaskInfo {
 
     public void setDetail(TaskDetails[] detail) {
         this.detail = detail;
+    }
+
+    public TaskDetails getTaskDetail() {
+        return taskDetail;
+    }
+
+    public void setTaskDetail(TaskDetails taskDetail) {
+        this.taskDetail = taskDetail;
     }
 
     @Override
