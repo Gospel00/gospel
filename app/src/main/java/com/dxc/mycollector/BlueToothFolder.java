@@ -3,24 +3,19 @@ package com.dxc.mycollector;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.MeasureData;
-import com.dxc.mycollector.taskDownload.DLApplication;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +24,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.jsoup.select.Selector;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,12 +32,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by gospel on 2017/8/18.
@@ -55,23 +45,22 @@ public class BlueToothFolder extends BaseActivity {
     private String pathFile = "";//文件路径
     private TextView text;//解析按钮
     private List<String> listf;
-
+    DLApplication myapp = null;
     /**
      * html change to json
      */
     List<String> l = new ArrayList();
     JSONObject tmpObj = null;
     JSONArray jsonArray = new JSONArray();
-    String personInfos="";
-    String createTime="";
-    String hightProcess="";
+    String personInfos = "";
+    String createTime = "";
+    String hightProcess = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_bluetooth_fileslist_main_layout);
-
-
+//        myapp = (DLApplication) getApplication();
         fileList = (ListView) findViewById(R.id.showbluetoothfilelistView);
         context = this;
         String aa = searchFile("");
@@ -172,7 +161,7 @@ public class BlueToothFolder extends BaseActivity {
                         htmlCode = htmlCode + line;
                     }
                     changeToJson(htmlCode);
-                   // showDialog(Arrays.asList(getArrayBcak()));
+                    // showDialog(Arrays.asList(getArrayBcak()));
                     //在这里将解析出来的数据放到MeasureData里，调用saveData方法存起来，再调用select方法显示出来(复核)
                     sendToObject();
 
@@ -191,37 +180,35 @@ public class BlueToothFolder extends BaseActivity {
     private void changeToJson(String htmlCode) throws JSONException {
         l.clear();
         tmpObj = new JSONObject();
-        jsonArray= new JSONArray();
+        jsonArray = new JSONArray();
         Document document = (Document) Jsoup.parse(htmlCode);
         Elements elements = document.select("tr");//elements.select("tr").size();
         for (Element ele : elements) {
-                if (ele.select("th").size() > 2) {
-                    for (int a = 0; a < ele.select("th").size(); a++) {
-                        String titles = (ele.select("th").get(a).text()).trim();
-                        String keys = (ele.select("td").get(a).text()).trim();
-                        String oneLine = titles + ":" + keys + "\n";
-                        if (titles != "") {
-                            l.add(oneLine); // Log.i(TAG, "This is PPM .");
-                            tmpObj.put(titles , keys);
-                        }
-                        if(titles.equals("高程"))
-                        {
-                            hightProcess=keys;
-                        }
-                    }
-                } else {
-                    String titles = (ele.select("th").get(0).text()).trim();
-                    String keys = (ele.select("td").get(0).text()).trim();
+            if (ele.select("th").size() > 2) {
+                for (int a = 0; a < ele.select("th").size(); a++) {
+                    String titles = (ele.select("th").get(a).text()).trim();
+                    String keys = (ele.select("td").get(a).text()).trim();
                     String oneLine = titles + ":" + keys + "\n";
                     if (titles != "") {
-                        l.add(oneLine);
-                        tmpObj.put(titles ,keys);
-                        if(titles.equals("创建日期"))
-                        {
-                            createTime=keys;
-                        }
+                        l.add(oneLine); // Log.i(TAG, "This is PPM .");
+                        tmpObj.put(titles, keys);
+                    }
+                    if (titles.equals("高程")) {
+                        hightProcess = keys;
                     }
                 }
+            } else {
+                String titles = (ele.select("th").get(0).text()).trim();
+                String keys = (ele.select("td").get(0).text()).trim();
+                String oneLine = titles + ":" + keys + "\n";
+                if (titles != "") {
+                    l.add(oneLine);
+                    tmpObj.put(titles, keys);
+                    if (titles.equals("创建日期")) {
+                        createTime = keys;
+                    }
+                }
+            }
         }
         jsonArray.put(tmpObj);
         personInfos = jsonArray.toString(); // 将JSONArray转换得到String
@@ -242,19 +229,17 @@ public class BlueToothFolder extends BaseActivity {
         b.show();
     }
 
-    public String[] getArrayBcak()
-    {
-        String[] a=new String[5];
-        a[0]=personInfos;
-        a[1]="用户："+DLApplication.userSession.getuName();
-        a[2]="DateTime:"+dateChange();
-        a[3]="高程:"+hightProcess;
-        a[4]="收敛:"+"0";
-        return  a;
+    public String[] getArrayBcak() {
+        String[] a = new String[5];
+        a[0] = personInfos;
+        a[1] = "用户：" + "";
+        a[2] = "DateTime:" + dateChange();
+        a[3] = "高程:" + hightProcess;
+        a[4] = "收敛:" + "0";
+        return a;
     }
 
-    public  void sendToObject( )
-    {
+    public void sendToObject() {
         MeasureData measureData = new MeasureData();
         measureData.setSources(personInfos);
         measureData.setGaocheng(hightProcess);
@@ -264,16 +249,15 @@ public class BlueToothFolder extends BaseActivity {
         measureData.setStatus("1");
         measureData.setDataType("1");
         measureData.setCltime(dateChange());
-        measureData.setClren(DLApplication.userSession.getuName());
-        SqliteUtils sdb=new SqliteUtils(this);
-        Logger.e(TAG,sdb.saveMeasure(measureData)+"插入结果");
-        if(sdb.saveMeasure(measureData)==1)
-        {
+        measureData.setClren("");
+        SqliteUtils sdb = new SqliteUtils(this);
+        Logger.e(TAG, sdb.saveMeasure(measureData) + "插入结果");
+        if (sdb.saveMeasure(measureData) == 1) {
 
             //startActivity(new Intent(BlueToothFolder.this, CeLiangActivity.class));
 
             Intent intent = new Intent(BlueToothFolder.this, CeLiangActivity.class);
-            intent.putExtra("measureData",  measureData);
+            intent.putExtra("measureData", measureData);
 //            intent.putExtra("intentCeliangDian","测量点");
 //            intent.putExtra("intentCeliangRen",DLApplication.userSession.getuName());
 //            intent.putExtra("intentCeliangshijian",dateChange());
@@ -283,41 +267,38 @@ public class BlueToothFolder extends BaseActivity {
             finish();
 
 
-
         }
 
     }
 
-    public String dateChange()
-    {
-        String [] ct=createTime.split(" ");
-        String date="";
-        switch (ct[1])
-        {
-            case  "Jan":
-                date=ct[2]+"-"+"1"+"-"+ct[0];
-            case  "Feb":
-                date=ct[2]+"-"+"2"+"-"+ct[0];
-            case  "Mar":
-                date=ct[2]+"-"+"3"+"-"+ct[0];
-            case  "Apr":
-                date=ct[2]+"-"+"4"+"-"+ct[0];
-            case  "May":
-                date=ct[2]+"-"+"5"+"-"+ct[0];
-            case  "Jun":
-                date=ct[2]+"-"+"6"+"-"+ct[0];
-            case  "Jul":
-                date=ct[2]+"-"+"7"+"-"+ct[0];
-            case  "Aug":
-                date=ct[2]+"-"+"8"+"-"+ct[0];
-            case  "Sep":
-                date=ct[2]+"-"+"9"+"-"+ct[0];
-            case  "Oct":
-                date=ct[2]+"-"+"10"+"-"+ct[0];
-            case  "Nov":
-                date=ct[2]+"-"+"11"+"-"+ct[0];
-            case  "Dec":
-                date=ct[2]+"-"+"12"+"-"+ct[0];
+    public String dateChange() {
+        String[] ct = createTime.split(" ");
+        String date = "";
+        switch (ct[1]) {
+            case "Jan":
+                date = ct[2] + "-" + "1" + "-" + ct[0];
+            case "Feb":
+                date = ct[2] + "-" + "2" + "-" + ct[0];
+            case "Mar":
+                date = ct[2] + "-" + "3" + "-" + ct[0];
+            case "Apr":
+                date = ct[2] + "-" + "4" + "-" + ct[0];
+            case "May":
+                date = ct[2] + "-" + "5" + "-" + ct[0];
+            case "Jun":
+                date = ct[2] + "-" + "6" + "-" + ct[0];
+            case "Jul":
+                date = ct[2] + "-" + "7" + "-" + ct[0];
+            case "Aug":
+                date = ct[2] + "-" + "8" + "-" + ct[0];
+            case "Sep":
+                date = ct[2] + "-" + "9" + "-" + ct[0];
+            case "Oct":
+                date = ct[2] + "-" + "10" + "-" + ct[0];
+            case "Nov":
+                date = ct[2] + "-" + "11" + "-" + ct[0];
+            case "Dec":
+                date = ct[2] + "-" + "12" + "-" + ct[0];
         }
         return date;
     }

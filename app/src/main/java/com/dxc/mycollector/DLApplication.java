@@ -1,10 +1,15 @@
-package com.dxc.mycollector.taskDownload;
+/*
+ * copyright (c)2018-8-15
+ * DXC technology
+ */
+
+package com.dxc.mycollector;
 
 import android.app.Application;
 import android.content.Intent;
 
 import com.dxc.mycollector.logs.Logger;
-import com.dxc.mycollector.model.User;
+import com.dxc.mycollector.taskDownload.DownLoadService;
 
 /**
  * Created by gospel on 2017/8/18.
@@ -12,14 +17,21 @@ import com.dxc.mycollector.model.User;
  */
 public class DLApplication extends Application {
     public static final String amdin = "gospel";
-    public static User userSession = new User();
+    public static String userName = null;
     String TAG = DLApplication.class.getSimpleName();
 
     @Override
     public void onCreate() {
         super.onCreate();
-        this.startService(new Intent(this, DownLoadService.class));
+//        this.startService(new Intent(this, DownLoadService.class));
         Logger.i(TAG, "Appliction init. ");
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }

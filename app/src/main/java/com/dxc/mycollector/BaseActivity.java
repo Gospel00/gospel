@@ -13,8 +13,6 @@ import android.support.annotation.LayoutRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.text.Layout;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +22,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dxc.mycollector.logs.Logger;
-import com.dxc.mycollector.taskDownload.DLApplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +43,7 @@ public class BaseActivity extends Activity implements
     protected FrameLayout frameLayout;
     protected String[] planetTitles = null;//{"个人信息", "任务管理", "数据管理", "安全管理", "仪器设置", "系统升级", "关于系统"};
     protected int[] imagesId = {R.drawable.assignment, R.drawable.down,
-            R.drawable.data, R.drawable.safe, R.drawable.measure, R.drawable.update, R.drawable.system, R.drawable.safe};
+            R.drawable.data, R.drawable.safe, R.drawable.measure, R.drawable.update, R.drawable.system};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,20 +91,8 @@ public class BaseActivity extends Activity implements
                     layout.setVisibility(View.VISIBLE);
                     layout.invalidate();
                 }
-                //admin
-                if (!DLApplication.userSession.getuName().equals(DLApplication.amdin)) {
-                    if (position != 7) {
-                        face.setImageResource(imagesId[position]);
-                        name.setText(planetTitles[position]);
-                    } else {
-                        lin.setVisibility(View.GONE);
-                        layout.setVisibility(View.VISIBLE);
-                        layout.invalidate();
-                    }
-                } else {
-                    face.setImageResource(imagesId[position]);
-                    name.setText(planetTitles[position]);
-                }
+                face.setImageResource(imagesId[position]);
+                name.setText(planetTitles[position]);
                 return layout;
             }
 
@@ -167,10 +151,10 @@ public class BaseActivity extends Activity implements
             case 6:
                 Logger.i(TAG, "click about system.");
                 break;
-            case 7:
-                startActivity(new Intent(this, UserListAcitvity.class));
-                Logger.i(TAG, "click user list.This operation belongs to the administrator.");
-                break;
+//            case 7:
+//                startActivity(new Intent(this, UserListAcitvity.class));
+//                Logger.i(TAG, "click user list.This operation belongs to the administrator.");
+//                break;
         }
     }
 

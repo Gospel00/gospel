@@ -13,7 +13,7 @@ public class TaskInfo {
     private String measureType;//量测设备
     private String startTime;//开始时间
     private String endTime;//结束时间
-    private DetailData[] detail;//详细信息
+    private TaskDetails[] detail;//详细信息
 
     public int getId() {
         return id;
@@ -71,11 +71,11 @@ public class TaskInfo {
         this.endTime = endTime;
     }
 
-    public DetailData[] getDetail() {
+    public TaskDetails[] getDetail() {
         return detail;
     }
 
-    public void setDetail(DetailData[] detail) {
+    public void setDetail(TaskDetails[] detail) {
         this.detail = detail;
     }
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.dxc.mycollector.dbhelp.DatabaseHelper;
 import com.dxc.mycollector.logs.Logger;
 
 /**
