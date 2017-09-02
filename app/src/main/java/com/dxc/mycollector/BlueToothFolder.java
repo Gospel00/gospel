@@ -70,9 +70,10 @@ public class BlueToothFolder extends BaseActivity {
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar);
-
         //必须加2句
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);  //根据字面意思是显示类型为显示自定义
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP);  //根据字面意思是显示类型为显示自定义
         actionBar.setDisplayShowCustomEnabled(true); //自定义界面是否可显示
         //使用setText的方法对textview动态赋值
         ((TextView) findViewById(R.id.title_name)).setText("数据管理");
@@ -279,29 +280,41 @@ public class BlueToothFolder extends BaseActivity {
         String date = "";
         switch (ct[1]) {
             case "Jan":
-                date = ct[2] + "-" + "1" + "-" + ct[0]; break;
+                date = ct[2] + "-" + "1" + "-" + ct[0];
+                break;
             case "Feb":
-                date = ct[2] + "-" + "2" + "-" + ct[0]; break;
+                date = ct[2] + "-" + "2" + "-" + ct[0];
+                break;
             case "Mar":
-                date = ct[2] + "-" + "3" + "-" + ct[0]; break;
+                date = ct[2] + "-" + "3" + "-" + ct[0];
+                break;
             case "Apr":
-                date = ct[2] + "-" + "4" + "-" + ct[0]; break;
+                date = ct[2] + "-" + "4" + "-" + ct[0];
+                break;
             case "May":
-                date = ct[2] + "-" + "5" + "-" + ct[0]; break;
+                date = ct[2] + "-" + "5" + "-" + ct[0];
+                break;
             case "Jun":
-                date = ct[2] + "-" + "6" + "-" + ct[0]; break;
+                date = ct[2] + "-" + "6" + "-" + ct[0];
+                break;
             case "Jul":
-                date = ct[2] + "-" + "7" + "-" + ct[0]; break;
+                date = ct[2] + "-" + "7" + "-" + ct[0];
+                break;
             case "Aug":
-                date = ct[2] + "-" + "8" + "-" + ct[0]; break;
+                date = ct[2] + "-" + "8" + "-" + ct[0];
+                break;
             case "Sep":
-                date = ct[2] + "-" + "9" + "-" + ct[0]; break;
+                date = ct[2] + "-" + "9" + "-" + ct[0];
+                break;
             case "Oct":
-                date = ct[2] + "-" + "10" + "-" + ct[0]; break;
+                date = ct[2] + "-" + "10" + "-" + ct[0];
+                break;
             case "Nov":
-                date = ct[2] + "-" + "11" + "-" + ct[0]; break;
+                date = ct[2] + "-" + "11" + "-" + ct[0];
+                break;
             case "Dec":
-                date = ct[2] + "-" + "12" + "-" + ct[0]; break;
+                date = ct[2] + "-" + "12" + "-" + ct[0];
+                break;
         }
         return date;
     }

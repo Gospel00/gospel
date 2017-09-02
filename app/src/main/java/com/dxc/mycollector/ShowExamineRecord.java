@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,15 +39,9 @@ public class ShowExamineRecord extends BaseActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.show_examine_record_main_layout);
         context = this;
-        taskAdd = (Button) this.findViewById(R.id.taskAdd);
+
         listview = (ListView) this.findViewById(R.id.examine_listView);
-        //新增安全检查记录
-        taskAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), AddExamineRecord.class));
-            }
-        });
+
         //获取已经下载的任务信息
         getAllTasks();
         //初始化ListView
@@ -61,6 +56,21 @@ public class ShowExamineRecord extends BaseActivity {
 
         //使用setText的方法对textview动态赋值
         ((TextView) findViewById(R.id.title_name)).setText("安全检查记录");
+        taskAdd = (Button) this.findViewById(R.id.taskAdd);
+        //新增安全检查记录
+        taskAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), AddExamineRecord.class));
+            }
+        });
+        ImageView i = (ImageView) findViewById(R.id.left_imbt);
+        i.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), AddExamineRecord.class));
+            }
+        });
     }
 
     private void getAllTasks() {
@@ -80,7 +90,7 @@ public class ShowExamineRecord extends BaseActivity {
                     holder = new Holder();
                     convertView = LayoutInflater.from(context).inflate(R.layout.show_examine_list_item_layout, null);
                     holder.fileName = (TextView) convertView.findViewById(R.id.show_examine_name);
-                    Button upbtn = (Button) convertView.findViewById(R.id.upload);
+                    TextView upbtn = (TextView) convertView.findViewById(R.id.upload);
 //                    TextView text = (TextView) convertView.findViewById(R.id.jiexi);
                     convertView.setTag(holder);
                     upbtn.setOnClickListener(new View.OnClickListener() {

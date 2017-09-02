@@ -40,11 +40,12 @@
 
         </LinearLayout>
 
-        <Button
+        <TextView
             android:id="@+id/upload"
-            android:layout_width="50dp"
-            android:layout_height="40dp"
-            android:background="@mipmap/btn_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:textColor="@color/registerTextColor"
             android:text="解析" />
 
     </LinearLayout>

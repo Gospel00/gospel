@@ -6,7 +6,7 @@
     android:padding="5dp"
     tools:context=".ShowTaskInfo">
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:id="@+id/headlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -18,15 +18,15 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textSize="@dimen/all_title" />  <!--android:text="我的任务列表"-->
+            android:textSize="@dimen/all_title" />  &lt;!&ndash;android:text="我的任务列表"&ndash;&gt;
 
-        <Button
+       &lt;!&ndash;<Button
             android:id="@+id/add_task"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginLeft="60dp"
             android:layout_toRightOf="@+id/center"
-            android:background="@mipmap/add_task" />
+            />&ndash;&gt;
 
         <TextView
             android:id="@+id/textView"
@@ -35,11 +35,11 @@
             android:layout_below="@+id/center"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"/>
-           <!-- android:background="@color/huise"
+           &lt;!&ndash; android:background="@color/huise"
             android:paddingLeft="1920dp"
-            android:singleLine="true" -->
+            android:singleLine="true" &ndash;&gt;
 
-    </RelativeLayout>
+    </RelativeLayout>-->
 
     <RelativeLayout
         android:id="@+id/mylistview"
