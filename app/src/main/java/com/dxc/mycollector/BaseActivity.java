@@ -13,6 +13,7 @@ import android.support.annotation.LayoutRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ import java.util.List;
  * Created by sunyi on 2017/8/25.
  */
 
-public class BaseActivity extends Activity implements
+public class BaseActivity extends AppCompatActivity implements
         ActivityCompat.OnRequestPermissionsResultCallback {
     String TAG = BaseActivity.class.getSimpleName();
     //    protected String[] planetTitles;
