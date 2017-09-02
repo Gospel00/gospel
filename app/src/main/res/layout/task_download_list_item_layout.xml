@@ -40,12 +40,12 @@
 
         </LinearLayout>
 
-        <Button
+        <!--<Button
             android:id="@+id/kaishicl"
             android:layout_width="50dp"
             android:layout_height="40dp"
             android:background="@mipmap/btn_bg"
-            android:text="进入" />
+            android:text="进入" />-->
 
     </LinearLayout>
 

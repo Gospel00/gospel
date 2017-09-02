@@ -1,11 +1,18 @@
+/*
+ * copyright (c)2018-8-15
+ * DXC technology
+ */
+
 package com.dxc.mycollector.model;
+
+import java.io.Serializable;
 
 /**
  * Created by gospel on 2017/8/30.
- * 下载测量任务
+ * 下载测量任务详情
  */
 
-public class DownLoadDetailData {
+public class TaskDetails implements Serializable {
     private String proName;
     private String section;
     private String mileageLabel;
@@ -13,6 +20,7 @@ public class DownLoadDetailData {
     private String pointLabel;
     private String pointId;
     private String initialValue;
+    private String dateTime;
 
     public String getProName() {
         return proName;
@@ -70,9 +78,17 @@ public class DownLoadDetailData {
         this.initialValue = initialValue;
     }
 
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
+
     @Override
     public String toString() {
-        return "DownLoadDetailData{" +
+        return "TaskDetails{" +
                 "proName='" + proName + '\'' +
                 ", section='" + section + '\'' +
                 ", mileageLabel='" + mileageLabel + '\'' +

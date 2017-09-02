@@ -12,8 +12,6 @@ import android.widget.Toast;
 
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
-import com.dxc.mycollector.serviecs.UserService;
-import com.dxc.mycollector.taskDownload.DLApplication;
 
 /**
  * Created by gospel on 2017/8/18.
@@ -55,12 +53,12 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (username != null && username.length() > 0) {
-                    UserService userServices = new UserService(context);
                     int isTure = SqliteUtils.getInstance(getApplicationContext()).Quer(lgpwd.getText().toString(), username.getText().toString());
                     if (isTure == 1) {
                         Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_LONG).show();
                         startActivity(new Intent(context, PersonAcitvity.class));
-                        DLApplication.userSession.setuName(username.getText().toString());
+                        DLApplication myapp = (DLApplication) getApplicationContext();
+                        myapp.setUserName(username.getText().toString());
                         Logger.i(TAG, username.getText().toString() + " login success.");
                     } else if (isTure == 0) {
                         Toast.makeText(MainActivity.this, "用户不存在", Toast.LENGTH_SHORT).show();
