@@ -18,8 +18,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="我的任务列表"
-            android:textSize="@dimen/all_title" />
+            android:textSize="@dimen/all_title" />  <!--android:text="我的任务列表"-->
 
         <Button
             android:id="@+id/add_task"
@@ -35,10 +34,10 @@
             android:layout_height="1dp"
             android:layout_below="@+id/center"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            android:background="@color/huise"
+            android:layout_marginTop="5dp"/>
+           <!-- android:background="@color/huise"
             android:paddingLeft="1920dp"
-            android:singleLine="true" />
+            android:singleLine="true" -->
 
     </RelativeLayout>
 

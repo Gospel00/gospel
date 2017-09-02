@@ -1,6 +1,7 @@
 package com.dxc.mycollector;
 
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -65,6 +66,16 @@ public class BlueToothFolder extends BaseActivity {
         context = this;
         String aa = searchFile("");
         initDrawerList();
+
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.actionbar);
+
+        //必须加2句
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);  //根据字面意思是显示类型为显示自定义
+        actionBar.setDisplayShowCustomEnabled(true); //自定义界面是否可显示
+        //使用setText的方法对textview动态赋值
+        ((TextView) findViewById(R.id.title_name)).setText("数据管理");
     }
 
     private void initDrawerList() {
@@ -232,7 +243,7 @@ public class BlueToothFolder extends BaseActivity {
     public String[] getArrayBcak() {
         String[] a = new String[5];
         a[0] = personInfos;
-        a[1] = "用户：" + "";
+        a[1] = "用户：" + "";//zrw  有问题
         a[2] = "DateTime:" + dateChange();
         a[3] = "高程:" + hightProcess;
         a[4] = "收敛:" + "0";
@@ -255,18 +266,10 @@ public class BlueToothFolder extends BaseActivity {
         if (sdb.saveMeasure(measureData) == 1) {
 
             //startActivity(new Intent(BlueToothFolder.this, CeLiangActivity.class));
-
             Intent intent = new Intent(BlueToothFolder.this, CeLiangActivity.class);
             intent.putExtra("measureData", measureData);
-//            intent.putExtra("intentCeliangDian","测量点");
-//            intent.putExtra("intentCeliangRen",DLApplication.userSession.getuName());
-//            intent.putExtra("intentCeliangshijian",dateChange());
-//            intent.putExtra("intentShoulian",hightProcess);
-//            intent.putExtra("intentShoulian","收敛");
             startActivity(intent);
             finish();
-
-
         }
 
     }
@@ -276,29 +279,29 @@ public class BlueToothFolder extends BaseActivity {
         String date = "";
         switch (ct[1]) {
             case "Jan":
-                date = ct[2] + "-" + "1" + "-" + ct[0];
+                date = ct[2] + "-" + "1" + "-" + ct[0]; break;
             case "Feb":
-                date = ct[2] + "-" + "2" + "-" + ct[0];
+                date = ct[2] + "-" + "2" + "-" + ct[0]; break;
             case "Mar":
-                date = ct[2] + "-" + "3" + "-" + ct[0];
+                date = ct[2] + "-" + "3" + "-" + ct[0]; break;
             case "Apr":
-                date = ct[2] + "-" + "4" + "-" + ct[0];
+                date = ct[2] + "-" + "4" + "-" + ct[0]; break;
             case "May":
-                date = ct[2] + "-" + "5" + "-" + ct[0];
+                date = ct[2] + "-" + "5" + "-" + ct[0]; break;
             case "Jun":
-                date = ct[2] + "-" + "6" + "-" + ct[0];
+                date = ct[2] + "-" + "6" + "-" + ct[0]; break;
             case "Jul":
-                date = ct[2] + "-" + "7" + "-" + ct[0];
+                date = ct[2] + "-" + "7" + "-" + ct[0]; break;
             case "Aug":
-                date = ct[2] + "-" + "8" + "-" + ct[0];
+                date = ct[2] + "-" + "8" + "-" + ct[0]; break;
             case "Sep":
-                date = ct[2] + "-" + "9" + "-" + ct[0];
+                date = ct[2] + "-" + "9" + "-" + ct[0]; break;
             case "Oct":
-                date = ct[2] + "-" + "10" + "-" + ct[0];
+                date = ct[2] + "-" + "10" + "-" + ct[0]; break;
             case "Nov":
-                date = ct[2] + "-" + "11" + "-" + ct[0];
+                date = ct[2] + "-" + "11" + "-" + ct[0]; break;
             case "Dec":
-                date = ct[2] + "-" + "12" + "-" + ct[0];
+                date = ct[2] + "-" + "12" + "-" + ct[0]; break;
         }
         return date;
     }

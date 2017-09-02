@@ -1,9 +1,11 @@
 package com.dxc.mycollector;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dxc.mycollector.dbhelp.SqliteUtils;
@@ -22,7 +25,7 @@ import com.dxc.mycollector.model.User;
  * Created by gospel on 2017/8/18.
  * About Register
  */
-public class RegisterAcitvity extends Activity {
+public class RegisterAcitvity extends AppCompatActivity {
     String TAG = RegisterAcitvity.class.getSimpleName();
     Context context;
     private Button button;
@@ -125,6 +128,16 @@ public class RegisterAcitvity extends Activity {
                 }
             }
         });
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.actionbar);
+
+        //必须加2句
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);  //根据字面意思是显示类型为显示自定义
+        actionBar.setDisplayShowCustomEnabled(true); //自定义界面是否可显示
+
+        //使用setText的方法对textview动态赋值
+        ((TextView) findViewById(R.id.title_name)).setText("注册");
     }
 
     public User GetText() {
