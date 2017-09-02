@@ -44,7 +44,7 @@ public class BaseActivity extends AppCompatActivity implements
     protected FrameLayout frameLayout;
     protected String[] planetTitles = null;//{"个人信息", "任务管理", "数据管理", "安全管理", "仪器设置", "系统升级", "关于系统"};
     protected int[] imagesId = {R.drawable.assignment, R.drawable.down,
-            R.drawable.data, R.drawable.safe, R.drawable.measure, R.drawable.update, R.drawable.system};
+            R.drawable.data, R.drawable.safe, R.drawable.measure, R.drawable.update, R.drawable.system, R.drawable.safe};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +92,23 @@ public class BaseActivity extends AppCompatActivity implements
                     layout.setVisibility(View.VISIBLE);
                     layout.invalidate();
                 }
-                face.setImageResource(imagesId[position]);
-                name.setText(planetTitles[position]);
+//                DLApplication myapp = (DLApplication) getApplicationContext();
+                Logger.i(TAG, "application user:" + DLApplication.userName);
+                Logger.i(TAG, "application admin:" + DLApplication.amdin);
+                //admin
+                if (!DLApplication.userName.equals(DLApplication.amdin)) {
+                    if (position != 7) {
+                        face.setImageResource(imagesId[position]);
+                        name.setText(planetTitles[position]);
+                    } else {
+                        lin.setVisibility(View.GONE);
+                        layout.setVisibility(View.VISIBLE);
+                        layout.invalidate();
+                    }
+                } else {
+                    face.setImageResource(imagesId[position]);
+                    name.setText(planetTitles[position]);
+                }
                 return layout;
             }
 
@@ -152,10 +167,10 @@ public class BaseActivity extends AppCompatActivity implements
             case 6:
                 Logger.i(TAG, "click about system.");
                 break;
-//            case 7:
-//                startActivity(new Intent(this, UserListAcitvity.class));
-//                Logger.i(TAG, "click user list.This operation belongs to the administrator.");
-//                break;
+            case 7:
+                startActivity(new Intent(this, UserListAcitvity.class));
+                Logger.i(TAG, "click user list.This operation belongs to the administrator.");
+                break;
         }
     }
 
