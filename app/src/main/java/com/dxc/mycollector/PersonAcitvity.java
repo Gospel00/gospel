@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.dxc.mycollector.taskDownload.DownLoadManager;
+import com.dxc.mycollector.taskDownload.DownLoadService;
 import com.dxc.mycollector.utils.HttpUtils;
 
 /**
@@ -16,7 +18,7 @@ import com.dxc.mycollector.utils.HttpUtils;
 public class PersonAcitvity extends BaseActivity {
     TextView textView;
     String result = null;
-   // private Button button;
+    // private Button button;
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
@@ -36,21 +38,28 @@ public class PersonAcitvity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.person_homepage_layout);
         textView = (TextView) findViewById(R.id.textView4);
-       // button=(Button)findViewById(R.id.button);
+        // button=(Button)findViewById(R.id.button);
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // startActivity(new Intent(PersonAcitvity.this, CeLiangActivity.class));
-                new Thread() {//创建子线程进行网络访问的操作
-                    public void run() {
-                        try {
-                            result = HttpUtils.getJSONObjectString("",textView.getText().toString());// HttpUtils.doPost(null, textView.getText().toString());
-                            handler.sendEmptyMessage(0);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();
+//                try {
+//                    String resultJsonupload = HttpUtils.postJSONObjectString("http://106.38.157.46:48080/restcenter/measureTaskService/feedbackTask", null);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                DownLoadManager downLoadManager = new DownLoadManager(PersonAcitvity.this);
+//                downLoadManager.uploadMeasure(null);
+                // startActivity(new Intent(PersonAcitvity.this, CeLiangActivity.class));
+//                new Thread() {//创建子线程进行网络访问的操作
+//                    public void run() {
+//                        try {
+//                            result = HttpUtils.getJSONObjectString("",textView.getText().toString());// HttpUtils.doPost(null, textView.getText().toString());
+//                            handler.sendEmptyMessage(0);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }.start();
             }
         });
     }
