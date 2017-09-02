@@ -20,13 +20,13 @@
             android:layout_centerVertical="true"
             android:textSize="@dimen/all_title" />  <!--android:text="我的任务列表"-->
 
-        <Button
+       <!--<Button
             android:id="@+id/add_task"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginLeft="60dp"
             android:layout_toRightOf="@+id/center"
-            android:background="@mipmap/add_task" />
+            />-->
 
         <TextView
             android:id="@+id/textView"

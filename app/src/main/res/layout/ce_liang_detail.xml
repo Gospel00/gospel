@@ -176,9 +176,9 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
-            android:background="@mipmap/btn_bg"
             android:text="测量完成"
-            android:textColor="@android:color/white"
+            android:background="@drawable/btn_load_style"
+            android:textColor="@drawable/btn_load_txtcol"
             android:textSize="20sp" />
 
         <android.support.v7.widget.AppCompatButton
@@ -186,9 +186,9 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
-            android:background="@mipmap/btn_bg"
             android:text="复核"
-            android:textColor="@android:color/white"
+            android:background="@drawable/btn_load_style"
+            android:textColor="@drawable/btn_load_txtcol"
             android:textSize="20sp" />
     </LinearLayout>
 </LinearLayout>

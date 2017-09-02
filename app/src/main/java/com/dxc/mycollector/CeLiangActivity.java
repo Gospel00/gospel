@@ -69,7 +69,7 @@ public class CeLiangActivity extends AppCompatActivity {
         actionBar.setDisplayShowCustomEnabled(true); //自定义界面是否可显示
 
         //使用setText的方法对textview动态赋值
-        ((TextView) findViewById(R.id.title_name)).setText("测量详情");
+        ((TextView) findViewById(R.id.title_name)).setText("测量数据列表");
     }
 
 
