@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.User;
-import com.dxc.mycollector.serviecs.UserService;
 
 /**
  * Created by gospel on 2017/8/18.
@@ -49,7 +48,8 @@ public class RegisterAcitvity extends Activity {
     private String[] province = new String[]{"省份", "北京", "上海", "天津", "广东"};//,"重庆","黑龙江","江苏","山东","浙江","香港","澳门"};
     //地级选项值
     private String[][] city = new String[][]
-            {{"市"},
+            {
+                    {"市"},
                     {"东城区", "西城区", "崇文区", "宣武区", "朝阳区", "海淀区", "丰台区", "石景山区", "门头沟区",
                             "房山区", "通州区", "顺义区", "大兴区", "昌平区", "平谷区", "怀柔区", "密云县",
                             "延庆县"},
@@ -102,7 +102,6 @@ public class RegisterAcitvity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserService userServices = new UserService(context);
                 User newUser = GetText();
                 if (!isEmpty(newUser)) {
 //                boolean isTure = userServices.register(user);

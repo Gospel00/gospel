@@ -51,6 +51,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Logger.i(TAG, "tbl_task create success.");
         createMeasure(db);
         Logger.i(TAG, "tbl_measure create success.");
+
+//        formatTable(db);
+    }
+
+    public void formatTable(SQLiteDatabase db) {
+        try {
+            db.execSQL("DELETE FROM tbl_users");
+            Logger.i(TAG, "tbl_users format success.");
+            db.execSQL("DELETE FROM tbl_task");
+            Logger.i(TAG, "tbl_users format success.");
+            db.execSQL("DELETE FROM tbl_task");
+            Logger.i(TAG, "tbl_users format success.");
+        } catch (Exception e) {
+            Logger.e(TAG, "format table failed." + e.getMessage());
+        }
     }
 
     /**
@@ -72,7 +87,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             db.execSQL(sql);
         } catch (Exception e) {
-            Logger.i(TAG, "tbl_users create failed." + e.getMessage());
+            Logger.e(TAG, "tbl_users create failed." + e.getMessage());
         }
     }
 
