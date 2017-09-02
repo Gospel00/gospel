@@ -30,9 +30,6 @@ dependencies {
     })
 <<<<<<< Updated upstream
 =======
-   /* dependencies {
-        compile 'com.github.WJKCharlie:AndroidTableView:V1.0.0'
-    }*/
     compile files('libs/jsoup-1.8.1.jar')
     compile files('libs/gson-2.6.2.jar')
     compile project(':tableview')
