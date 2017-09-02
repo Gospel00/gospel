@@ -6,13 +6,13 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ShowExamineRecord">
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context=".ShowExamineRecord">
 
-    <RelativeLayout
-        android:id="@+id/headlayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/headlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/center"
@@ -21,16 +21,16 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="安全隐患检查记录"
-            android:textSize="@dimen/all_title" />
 
-        <Button
-            android:id="@+id/taskAdd"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="30dp"
-            android:layout_toRightOf="@+id/center"
-            android:background="@mipmap/add_task" />
+            android:textSize="@dimen/all_title" /><!-- android:text="安全隐患检查记录"-->
+
+        <!-- <Button
+             android:id="@+id/taskAdd"
+             android:layout_width="20dp"
+             android:layout_height="20dp"
+             android:layout_marginLeft="30dp"
+             android:layout_toRightOf="@+id/center"
+             /> android:background="@mipmap/add_task"-->
 
         <TextView
             android:id="@+id/textView"

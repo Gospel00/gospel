@@ -41,12 +41,12 @@ public class ShowExamineRecord extends BaseActivity {
         taskAdd = (Button) this.findViewById(R.id.taskAdd);
         listview = (ListView) this.findViewById(R.id.examine_listView);
         //新增安全检查记录
-        taskAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), AddExamineRecord.class));
-            }
-        });
+//        taskAdd.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(getApplicationContext(), AddExamineRecord.class));
+//            }
+//        });
         //获取已经下载的任务信息
         getAllTasks();
         //初始化ListView
@@ -80,7 +80,7 @@ public class ShowExamineRecord extends BaseActivity {
                     holder = new Holder();
                     convertView = LayoutInflater.from(context).inflate(R.layout.show_examine_list_item_layout, null);
                     holder.fileName = (TextView) convertView.findViewById(R.id.show_examine_name);
-                    Button upbtn = (Button) convertView.findViewById(R.id.upload);
+                    TextView upbtn = (TextView) convertView.findViewById(R.id.upload);
 //                    TextView text = (TextView) convertView.findViewById(R.id.jiexi);
                     convertView.setTag(holder);
                     upbtn.setOnClickListener(new View.OnClickListener() {
