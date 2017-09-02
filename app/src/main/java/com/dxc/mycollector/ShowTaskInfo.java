@@ -167,11 +167,6 @@ public class ShowTaskInfo extends BaseActivity {
             TaskDetails detailDatas = taskInfo.getTaskDetail();
             detailDatas.setDateTime(taskInfo.getStartTime().substring(0, 10) + "-" + taskInfo.getEndTime().substring(0, 10));
             intent.putExtra("detailDatas", detailDatas);
-//            intent.putExtra("intentCeliangDian","测量点");
-//            intent.putExtra("intentCeliangRen",DLApplication.userSession.getuName());
-//            intent.putExtra("intentCeliangshijian",dateChange());
-//            intent.putExtra("intentShoulian",hightProcess);
-//            intent.putExtra("intentShoulian","收敛");
             startActivity(intent);
             finish();
 //            selectItem(position);
