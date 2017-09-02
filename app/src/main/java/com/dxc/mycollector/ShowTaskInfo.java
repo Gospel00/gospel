@@ -219,7 +219,7 @@ public class ShowTaskInfo extends BaseActivity {
         strarr[0] = detailDatas.getProName() + "-" + detailDatas.getMileageLabel() + "-" + detailDatas.getPointLabel();
 //        }
         new AlertDialog.Builder(this)
-                .setTitle("测量任务列表")
+                .setTitle("测量仪器列表")
                 .setItems(strarr, null)
                 .setNegativeButton("确定", null)
                 .show();

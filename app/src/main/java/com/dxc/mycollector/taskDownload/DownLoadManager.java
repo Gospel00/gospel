@@ -67,7 +67,7 @@ public class DownLoadManager {
         mycontext = context;
         Logger.i(TAG, "DownLoadManager init .");
         init(context);
-        uploadMeasure(null);
+//        uploadMeasure(null);
     }
 
 
@@ -106,7 +106,7 @@ public class DownLoadManager {
                     for (TaskDetails ti : ltd) {
                         //保存数据
                         int result = SqliteUtils.getInstance(mycontext).saveTaskInfo(maps.get(ti), ti);
-                        Logger.i(TAG, "任务保存成功。测量详情：" + maps.get(ti).toString());
+//                        Logger.i(TAG, "任务保存成功。测量详情：" + maps.get(ti).toString());
                     }
                     break;
                 default:
