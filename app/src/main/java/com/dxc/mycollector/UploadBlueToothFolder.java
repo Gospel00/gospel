@@ -30,6 +30,7 @@ public class UploadBlueToothFolder extends BaseActivity {
     private TextView text;//上传按钮
     Context context;
     List<MeasureData> listtasks;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,23 +46,22 @@ public class UploadBlueToothFolder extends BaseActivity {
         //必须加2句
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//??????
         actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP);  //根据字面意思是显示类型为显示自定义
         actionBar.setDisplayShowCustomEnabled(true); //自定义界面是否可显示
-        // 使用setText的方法对textview动态赋值
-        ((TextView) findViewById(R.id.title_name)).setText("数据上传");
+        ((TextView) findViewById(R.id.title_name)).setText("测量数据列表");
 
         //以下代码用于去除阴影
-        if(Build.VERSION.SDK_INT>=21){
+        if (Build.VERSION.SDK_INT >= 21) {
             getSupportActionBar().setElevation(0);
         }
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
-        if(item.getItemId() == android.R.id.home)
-        {
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
@@ -71,11 +71,10 @@ public class UploadBlueToothFolder extends BaseActivity {
     /**
      * the one get date not in database
      */
-    public void queryDBCDate()
-    {
-       listtasks = new ArrayList<>();
+    public void queryDBCDate() {
+        listtasks = new ArrayList<>();
         List<MeasureData> alltask = SqliteUtils.getInstance(this).queryMeasure();
-        for ( MeasureData md : alltask) {
+        for (MeasureData md : alltask) {
             listtasks.add(md);
         }
     }
@@ -113,9 +112,9 @@ public class UploadBlueToothFolder extends BaseActivity {
                 MeasureData taskInfo = listtasks.get(position);
 
 
-                holder.fileName.setText(taskInfo.getCldian()+"-"+taskInfo.getCllicheng()+"-"+taskInfo.getShoulian());
+                holder.fileName.setText(taskInfo.getCldian() + "-" + taskInfo.getCllicheng() + "-" + taskInfo.getShoulian());
                 holder.fileTime.setText(taskInfo.getCltime());
-                Logger.e(TAG,taskInfo.toString());
+                Logger.e(TAG, taskInfo.toString());
                 return convertView;
             }
 

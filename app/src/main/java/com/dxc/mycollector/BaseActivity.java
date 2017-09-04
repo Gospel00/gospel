@@ -35,7 +35,7 @@ import java.util.List;
  * Created by sunyi on 2017/8/25.
  */
 
-public class BaseActivity extends AppCompatActivity{
+public class BaseActivity extends AppCompatActivity {
     String TAG = BaseActivity.class.getSimpleName();
     //    protected String[] planetTitles;
     protected DrawerLayout drawerLayout;
@@ -159,12 +159,15 @@ public class BaseActivity extends AppCompatActivity{
 //                Logger.i(TAG, "click safety examine.");
 //                break;
             case 3:
+                startActivity(new Intent(this, DeviceSettingActivity.class));
                 Logger.i(TAG, "click devices setting.");
                 break;
             case 4:
+                startActivity(new Intent(this, UpdateSystemActivity.class));
                 Logger.i(TAG, "click update system.");
                 break;
             case 5:
+                startActivity(new Intent(this, AboutSystemActivity.class));
                 Logger.i(TAG, "click about system.");
                 break;
             case 6:
@@ -324,21 +327,21 @@ public class BaseActivity extends AppCompatActivity{
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            this.finish();
-            // 创建退出对话框
-            AlertDialog isExit = new AlertDialog.Builder(this).create();
-            // 设置对话框标题
-            isExit.setTitle("系统提示");
-            // 设置对话框消息
-            isExit.setMessage("确定要退出吗");
-            // 添加选择按钮并注册监听
-            isExit.setButton("确定", listener);
-            isExit.setButton2("取消", listener);
-            // 显示对话框
-            isExit.show();
-//            return true;
-        }
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+////            this.finish();
+//            // 创建退出对话框
+//            AlertDialog isExit = new AlertDialog.Builder(this).create();
+//            // 设置对话框标题
+//            isExit.setTitle("系统提示");
+//            // 设置对话框消息
+//            isExit.setMessage("确定要退出吗");
+//            // 添加选择按钮并注册监听
+//            isExit.setButton("确定", listener);
+//            isExit.setButton2("取消", listener);
+//            // 显示对话框
+//            isExit.show();
+////            return true;
+//        }
         return super.onKeyDown(keyCode, event);
     }
 

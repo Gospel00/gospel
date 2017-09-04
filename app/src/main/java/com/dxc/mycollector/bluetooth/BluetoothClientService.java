@@ -83,7 +83,6 @@ public class BluetoothClientService extends Service {
     };
 
 
-
     //蓝牙搜索广播的接收器
     private BroadcastReceiver discoveryReceiver = new BroadcastReceiver() {
 

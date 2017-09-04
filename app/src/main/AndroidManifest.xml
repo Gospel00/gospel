@@ -32,8 +32,19 @@
         <activity android:name=".UserListAcitvity"></activity>
         <activity android:name=".ShowTaskInfo"></activity>
         <activity android:name=".CeLiangActivity"></activity>
+        <activity android:name=".DeviceSettingActivity" />
+        <activity android:name=".AboutSystemActivity" />
+        <activity android:name=".UpdateSystemActivity"></activity>
+        <activity android:name=".UploadBlueToothFolder"></activity>
+        <activity android:name=".BlueToothTestActivity"></activity>
+        <activity
+            android:name=".bluetooth.DeviceListActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/select_device"
+            android:theme="@android:style/Theme.Dialog"></activity>
 
         <service android:name="com.dxc.mycollector.taskDownload.DownLoadService" />
+        <service android:name="com.dxc.mycollector.bluetooth.BluetoothClientService" />
     </application>
 
 </manifest>
