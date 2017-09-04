@@ -126,9 +126,9 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
-            android:background="@mipmap/btn_bg"
             android:text="开始检查"
-            android:textColor="@android:color/white"
+            android:background="@drawable/btn_load_style"
+            android:textColor="@drawable/btn_load_txtcol"
             android:textSize="@dimen/all_btn" />
 
     </RelativeLayout>

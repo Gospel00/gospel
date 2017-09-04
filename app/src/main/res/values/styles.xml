@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/Indigo_colorPrimary</item>
-        <item name="colorPrimaryDark">@color/Indigo_colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/actionbar_bg_color</item>
+        <item name="colorPrimaryDark">@color/actionbar_bg_color</item>
+        <item name="colorAccent">@color/actionbar_bg_color</item>
         <!--Custom
         状态栏颜色
         <item name="colorPrimaryDark1">@color/Indigo_colorPrimaryDark</item>
@@ -13,6 +13,12 @@
         <item name="colorPrimary1">@color/Indigo_colorPrimary</item> -->
         <!--返回键样式-->
         <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
+
+    </style>
+    <!--actionbar size -->
+    <style name="AppTheme.ActionBar" parent="Widget.AppCompat.Light.ActionBar">
+        <item name="android:height">@dimen/actionbar_height</item>
+        <item name="height">@dimen/actionbar_height</item>
     </style>
 
     <style name="AppTheme.DrawerArrowToggle" parent="Base.Widget.AppCompat.DrawerArrowToggle">

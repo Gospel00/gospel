@@ -1,6 +1,14 @@
 package com.dxc.mycollector.utils;
 
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.dxc.mycollector.DLApplication;
+import com.dxc.mycollector.logs.Logger;
+import com.dxc.mycollector.model.TaskDetails;
+import com.dxc.mycollector.model.TaskDetails1;
+import com.google.gson.Gson;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -14,8 +22,11 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -23,11 +34,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.dxc.mycollector.DLApplication.userName;
+
 
 /**
  * Created by sunyi on 2017/8/28.
  */
 public class HttpUtils {
+    static String TAG = HttpUtils.class.getSimpleName();
+    public static String encoding = "UTF-8";
+
     /**
      * 访问数据库并返回JSON数据字符串
      *
@@ -141,6 +157,75 @@ public class HttpUtils {
             }
         }
         return list;
+    }
+
+    /**
+     * 上传数据到平台
+     *
+     * @param path
+     * @return
+     * @throws Exception
+     */
+    public static String postJSONObjectString(String path, TaskDetails taskd)
+            throws Exception {
+        String result = null;
+        Map<String, String> map = null;
+        URL url = null;
+        try {
+            url = new URL(path);
+            /*封装子对象*/
+//            JSONObject ClientKey = new JSONObject();
+//            ClientKey.put("taskId", "100098");
+//            ClientKey.put("doTime", "2017-09-02");
+//            ClientKey.put("userId", "admin");
+//            ClientKey.put("mileageLabel", "K-10098");
+//            ClientKey.put("mileageId", "K-10098");
+//            ClientKey.put("pointLabel", "K-10098-0-1");
+//            ClientKey.put("pointId", "K-10098-0-1");
+//            ClientKey.put("taskId", DLApplication.userName);
+//            ClientKey.put("doTime", taskd.getDateTime());
+//            ClientKey.put("userId", DLApplication.userName);
+//            ClientKey.put("mileageLabel", taskd.getMileageLabel());
+//            ClientKey.put("mileageId", taskd.getMileageId());
+//            ClientKey.put("pointLabel", taskd.getPointLabel());
+//            ClientKey.put("pointId", taskd.getPointId());
+//            if (taskd == null) {
+//                taskd.setMileageLabel("K-10098");
+//            }
+            TaskDetails1 t1 = new TaskDetails1();
+            t1.setMileageLabel("K-10098");
+            /*封装Person数组*/
+
+//            JSONObject params = new JSONObject();
+//            params.put("data", ClientKey);
+            /*把JSON数据转换成String类型使用输出流向服务器写*/
+            Gson gson = new Gson();
+            String content = gson.toJson(t1);//String.valueOf(gson.toJson(taskd));
+            Logger.i(TAG, "post jsondata：" + content);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setDoOutput(true);//设置允许输出
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("User-Agent", "Fiddler");
+            conn.setRequestProperty("Content-Type", "application/json");
+//            conn.setRequestProperty("Accept", "application/json");
+            conn.setRequestProperty("Charset", encoding);
+            OutputStream os = conn.getOutputStream();
+            os.write(content.getBytes());
+            os.close();
+            /*服务器返回的响应码*/
+            int code = conn.getResponseCode();
+            if (code == 200) {
+                InputStream is = conn.getInputStream(); // 获取输入流
+                byte[] data = readStream(is); // 把输入流转换成字符串组
+                result = new String(data); // 把字符串组转换成字符串
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Logger.e(TAG, "测量上传接口调用异常：" + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return result;
     }
 
     private static byte[] readStream(InputStream inputStream) throws Exception {

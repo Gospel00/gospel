@@ -73,9 +73,9 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
-        android:background="@mipmap/btn_bg"
         android:text="登录"
-        android:textColor="@android:color/white"
+        android:background="@drawable/btn_load_style"
+        android:textColor="@drawable/btn_load_txtcol"
         android:textSize="@dimen/all_btn" />
 
     <android.support.v7.widget.AppCompatButton
@@ -83,9 +83,9 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/buttonstyle"
+        android:background="@drawable/btn_regist_style"
         android:text="注册"
-        android:textColor="@color/registerTextColor"
+        android:textColor="@drawable/btn_regist_txtcol"
         android:textSize="@dimen/all_btn" />
 
     <TextView
