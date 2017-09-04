@@ -10,6 +10,7 @@
     <!-- 个人主页文本框 -->
     <dimen name="personal_text_view">16dp</dimen>
     <dimen name="personal_text_view1">18dp</dimen>
+    <dimen name="personal_text_view2">14dp</dimen>
     <!-- 所有按钮 -->
     <dimen name="all_title">18dp</dimen>
     <!-- 首页TextView -->
