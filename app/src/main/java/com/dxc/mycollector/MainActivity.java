@@ -55,9 +55,7 @@ public class MainActivity extends Activity implements
         button = (Button) findViewById(R.id.login);
         registerBtn = (Button) findViewById(R.id.register);
         username = (EditText) findViewById(R.id.username);
-        username.setText("gospel");
         lgpwd = (EditText) findViewById(R.id.lgpwd);
-        lgpwd.setText("gospel5200");
         Drawable username_drawable = getResources().getDrawable(R.drawable.login);
         Drawable password_drawable = getResources().getDrawable(R.drawable.lock);
         //四个参数分别是设置图片的左、上、右、下的尺寸
@@ -84,7 +82,7 @@ public class MainActivity extends Activity implements
                         DLApplication.userName = username.getText().toString();
 
                         Logger.i(TAG, DLApplication.userName + " login success.");
-                        context.startService(new Intent(context, DownLoadService.class));
+//                        context.startService(new Intent(context, DownLoadService.class));
                         finish();
                     } else if (isTure == 0) {
                         Toast.makeText(MainActivity.this, "用户不存在", Toast.LENGTH_SHORT).show();
@@ -144,8 +142,6 @@ public class MainActivity extends Activity implements
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.BLUETOOTH,
-            Manifest.permission.BLUETOOTH_ADMIN,
             Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS
     };
 

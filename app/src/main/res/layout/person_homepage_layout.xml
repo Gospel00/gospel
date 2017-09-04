@@ -64,7 +64,7 @@
                 android:padding="2dp"
                 android:text="测量"
                 android:textColor="#4e5f71"
-                android:textSize="@dimen/personal_text_view" />
+                android:textSize="@dimen/personal_text_view2" />
         </LinearLayout>
 
     <LinearLayout
@@ -89,7 +89,7 @@
             android:padding="2dp"
             android:text="数据管理"
             android:textColor="#4e5f71"
-            android:textSize="@dimen/personal_text_view" />
+            android:textSize="@dimen/personal_text_view2" />
     </LinearLayout>
 
     <LinearLayout
@@ -114,7 +114,7 @@
             android:padding="2dp"
             android:text="任务管理"
             android:textColor="#4e5f71"
-            android:textSize="@dimen/personal_text_view" />
+            android:textSize="@dimen/personal_text_view2" />
     </LinearLayout>
 
     <LinearLayout
@@ -139,7 +139,7 @@
             android:padding="2dp"
             android:text="安全检查"
             android:textColor="#4e5f71"
-            android:textSize="@dimen/personal_text_view" />
+            android:textSize="@dimen/personal_text_view2" />
     </LinearLayout>
 </LinearLayout>
 
@@ -174,7 +174,7 @@
                 android:gravity="center"
                 android:text="添加"
                 android:textColor="#4e5f71"
-                android:textSize="@dimen/personal_text_view" />
+                android:textSize="@dimen/personal_text_view2" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="85dp"

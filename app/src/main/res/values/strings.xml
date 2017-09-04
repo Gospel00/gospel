@@ -4,6 +4,13 @@
     <string name="open">open</string>
     <string name="close">close</string>
 
+    <string name="select_device">select a device to connect</string>
+    <string name="title_paired_devices">Paired Devices</string>
+    <string name="title_other_devices">Other Available Devices</string>
+    <string name="button_scan">Scan for devices</string>
+    <string name="none_found">No devices found</string>
+
+
     <string-array name="planets_array">
         <item>个人信息</item>
         <item>任务管理</item>

@@ -122,11 +122,11 @@ public class DownLoadManager {
                 try {
                     while (i > 0 && i < 10) {
                         resultJson = HttpUtils.getJSONObjectString(pKey, pUrl);// HttpUtils.doPost(null, textView.getText().toString());
-                        if (resultJson == null || (resultJson.indexOf("FAIL") > -1)) {
+                        if (resultJson == null || "[]".equals(resultJson) || (resultJson.indexOf("FAIL") > -1)) {
                             //上传FAIL,重新请求，10次后不在
                             Logger.i(TAG, "平台任务接口返回失败，resultJson:" + resultJson);
                             Logger.i(TAG, i + " 次请求...");
-                            handler.sendEmptyMessage(0);
+//                            handler.sendEmptyMessage(0);
                             //每2秒从平台下载一次任务
                             sleep(2000);
                             i++;
@@ -169,7 +169,7 @@ public class DownLoadManager {
                             //下载任务接口返回FAIL,重新请求，3次后不在
                             Logger.i(TAG, "平台测量数据上传接口请求失败，resultJsonupload:" + resultJsonupload);
                             Logger.i(TAG, ui + " 次上传请求...");
-                            uhandler.sendEmptyMessage(0);
+//                            uhandler.sendEmptyMessage(0);
                             //每2秒从平台下载一次任务
                             sleep(2000);
                             ui++;

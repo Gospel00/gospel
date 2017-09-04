@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ copyright (c)2018-8-15
+  ~ DXC technology
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+
+    tools:context="com.dxc.mycollector.PersonAcitvity">
+
+
+    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="btnSearch" />
+
+    <Button
+        android:id="@+id/btnExit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="btnExit" />
+
+    <Button
+        android:id="@+id/btnDis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="btnDis" />
+
+    <ToggleButton
+        android:id="@+id/tbtnSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ToggleButton" />
+
+    <ListView
+        android:id="@+id/lvDevices"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:drawSelectorOnTop="true" />
+</LinearLayout>
