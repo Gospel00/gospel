@@ -1,19 +1,19 @@
 package com.dxc.mycollector;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import com.wjk.tableview.TableView;
 import com.wjk.tableview.common.TableCellData;
 import com.wjk.tableview.common.TableHeaderColumnModel;
 import com.wjk.tableview.toolkits.SimpleTableDataAdapter;
 import com.wjk.tableview.toolkits.SimpleTableHeaderAdapter;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AddExamineTableActivity extends AppCompatActivity {
     private TableView tableView;
