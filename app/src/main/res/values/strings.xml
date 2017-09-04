@@ -15,11 +15,12 @@
         <item>个人信息</item>
         <item>任务管理</item>
         <item>数据管理</item>
-        <item>安全管理</item>
+        <!--<item>安全管理</item>-->
         <item>仪器设置</item>
         <item>系统升级</item>
         <item>关于系统</item>
         <item>用户管理</item>
+
     </string-array>
     <string-array name="planets_icon">
         <item>@mipmap/pserson</item>

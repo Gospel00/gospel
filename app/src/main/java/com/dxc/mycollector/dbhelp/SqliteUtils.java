@@ -151,6 +151,33 @@ public class SqliteUtils {
             return 0;
         }
     }
+    /**
+     * 将Measure存储到数据库。
+     */
+    public  List<MeasureData> queryMeasure() {
+        List<MeasureData> list = new ArrayList<MeasureData>();
+        try {
+            Cursor cursor = db.rawQuery("select * from tbl_measure where status =?", new String[]{"1"});
+            if (cursor.moveToFirst()) {
+                do {
+                    MeasureData downLoadData = new MeasureData();
+                    downLoadData.setCllicheng(cursor.getString(cursor.getColumnIndex("cllicheng")));
+                    downLoadData.setCldian(cursor.getString(cursor.getColumnIndex("cldian")));
+                    downLoadData.setClren(cursor.getString(cursor.getColumnIndex("clren")));
+                    downLoadData.setCltime(cursor.getString(cursor.getColumnIndex("cltime")));
+                    downLoadData.setGaocheng(cursor.getString(cursor.getColumnIndex("gaocheng")));
+                    downLoadData.setShoulian(cursor.getString(cursor.getColumnIndex("shoulian")));
+                    downLoadData.setDataType(cursor.getString(cursor.getColumnIndex("datatype")));
+                    downLoadData.setSources(cursor.getString(cursor.getColumnIndex("sources")));
+                    list.add(downLoadData);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d("保存测量信息异常：", e.getMessage().toString());
+            return null;
+        }
+        return list;
+    }
 
     /**
      * 将DownloadTask存储到数据库。

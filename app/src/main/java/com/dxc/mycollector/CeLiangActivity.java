@@ -5,50 +5,34 @@
 
 package com.dxc.mycollector;
 
-import android.annotation.SuppressLint;
+import android.Manifest;
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.nfc.Tag;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
-import com.dxc.mycollector.bluetooth.BluetoothClientService;
-import com.dxc.mycollector.bluetooth.BluetoothManager;
-import com.dxc.mycollector.bluetooth.BluetoothTools;
-import com.dxc.mycollector.bluetooth.DeviceListActivity;
 import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.MeasureData;
 import com.dxc.mycollector.model.TaskDetails;
+import com.dxc.mycollector.model.TaskInfo;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-/**
- * @desc 显示测量详细信息
- * Created by Gospel on 2017/9/4 14:47
- * DXC technology
- */
 public class CeLiangActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
-
     String TAG = CeLiangActivity.class.getSimpleName();
-
     private TextView etcllc;//测量里程
     private TextView etcld;//测量点
     private TextView etclr;//测量人
@@ -57,88 +41,11 @@ public class CeLiangActivity extends AppCompatActivity implements ActivityCompat
     private TextView etsl;//收敛
     private Button button;//获取蓝牙数据
 
-    //该UUID表示串口服务
-    //请参考文章<a href="http://wiley.iteye.com/blog/1179417">http://wiley.iteye.com/blog/1179417</a>
-    static final String SPP_UUID = "00001101-0000-1000-8000-00805F9B34FB";
-    Button btnSearch, btnDis, btnExit;
-    ToggleButton tbtnSwitch;
-    ListView lvBTDevices;
-    ArrayAdapter<String> adtDevices;
-    List<String> lstDevices = new ArrayList<String>();
-    BluetoothAdapter btAdapt;
-    public static BluetoothSocket btSocket;
-
-
-    /**
-     * 自定义的打开 Bluetooth 的请求码，与 onActivityResult 中返回的 requestCode 匹配。
-     */
-    private static final int REQUEST_CODE_BLUETOOTH_ON = 1313;
-
-    /**
-     * Bluetooth 设备可见时间，单位：秒。
-     */
-    private static final int BLUETOOTH_DISCOVERABLE_DURATION = 250;
-    private static final int REQUEST_CONNECT_DEVICE = 1;
-    private StringBuffer mOutStringBuffer;
-    private BluetoothDevice device;
-    public static String message;
-
-    //广播接收器
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-
-        @SuppressLint("NewApi")
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (BluetoothTools.ACTION_CONNECT_SUCCESS.equals(action)) {
-                String macbluetooth = intent.getStringExtra(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
-                //连接成功
-                //serversText.setText("连接成功");
-                Toast.makeText(context, "连接成功:" + macbluetooth, Toast.LENGTH_SHORT).show();
-                Logger.i(TAG, "MAC:" + macbluetooth + " 连接成功.");
-            } else if (BluetoothTools.ACTION_DATA_TO_GAME.equals(action)) {
-//				//接收数据
-//				String msg =message;
-//	               try{
-//	                 number=Integer.parseInt(msg);
-//	                 msg = device.getName()+": "+msg + "毫升\r\n";
-//	               }
-//	               catch(Exception ex){
-//	            	   number=0;
-//	            	   msg = device.getName()+": "+msg+"\r\n";}
-//				count +=number;
-//				chatEditText.append(msg);
-//			    sum.setText("用水量总和： "+count+"毫升");
-            }
-        }
-    };
-
-    @Override
-    protected void onStart() {
-        //清空设备列表
-
-        //开启后台service
-        Intent startService = new Intent(CeLiangActivity.this, BluetoothClientService.class);
-        startService(startService);
-
-        //注册BoradcasrReceiver
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BluetoothTools.ACTION_DATA_TO_GAME);
-        intentFilter.addAction(BluetoothTools.ACTION_CONNECT_SUCCESS);
-        registerReceiver(broadcastReceiver, intentFilter);
-        Logger.i(TAG, "接收数据和连接成功广播 register success.");
-        super.onStart();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ce_liang_detail);
-
-//        checkPermissions(needPermissions);
-
-        mOutStringBuffer = new StringBuffer("");
-
+        checkPermissions(needPermissions);
         button = (Button) findViewById(R.id.getbluedata);
 
         etcllc = (TextView) findViewById(R.id.cllc);
@@ -186,145 +93,10 @@ public class CeLiangActivity extends AppCompatActivity implements ActivityCompat
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((BluetoothManager.isBluetoothSupported())
-                        && (!BluetoothManager.isBluetoothEnabled())) {
-                    turnOnBluetooth();
-                } else {
-                    //开始搜索
-                    Intent serverIntent = new Intent(CeLiangActivity.this, DeviceListActivity.class);
-                    startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-                }
+                selectItem();
             }
         });
 
-        // 注册Receiver来获取蓝牙设备相关的结果
-        IntentFilter intent1 = new IntentFilter();
-        intent1.addAction(BluetoothDevice.ACTION_FOUND);// 用BroadcastReceiver来取得搜索结果
-        intent1.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-        intent1.addAction(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
-        intent1.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
-        registerReceiver(searchDevices, intent1);
-    }
-
-    /**
-     * 弹出系统弹框提示用户打开 Bluetooth
-     */
-    public void turnOnBluetooth() {
-        // 请求打开 Bluetooth
-        Intent requestBluetoothOn = new Intent(
-                BluetoothAdapter.ACTION_REQUEST_ENABLE);
-
-        // 设置 Bluetooth 设备可以被其它 Bluetooth 设备扫描到
-        requestBluetoothOn
-                .setAction(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-
-        // 设置 Bluetooth 设备可见时间
-        requestBluetoothOn.putExtra(
-                BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,
-                BLUETOOTH_DISCOVERABLE_DURATION);
-
-        // 请求开启 Bluetooth
-        this.startActivityForResult(requestBluetoothOn,
-                REQUEST_CODE_BLUETOOTH_ON);
-    }
-
-    @Override
-    protected void onStop() {
-        //关闭后台Service
-        Intent startService = new Intent(BluetoothTools.ACTION_STOP_SERVICE);
-        sendBroadcast(startService);
-
-        unregisterReceiver(broadcastReceiver);
-        super.onStop();
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // requestCode 与请求开启 Bluetooth 传入的 requestCode 相对应
-        switch (requestCode) {
-            case REQUEST_CONNECT_DEVICE:
-                // When DeviceListActivity returns with a device to connect
-                if (resultCode == Activity.RESULT_OK) {
-                    // Get the device MAC address
-//                    String address = data.getExtras()
-//                            .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
-//                    //显示在按钮上
-//                    button.setText(button.getText() + ":" + address);
-//                    // Get the BLuetoothDevice object
-//                    device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address);
-//                    Intent selectDeviceIntent = new Intent(BluetoothTools.ACTION_SELECTED_DEVICE);//选择动作
-//                    selectDeviceIntent.putExtra(BluetoothTools.DEVICE, device);
-//                    sendBroadcast(selectDeviceIntent);
-                }
-                break;
-            case REQUEST_CODE_BLUETOOTH_ON:
-                // When DeviceListActivity returns with a device to connect
-                if (resultCode == BLUETOOTH_DISCOVERABLE_DURATION) {
-                    ///开始搜索
-                    Intent serverIntent = new Intent(CeLiangActivity.this, DeviceListActivity.class);
-                    startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-                } else {
-                    Toast.makeText(this, "用户拒绝开启蓝牙", Toast.LENGTH_SHORT).show();
-                    Logger.i(TAG, "用户拒绝开启蓝牙");
-                }
-
-                break;
-        }
-    }
-
-    private BroadcastReceiver searchDevices = new BroadcastReceiver() {
-
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            Bundle b = intent.getExtras();
-            Object[] lstName = b.keySet().toArray();
-
-            // 显示所有收到的消息及其细节
-            for (int i = 0; i < lstName.length; i++) {
-                String keyName = lstName[i].toString();
-                Logger.e(keyName, String.valueOf(b.get(keyName)));
-            }
-            BluetoothDevice device = null;
-            // 搜索设备时，取得设备的MAC地址
-            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                device = intent
-                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                if (device.getBondState() == BluetoothDevice.BOND_NONE) {
-                    String str = "未配对|" + device.getName() + "|"
-                            + device.getAddress();
-                    if (lstDevices.indexOf(str) == -1)// 防止重复添加
-                        lstDevices.add(str); // 获取设备名称和mac地址
-//                    adtDevices.notifyDataSetChanged();
-                }
-            } else if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action)) {
-                device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                switch (device.getBondState()) {
-                    case BluetoothDevice.BOND_BONDING:
-                        Logger.i(TAG, "正在配对......");
-                        break;
-                    case BluetoothDevice.BOND_BONDED:
-                        Logger.i(TAG, "完成配对");
-                        connect(device);//连接设备
-                        break;
-                    case BluetoothDevice.BOND_NONE:
-                        Logger.i(TAG, "取消配对");
-                    default:
-                        break;
-                }
-            }
-
-        }
-    };
-
-    private void connect(BluetoothDevice btDev) {
-        UUID uuid = UUID.fromString(SPP_UUID);
-        try {
-            btSocket = btDev.createRfcommSocketToServiceRecord(uuid);
-            Logger.i(TAG, "开始连接...");
-            btSocket.connect();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -340,5 +112,137 @@ public class CeLiangActivity extends AppCompatActivity implements ActivityCompat
                 .setItems(strarr, null)
                 .setNegativeButton("确定", null)
                 .show();
+    }
+
+    /**
+     * 需要进行检测的权限数组
+     */
+    protected String[] needPermissions = {
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN
+    };
+
+    private static final int PERMISSON_REQUESTCODE = 0;
+
+    /**
+     * 判断是否需要检测，防止不停的弹框
+     */
+    private boolean isNeedCheck = true;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isNeedCheck) {
+            checkPermissions(needPermissions);
+        }
+    }
+
+    /**
+     * requestPermissions方法是请求某一权限，
+     */
+    private void checkPermissions(String... permissions) {
+        List<String> needRequestPermissonList = findDeniedPermissions(permissions);
+        if (null != needRequestPermissonList
+                && needRequestPermissonList.size() > 0) {
+            ActivityCompat.requestPermissions(this,
+                    needRequestPermissonList.toArray(
+                            new String[needRequestPermissonList.size()]),
+                    PERMISSON_REQUESTCODE);
+        }
+    }
+
+    /**
+     * 获取权限集中需要申请权限的列表
+     *
+     * @param permissions
+     * @return checkSelfPermission方法是在用来判断是否app已经获取到某一个权限
+     * shouldShowRequestPermissionRationale方法用来判断是否
+     * 显示申请权限对话框，如果同意了或者不在询问则返回false
+     */
+    private List<String> findDeniedPermissions(String[] permissions) {
+        List<String> needRequestPermissonList = new ArrayList<String>();
+        for (String perm : permissions) {
+            if (ContextCompat.checkSelfPermission(this,
+                    perm) != PackageManager.PERMISSION_GRANTED) {
+                needRequestPermissonList.add(perm);
+            } else {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(
+                        this, perm)) {
+                    needRequestPermissonList.add(perm);
+                }
+            }
+        }
+        return needRequestPermissonList;
+    }
+
+    /**
+     * 检测是否所有的权限都已经授权
+     *
+     * @param grantResults
+     * @return
+     */
+    private boolean verifyPermissions(int[] grantResults) {
+        for (int result : grantResults) {
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            } else {
+                Logger.i(TAG, " PERMISSION request success.");
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 申请权限结果的回调方法
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] paramArrayOfInt) {
+        if (requestCode == PERMISSON_REQUESTCODE) {
+            if (!verifyPermissions(paramArrayOfInt)) {
+                //showMissingPermissionDialog();
+                isNeedCheck = false;
+            }
+        }
+    }
+
+    /**
+     * 显示提示信息
+     */
+    private void showMissingPermissionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示");
+        builder.setMessage("当前应用缺少必要权限。请点击\"设置\"-\"权限\"-打开所需权限。");
+
+        // 拒绝, 退出应用
+        builder.setNegativeButton("取消",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+
+        builder.setPositiveButton("设置",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startAppSettings();
+                    }
+                });
+
+        builder.setCancelable(false);
+
+        builder.show();
+    }
+
+    /**
+     * 启动应用的设置
+     */
+    private void startAppSettings() {
+        Intent intent = new Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        startActivity(intent);
     }
 }
