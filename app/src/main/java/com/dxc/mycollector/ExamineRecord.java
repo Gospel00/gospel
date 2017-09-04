@@ -1,11 +1,13 @@
 package com.dxc.mycollector;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dxc.mycollector.logs.Logger;
@@ -29,6 +31,16 @@ public class ExamineRecord extends BaseActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.add_examine_record_main_layout);
         setSpinner();
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.actionbar);
+
+        //必须加2句
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);  //根据字面意思是显示类型为显示自定义
+        actionBar.setDisplayShowCustomEnabled(true); //自定义界面是否可显示
+
+        //使用setText的方法对textview动态赋值
+        ((TextView) findViewById(R.id.title_name)).setText("安全管理");
     }
 
     /**

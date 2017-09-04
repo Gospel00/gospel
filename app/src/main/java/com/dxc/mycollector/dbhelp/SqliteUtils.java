@@ -138,6 +138,10 @@ public class SqliteUtils {
                             new String[]{measure.getCllicheng(), measure.getCldian(), measure.getClren(), measure.getCltime(), measure.getGaocheng(), measure.getShoulian(), measure.getStatus(), measure.getDataType(), measure.getSources()});
                     return 1;
                 }
+                if(cursor.getCount() >0)
+                {
+                    return 1;
+                }
                 return 0;
             } catch (Exception e) {
                 Log.d("保存测量信息异常：", e.getMessage().toString());

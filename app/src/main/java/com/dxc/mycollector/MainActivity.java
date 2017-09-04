@@ -57,8 +57,9 @@ public class MainActivity extends Activity {
                     if (isTure == 1) {
                         Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_LONG).show();
                         startActivity(new Intent(context, PersonAcitvity.class));
-                        DLApplication myapp = (DLApplication) getApplicationContext();
-                        myapp.setUserName(username.getText().toString());
+//                        DLApplication myapp = (DLApplication) getApplicationContext();
+//                        myapp.setUserName(username.getText().toString());
+                        DLApplication.userName = username.getText().toString();
                         Logger.i(TAG, username.getText().toString() + " login success.");
                     } else if (isTure == 0) {
                         Toast.makeText(MainActivity.this, "用户不存在", Toast.LENGTH_SHORT).show();

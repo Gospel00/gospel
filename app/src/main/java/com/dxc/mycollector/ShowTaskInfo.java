@@ -5,6 +5,7 @@
 
 package com.dxc.mycollector;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -50,30 +51,20 @@ public class ShowTaskInfo extends BaseActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.task_download_main_layout);
         context = this;
-        taskAdd = (Button) this.findViewById(R.id.add_task);
-        listview = (ListView) this.findViewById(R.id.task_listView);
-//        textView = (TextView) this.findViewById(R.id.center111);
-        //新增安全检查记录
-        taskAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                startActivity(new Intent(getApplicationContext(), AddExamineRecord.class));
-
-//                Toast.makeText(context, "insert.......", Toast.LENGTH_LONG);
-//                TaskInfo taskInfo = new TaskInfo();
-//                taskInfo.setTaskType("T0101");
-//                taskInfo.setMeasureType("T0201");
-//                int result = SqliteUtils.getInstance(context).saveTaskInfo(taskInfo);
-//                if (result == 1) {
-//                    Logger.i(TAG, "insert taskinfo success");
-//                }
-//                startActivity(new Intent(context, CeLiangActivity.class));
-            }
-        });
         //获取已经下载的任务信息
         getAllTasks();
         //初始化ListView
         initDrawerList();
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.actionbar);
+
+        //必须加2句
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);  //根据字面意思是显示类型为显示自定义
+        actionBar.setDisplayShowCustomEnabled(true); //自定义界面是否可显示
+
+        //使用setText的方法对textview动态赋值
+        ((TextView) findViewById(R.id.title_name)).setText("我的任务列表");
     }
 
     private void getAllTasks() {
@@ -85,7 +76,7 @@ public class ShowTaskInfo extends BaseActivity {
     }
 
     private void initDrawerList() {
-
+        listview = (ListView) this.findViewById(R.id.task_listView);
         BaseAdapter adapter = new BaseAdapter() {
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
@@ -208,7 +199,7 @@ public class ShowTaskInfo extends BaseActivity {
         strarr[0] = detailDatas.getProName() + "-" + detailDatas.getMileageLabel() + "-" + detailDatas.getPointLabel();
 //        }
         new AlertDialog.Builder(this)
-                .setTitle("测量任务列表")
+                .setTitle("测量仪器列表")
                 .setItems(strarr, null)
                 .setNegativeButton("确定", null)
                 .show();

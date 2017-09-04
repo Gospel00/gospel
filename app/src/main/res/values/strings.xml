@@ -12,6 +12,7 @@
         <item>仪器设置</item>
         <item>系统升级</item>
         <item>关于系统</item>
+        <item>用户管理</item>
     </string-array>
     <string-array name="planets_icon">
         <item>@mipmap/pserson</item>

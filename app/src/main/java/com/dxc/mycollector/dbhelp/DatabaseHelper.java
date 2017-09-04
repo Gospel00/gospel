@@ -3,9 +3,13 @@ package com.dxc.mycollector.dbhelp;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
+import android.util.Log;
 
 import com.dxc.mycollector.ExamineRecord;
 import com.dxc.mycollector.logs.Logger;
+
+import java.io.File;
 
 /**
  * Created by gospel on 2017/8/18.
@@ -26,8 +30,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory,
                           int version) {
-        super(context, name, factory, version);
+//        DatabaseContext dbContext = new DatabaseContext(context);
+        super(context, getMyDatabaseName(name), factory, version);
         Logger.i(TAG, "DatabaseHelper init success.");
+    }
+
+    private static String getMyDatabaseName(String name) {
+        String databasename = name;
+        boolean isSdcardEnable = false;
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {//SDCard是否插入
+            isSdcardEnable = true;
+        }
+        String dbPath = null;
+        if (isSdcardEnable) {
+            dbPath = Environment.getExternalStorageDirectory().getPath() + "/Tunnel/database/";
+        } else {//未插入SDCard，建在内存中
+            Logger.i(TAG, "没有内存卡，数据库无法创建");
+        }
+        File dbp = new File(dbPath);
+        if (!dbp.exists()) {
+            dbp.mkdirs();
+            Logger.i(TAG, "创建数据库存放目录：" + dbPath);
+        }
+        databasename = dbPath + databasename;
+        return databasename;
     }
 
     public static final String TABLE_NAME1 = "tbl_users"; //用户信息

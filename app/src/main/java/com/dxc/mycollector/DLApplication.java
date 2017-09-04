@@ -27,11 +27,11 @@ public class DLApplication extends Application {
         Logger.i(TAG, "Appliction init. ");
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+//    public String getUserName() {
+//        return userName;
+//    }
+//
+//    public void setUserName(String userName) {
+//        this.userName = userName;
+//    }
 }
