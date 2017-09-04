@@ -5,9 +5,11 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -17,7 +19,6 @@ import android.widget.TextView;
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.MeasureData;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,6 +58,7 @@ public class BlueToothFolder extends BaseActivity {
     String createTime = "";
     String hightProcess = "";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,16 +69,32 @@ public class BlueToothFolder extends BaseActivity {
         String aa = searchFile("");
         initDrawerList();
 
-
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar);
         //必须加2句
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP);  //根据字面意思是显示类型为显示自定义
         actionBar.setDisplayShowCustomEnabled(true); //自定义界面是否可显示
-        //使用setText的方法对textview动态赋值
+       // 使用setText的方法对textview动态赋值
         ((TextView) findViewById(R.id.title_name)).setText("数据管理");
+
+       //以下代码用于去除阴影
+        if(Build.VERSION.SDK_INT>=21){
+            getSupportActionBar().setElevation(0);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // TODO Auto-generated method stub
+        if(item.getItemId() == android.R.id.home)
+        {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initDrawerList() {
@@ -139,18 +157,25 @@ public class BlueToothFolder extends BaseActivity {
         String result = "";
         File[] files = new File(path + "/bluetooth/").listFiles();
         listf = new ArrayList<>();
-        for (File file : files) {
+        if(files !=null) {
+            for (File file : files) {
 //            if (file.getName().indexOf(keyword) >= 0) {
-            String fn = file.getName();
-            listf.add(fn);
-            result += fn + "\n";// + "(" + file.getPath() + ")\n";
-            pathFile = file.getPath();
+                String fn = file.getName();
+                listf.add(fn);
+                result += fn + "\n";// + "(" + file.getPath() + ")\n";
+                pathFile = file.getPath();
 //            }
-        }
-        if (result.equals("")) {
+            }
+//            if (result.equals("")) {
+//                result = "找不到文件!!";
+//            }
+            return result;
+        }else
+        {
             result = "找不到文件!!";
+            return result;
         }
-        return result;
+
     }
 
     /**
@@ -241,7 +266,7 @@ public class BlueToothFolder extends BaseActivity {
         b.show();
     }
 
-    public String[] getArrayBcak() {
+    private String[] getArrayBcak() {
         String[] a = new String[5];
         a[0] = personInfos;
         a[1] = "用户：" + "";//zrw  有问题
@@ -251,7 +276,7 @@ public class BlueToothFolder extends BaseActivity {
         return a;
     }
 
-    public void sendToObject() {
+    private void sendToObject() {
         MeasureData measureData = new MeasureData();
         measureData.setSources(personInfos);
         measureData.setGaocheng(hightProcess);
@@ -275,7 +300,7 @@ public class BlueToothFolder extends BaseActivity {
 
     }
 
-    public String dateChange() {
+    private String dateChange() {
         String[] ct = createTime.split(" ");
         String date = "";
         switch (ct[1]) {

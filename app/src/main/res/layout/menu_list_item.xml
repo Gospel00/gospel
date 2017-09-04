@@ -92,5 +92,7 @@
             android:background="@color/huise"
             android:paddingLeft="1080dp"
             android:singleLine="true" />
+
     </LinearLayout>
+
 </RelativeLayout>
