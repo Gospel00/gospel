@@ -24,7 +24,7 @@ public class WriteThread extends Thread {
 
     public boolean isWriteThreadLive = false;// 写日志线程是否已经在运行
 
-    private static final String LOG_DIR = "/mnt/sdcard/mytunner/";
+    private static final String LOG_DIR = "/mnt/sdcard/Tunnel/log/";
     private static final String LOG_SERVICE_LOG_PATH = LOG_DIR + "tunnerRecord.txt";
 
     public ConcurrentLinkedQueue<Object> linkedQueue = new ConcurrentLinkedQueue<Object>();
