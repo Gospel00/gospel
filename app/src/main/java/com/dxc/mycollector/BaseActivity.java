@@ -35,7 +35,7 @@ import java.util.List;
  * Created by sunyi on 2017/8/25.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity{
     String TAG = BaseActivity.class.getSimpleName();
     //    protected String[] planetTitles;
     protected DrawerLayout drawerLayout;
@@ -43,20 +43,12 @@ public class BaseActivity extends AppCompatActivity {
     protected FrameLayout frameLayout;
     protected String[] planetTitles = null;//{"个人信息", "任务管理", "数据管理", "安全管理", "仪器设置", "系统升级", "关于系统"};
     protected int[] imagesId = {R.drawable.assignment, R.drawable.down,
-            R.drawable.data, R.drawable.safe, R.drawable.measure, R.drawable.update, R.drawable.system, R.drawable.safe};
+            R.drawable.data, R.drawable.measure, R.drawable.update, R.drawable.system, R.drawable.safe};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
-//    @Override
-//    public void finish() {
-//        super.finish();
-//        if (isTaskRoot()) {
-//            Toast.makeText(this, "已经退出程序", Toast.LENGTH_LONG).show();
-//        }
-//    }
 
     /**
      * 重写setContentView，以便于在保留侧滑菜单的同时，让子Activity根据需要加载不同的界面布局
@@ -100,10 +92,10 @@ public class BaseActivity extends AppCompatActivity {
                     layout.invalidate();
                 }
 //                DLApplication myapp = (DLApplication) getApplicationContext();
-//                Logger.i(TAG, "application user:" + DLApplication.userName);
-//                Logger.i(TAG, "application admin:" + DLApplication.amdin);
+                Logger.i(TAG, "application user:" + DLApplication.userName);
+                Logger.i(TAG, "application admin:" + DLApplication.amdin);
                 //admin
-                if (DLApplication.userName != null && !DLApplication.userName.equals(DLApplication.amdin)) {
+                if (!DLApplication.userName.equals(DLApplication.amdin)) {
                     if (position != 7) {
                         face.setImageResource(imagesId[position]);
                         name.setText(planetTitles[position]);
@@ -161,20 +153,20 @@ public class BaseActivity extends AppCompatActivity {
                 startActivity(new Intent(this, BlueToothFolder.class));
                 Logger.i(TAG, "click bluetooth folder  search.");
                 break;
+//            case 3:
+//                startActivity(new Intent(this, ShowExamineRecord.class));
+//                Logger.i(TAG, "click safety examine.");
+//                break;
             case 3:
-                startActivity(new Intent(this, ShowExamineRecord.class));
-                Logger.i(TAG, "click safety examine.");
-                break;
-            case 4:
                 Logger.i(TAG, "click devices setting.");
                 break;
-            case 5:
+            case 4:
                 Logger.i(TAG, "click update system.");
                 break;
-            case 6:
+            case 5:
                 Logger.i(TAG, "click about system.");
                 break;
-            case 7:
+            case 6:
                 startActivity(new Intent(this, UserListAcitvity.class));
                 Logger.i(TAG, "click user list.This operation belongs to the administrator.");
                 break;
@@ -192,21 +184,158 @@ public class BaseActivity extends AppCompatActivity {
                 .show();
     }
 
+    /**
+     * 需要进行检测的权限数组
+     */
+    protected String[] needPermissions = {
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN
+    };
+
+    private static final int PERMISSON_REQUESTCODE = 0;
+
+    /**
+     * 判断是否需要检测，防止不停的弹框
+     */
+    private boolean isNeedCheck = true;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isNeedCheck) {
+            checkPermissions(needPermissions);
+        }
+    }
+
+    /**
+     * requestPermissions方法是请求某一权限，
+     */
+    private void checkPermissions(String... permissions) {
+        List<String> needRequestPermissonList = findDeniedPermissions(permissions);
+        if (null != needRequestPermissonList
+                && needRequestPermissonList.size() > 0) {
+            ActivityCompat.requestPermissions(this,
+                    needRequestPermissonList.toArray(
+                            new String[needRequestPermissonList.size()]),
+                    PERMISSON_REQUESTCODE);
+        }
+    }
+
+    /**
+     * 获取权限集中需要申请权限的列表
+     *
+     * @param permissions
+     * @return checkSelfPermission方法是在用来判断是否app已经获取到某一个权限
+     * shouldShowRequestPermissionRationale方法用来判断是否
+     * 显示申请权限对话框，如果同意了或者不在询问则返回false
+     */
+    private List<String> findDeniedPermissions(String[] permissions) {
+        List<String> needRequestPermissonList = new ArrayList<String>();
+        for (String perm : permissions) {
+            if (ContextCompat.checkSelfPermission(this,
+                    perm) != PackageManager.PERMISSION_GRANTED) {
+                needRequestPermissonList.add(perm);
+            } else {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(
+                        this, perm)) {
+                    needRequestPermissonList.add(perm);
+                }
+            }
+        }
+        return needRequestPermissonList;
+    }
+
+    /**
+     * 检测是否所有的权限都已经授权
+     *
+     * @param grantResults
+     * @return
+     */
+    private boolean verifyPermissions(int[] grantResults) {
+        for (int result : grantResults) {
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            } else {
+                Logger.i(TAG, " PERMISSION request success.");
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 申请权限结果的回调方法
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] paramArrayOfInt) {
+        if (requestCode == PERMISSON_REQUESTCODE) {
+            if (!verifyPermissions(paramArrayOfInt)) {
+                //showMissingPermissionDialog();
+                isNeedCheck = false;
+            }
+        }
+    }
+
+    /**
+     * 显示提示信息
+     */
+    private void showMissingPermissionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示");
+        builder.setMessage("当前应用缺少必要权限。请点击\"设置\"-\"权限\"-打开所需权限。");
+
+        // 拒绝, 退出应用
+        builder.setNegativeButton("取消",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+
+        builder.setPositiveButton("设置",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startAppSettings();
+                    }
+                });
+
+        builder.setCancelable(false);
+
+        builder.show();
+    }
+
+    /**
+     * 启动应用的设置
+     */
+    private void startAppSettings() {
+        Intent intent = new Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        startActivity(intent);
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 //            this.finish();
             // 创建退出对话框
-//            AlertDialog isExit = new AlertDialog.Builder(this).create();
-//            // 设置对话框标题
-//            isExit.setTitle("系统提示");
-//            // 设置对话框消息
-////            isExit.setMessage("确定要退出吗");
-//            // 添加选择按钮并注册监听
-//            isExit.setButton("确定", listener);
-//            isExit.setButton2("取消", listener);
-//            // 显示对话框
-//            isExit.show();
+            AlertDialog isExit = new AlertDialog.Builder(this).create();
+            // 设置对话框标题
+            isExit.setTitle("系统提示");
+            // 设置对话框消息
+            isExit.setMessage("确定要退出吗");
+            // 添加选择按钮并注册监听
+            isExit.setButton("确定", listener);
+            isExit.setButton2("取消", listener);
+            // 显示对话框
+            isExit.show();
 //            return true;
         }
         return super.onKeyDown(keyCode, event);
