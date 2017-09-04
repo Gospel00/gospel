@@ -31,7 +31,7 @@
                 android:gravity="center"
                 android:layout_marginTop="80dp"
                 android:padding="2dp"
-                android:text="项目经理 | 李总"
+                android:text="项目经理        |        李总"
                 android:background="#5aa1d5"
                 android:textColor="@color/antique_white"
                 android:textSize="@dimen/personal_text_view1" />
@@ -61,7 +61,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="2dp"
                 android:text="测量"
                 android:textColor="#4e5f71"
                 android:textSize="@dimen/personal_text_view" />
@@ -86,7 +85,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:padding="2dp"
             android:text="数据管理"
             android:textColor="#4e5f71"
             android:textSize="@dimen/personal_text_view" />
@@ -111,7 +109,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:padding="2dp"
             android:text="任务管理"
             android:textColor="#4e5f71"
             android:textSize="@dimen/personal_text_view" />
@@ -136,7 +133,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:padding="2dp"
             android:text="安全检查"
             android:textColor="#4e5f71"
             android:textSize="@dimen/personal_text_view" />
@@ -144,27 +140,25 @@
 </LinearLayout>
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
-        android:orientation="horizontal"
-        android:paddingLeft="22dp">
+        android:gravity="center_horizontal">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/button5"
-                android:layout_width="55dp"
-                android:layout_height="50dp"
+                android:layout_width="85dp"
+                android:layout_height="82dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:background="@drawable/addbuttonstyle"
-                android:src="@drawable/add" />
+                android:src="@drawable/addmore" />
 
             <TextView
                 android:id="@+id/add"
