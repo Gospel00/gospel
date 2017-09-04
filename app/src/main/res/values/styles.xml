@@ -15,11 +15,11 @@
         <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
 
     </style>
-    <!--actionbar size
+    <!--actionbar size -->
     <style name="AppTheme.ActionBar" parent="Widget.AppCompat.Light.ActionBar">
         <item name="android:height">@dimen/actionbar_height</item>
         <item name="height">@dimen/actionbar_height</item>
-    </style> -->
+    </style>
 
     <style name="AppTheme.DrawerArrowToggle" parent="Base.Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@android:color/white</item>
