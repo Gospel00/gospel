@@ -38,31 +38,31 @@ public class PersonAcitvity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.person_homepage_layout);
-        textView = (TextView) findViewById(R.id.textView4);
+        //textView = (TextView) findViewById(R.id.textView4);
         // button=(Button)findViewById(R.id.button);
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                try {
-//                    String resultJsonupload = HttpUtils.postJSONObjectString("http://106.38.157.46:48080/restcenter/measureTaskService/feedbackTask", null);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                DownLoadManager downLoadManager = new DownLoadManager(PersonAcitvity.this);
-//                downLoadManager.uploadMeasure(null);
-                // startActivity(new Intent(PersonAcitvity.this, CeLiangActivity.class));
-//                new Thread() {//创建子线程进行网络访问的操作
-//                    public void run() {
-//                        try {
-//                            result = HttpUtils.getJSONObjectString("",textView.getText().toString());// HttpUtils.doPost(null, textView.getText().toString());
-//                            handler.sendEmptyMessage(0);
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }.start();
-            }
-        });
+//        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                try {
+////                    String resultJsonupload = HttpUtils.postJSONObjectString("http://106.38.157.46:48080/restcenter/measureTaskService/feedbackTask", null);
+////                } catch (Exception e) {
+////                    e.printStackTrace();
+////                }
+////                DownLoadManager downLoadManager = new DownLoadManager(PersonAcitvity.this);
+////                downLoadManager.uploadMeasure(null);
+//                // startActivity(new Intent(PersonAcitvity.this, CeLiangActivity.class));
+////                new Thread() {//创建子线程进行网络访问的操作
+////                    public void run() {
+////                        try {
+////                            result = HttpUtils.getJSONObjectString("",textView.getText().toString());// HttpUtils.doPost(null, textView.getText().toString());
+////                            handler.sendEmptyMessage(0);
+////                        } catch (Exception e) {
+////                            e.printStackTrace();
+////                        }
+////                    }
+////                }.start();
+//            }
+//        });
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar);
