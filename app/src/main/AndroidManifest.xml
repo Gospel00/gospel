@@ -19,21 +19,24 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BaseActivity"></activity>
-        <activity android:name=".RegisterAcitvity"></activity>
-        <activity android:name=".PersonAcitvity"></activity>
-        <!--<activity android:name=".TaskDownloadActivity"></activity>-->
-        <activity android:name=".BlueToothFolder"></activity>
-        <activity android:name=".ShowExamineRecord"></activity>
-        <activity android:name=".AddExamineRecord"></activity>
-        <activity android:name=".UserListAcitvity"></activity>
-        <activity android:name=".ShowTaskInfo"></activity>
-        <activity android:name=".CeLiangActivity"></activity>
+        <activity android:name=".BaseActivity" />
+        <activity android:name=".RegisterAcitvity" />
+        <activity android:name=".PersonAcitvity" />
+        <!-- <activity android:name=".TaskDownloadActivity"></activity> -->
+        <activity android:name=".BlueToothFolder" />
+        <activity android:name=".ShowExamineRecord" />
+        <activity android:name=".AddExamineRecord" />
+        <activity android:name=".UserListAcitvity" />
+        <activity android:name=".ShowTaskInfo" />
+        <activity android:name=".CeLiangActivity" />
 
-        <service android:name="com.dxc.mycollector.taskDownload.DownLoadService" />
+        <service android:name=".taskDownload.DownLoadService" />
+
+        <activity android:name=".DeviceSettingActivity"></activity>
     </application>
 
 </manifest>

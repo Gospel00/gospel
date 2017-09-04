@@ -42,9 +42,9 @@ public class PersonAcitvity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.person_homepage_layout);
-        textView = (TextView) findViewById(R.id.textView4);
+       // textView = (TextView) findViewById(R.id.textView4);
         // button=(Button)findViewById(R.id.button);
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+        /*findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                try {
@@ -66,7 +66,7 @@ public class PersonAcitvity extends BaseActivity {
 //                    }
 //                }.start();
             }
-        });
+        });*/
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar);
