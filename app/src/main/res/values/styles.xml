@@ -13,7 +13,10 @@
         <item name="colorPrimary1">@color/Indigo_colorPrimary</item> -->
         <!--返回键样式-->
         <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
-
+        <!--ActionBar 宽度设置-->
+        <item name="@android:attr/actionBarSize">35dp</item>
+        <!--ActionBar title 阴影设置取消-->
+        <item name="android:windowContentOverlay">@null</item>
     </style>
     <!--actionbar size -->
     <style name="AppTheme.ActionBar" parent="Widget.AppCompat.Light.ActionBar">

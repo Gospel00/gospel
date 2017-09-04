@@ -35,8 +35,7 @@ import java.util.List;
  * Created by sunyi on 2017/8/25.
  */
 
-public class BaseActivity extends AppCompatActivity implements
-        ActivityCompat.OnRequestPermissionsResultCallback {
+public class BaseActivity extends AppCompatActivity{
     String TAG = BaseActivity.class.getSimpleName();
     //    protected String[] planetTitles;
     protected DrawerLayout drawerLayout;
@@ -44,7 +43,7 @@ public class BaseActivity extends AppCompatActivity implements
     protected FrameLayout frameLayout;
     protected String[] planetTitles = null;//{"个人信息", "任务管理", "数据管理", "安全管理", "仪器设置", "系统升级", "关于系统"};
     protected int[] imagesId = {R.drawable.assignment, R.drawable.down,
-            R.drawable.data, R.drawable.safe, R.drawable.measure, R.drawable.update, R.drawable.system, R.drawable.safe};
+            R.drawable.data, R.drawable.measure, R.drawable.update, R.drawable.system, R.drawable.safe};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,20 +153,20 @@ public class BaseActivity extends AppCompatActivity implements
                 startActivity(new Intent(this, BlueToothFolder.class));
                 Logger.i(TAG, "click bluetooth folder  search.");
                 break;
+//            case 3:
+//                startActivity(new Intent(this, ShowExamineRecord.class));
+//                Logger.i(TAG, "click safety examine.");
+//                break;
             case 3:
-                startActivity(new Intent(this, ShowExamineRecord.class));
-                Logger.i(TAG, "click safety examine.");
-                break;
-            case 4:
                 Logger.i(TAG, "click devices setting.");
                 break;
-            case 5:
+            case 4:
                 Logger.i(TAG, "click update system.");
                 break;
-            case 6:
+            case 5:
                 Logger.i(TAG, "click about system.");
                 break;
-            case 7:
+            case 6:
                 startActivity(new Intent(this, UserListAcitvity.class));
                 Logger.i(TAG, "click user list.This operation belongs to the administrator.");
                 break;
