@@ -2,6 +2,7 @@ package com.dxc.mycollector;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -23,7 +24,7 @@ import java.io.File;
 public class PersonAcitvity extends BaseActivity {
     TextView textView;
     String result = null;
-    // private Button button;
+    //private Button button;
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
@@ -43,8 +44,8 @@ public class PersonAcitvity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.person_homepage_layout);
        // textView = (TextView) findViewById(R.id.textView4);
-        // button=(Button)findViewById(R.id.button);
-        /*findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+        //button=(Button)findViewById(R.id.button);
+       /* findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                try {

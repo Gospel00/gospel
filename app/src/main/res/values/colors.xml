@@ -309,6 +309,10 @@
     <color name="white">#FFFFFF</color>
     <color name="white_smoke">#F5F5F5</color>
     <color name="yellow">#FFFF00</color>
+    <color name="index_text">#4e5f71</color>
+    <color name="updatesystem">#4e5f6f</color>
+    <color name="updatesystem1">#6e859a</color>
+    <color name="updatesystem2">#6e859a</color>
     <declare-styleable name="linear_grid_layout"><attr format="boolean" name="showHorizontalDivider"/><attr format="boolean" name="showVerticalDivider"/><attr format="boolean" name="isHashBorder"/><attr format="color" name="dividerColor"/><attr format="dimension" name="dividerHeight"/><attr format="integer" name="numColumns"/></declare-styleable>
     <!-- From: file:/Users/xyy/gitworkspace/CommonLibrary/common_base/src/main/res/values/dimens.xml -->
     <eat-comment/>
