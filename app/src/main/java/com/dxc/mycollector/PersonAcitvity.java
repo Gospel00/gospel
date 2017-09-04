@@ -40,11 +40,11 @@ public class PersonAcitvity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.person_homepage_layout);
-        textView = (TextView) findViewById(R.id.textView4);
+//        textView = (TextView) findViewById(R.id.textView4);
         // button=(Button)findViewById(R.id.button);
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
 //                try {
 //                    String resultJsonupload = HttpUtils.postJSONObjectString("http://106.38.157.46:48080/restcenter/measureTaskService/feedbackTask", null);
 //                } catch (Exception e) {
@@ -63,8 +63,8 @@ public class PersonAcitvity extends BaseActivity {
 //                        }
 //                    }
 //                }.start();
-            }
-        });
+//            }
+//        });
 
 //        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
 //        actionBar.setCustomView(R.layout.actionbar);

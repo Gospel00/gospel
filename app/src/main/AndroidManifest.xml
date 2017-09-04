@@ -33,7 +33,7 @@
         <activity android:name=".UserListAcitvity" />
         <activity android:name=".ShowTaskInfo" />
         <activity android:name=".CeLiangActivity" />
-
+        <activity android:name=".UploadBlueToothFolder" />
         <service android:name=".taskDownload.DownLoadService" />
 
         <activity android:name=".DeviceSettingActivity"></activity>

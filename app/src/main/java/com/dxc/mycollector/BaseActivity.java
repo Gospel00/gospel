@@ -150,7 +150,8 @@ public class BaseActivity extends AppCompatActivity{
                 Logger.i(TAG, "click task download.");
                 break;
             case 2:
-                startActivity(new Intent(this, BlueToothFolder.class));
+                //startActivity(new Intent(this, BlueToothFolder.class));
+                startActivity(new Intent(this, UploadBlueToothFolder.class));
                 Logger.i(TAG, "click bluetooth folder  search.");
                 break;
 //            case 3:
