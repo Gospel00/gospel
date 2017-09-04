@@ -1,18 +1,17 @@
 package com.dxc.mycollector;
 
 import android.app.ActionBar;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class DeviceSettingActivity extends AppCompatActivity {
-private TextView total;
-    private TextView surveyor;
+public class AboutSystemActivity extends BaseActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.device_setting);
+        setContentView(R.layout.about_system);
+
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar);
 
@@ -21,6 +20,6 @@ private TextView total;
         actionBar.setDisplayShowCustomEnabled(true); //自定义界面是否可显示
 
         //使用setText的方法对textview动态赋值
-        ((TextView) findViewById(R.id.title_name)).setText("设置");
+        ((TextView) findViewById(R.id.title_name)).setText("关于系统");
     }
 }
