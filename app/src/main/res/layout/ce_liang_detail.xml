@@ -27,8 +27,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:gravity="right|center_vertical"
-            />
+            android:gravity="right|center_vertical" />
 
     </LinearLayout>
 
@@ -55,8 +54,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:gravity="right|center_vertical"
-             />
+            android:gravity="right|center_vertical" />
     </LinearLayout>
 
     <LinearLayout
@@ -81,8 +79,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:gravity="right|center_vertical"
-             />
+            android:gravity="right|center_vertical" />
     </LinearLayout>
 
 
@@ -108,8 +105,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:gravity="right|center_vertical"
-           />
+            android:gravity="right|center_vertical" />
     </LinearLayout>
 
     <LinearLayout
@@ -134,8 +130,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:gravity="right|center_vertical"
-          />
+            android:gravity="right|center_vertical" />
     </LinearLayout>
 
     <LinearLayout
@@ -160,8 +155,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:gravity="right|center_vertical"
-            />
+            android:gravity="right|center_vertical" />
     </LinearLayout>
 
     <LinearLayout
@@ -176,10 +170,10 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
-            android:text="获取测量数据"
             android:background="@drawable/btn_load_style"
+            android:text="获取测量数据"
             android:textColor="@drawable/btn_load_txtcol"
-            android:textSize="20sp" />
+            android:textSize="@dimen/all_btn" />
 
         <!--<android.support.v7.widget.AppCompatButton
             android:id="@+id/复核"

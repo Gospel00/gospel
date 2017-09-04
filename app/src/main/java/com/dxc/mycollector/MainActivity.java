@@ -1,10 +1,19 @@
 package com.dxc.mycollector;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,12 +21,18 @@ import android.widget.Toast;
 
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
+import com.dxc.mycollector.taskDownload.DownLoadService;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by gospel on 2017/8/18.
  * About Login
  */
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements
+        ActivityCompat.OnRequestPermissionsResultCallback {
     String TAG = MainActivity.class.getSimpleName();
     private Button button;//登录按钮
     private Button registerBtn;//注册按钮
@@ -28,6 +43,13 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //初始化文件夹
+        initFolder();
+
+        if (DLApplication.userName != null && DLApplication.userName.length() > 0) {
+            startActivity(new Intent(getApplicationContext(), PersonAcitvity.class));
+            finish();
+        }
         setContentView(R.layout.login_layout);
 
         button = (Button) findViewById(R.id.login);
@@ -60,7 +82,10 @@ public class MainActivity extends Activity {
 //                        DLApplication myapp = (DLApplication) getApplicationContext();
 //                        myapp.setUserName(username.getText().toString());
                         DLApplication.userName = username.getText().toString();
-                        Logger.i(TAG, username.getText().toString() + " login success.");
+
+                        Logger.i(TAG, DLApplication.userName + " login success.");
+                        context.startService(new Intent(context, DownLoadService.class));
+                        finish();
                     } else if (isTure == 0) {
                         Toast.makeText(MainActivity.this, "用户不存在", Toast.LENGTH_SHORT).show();
                         Logger.i(TAG, username.getText().toString() + " login,User name not found.login failed.");
@@ -84,5 +109,167 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(MainActivity.this, RegisterAcitvity.class));
             }
         });
+    }
+
+    public void initFolder() {
+        String dbPath = "/mnt/sdcard/Tunner/log";
+        //创建日志存放目录
+        File dbp = new File(dbPath);
+        if (!dbp.exists()) {
+            dbp.mkdirs();
+            Logger.i(TAG, "日志存放目录已创建：" + dbPath);
+        }
+        //创建数据库存放目录
+        dbPath = Environment.getExternalStorageDirectory().getPath() + "/Tunnel/database/";
+        dbp = new File(dbPath);
+        if (!dbp.exists()) {
+            dbp.mkdirs();
+            Logger.i(TAG, "数据库存放目录已创建：" + dbPath);
+        }
+        //创建蓝牙存放目录
+        dbPath = Environment.getExternalStorageDirectory().getPath() + "/bluetooth/";
+        dbp = new File(dbPath);
+        if (!dbp.exists()) {
+            dbp.mkdirs();
+            Logger.i(TAG, "蓝牙存放目录已创建：" + dbPath);
+        }
+    }
+
+    /**
+     * 需要进行检测的权限数组
+     */
+    protected String[] needPermissions = {
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS
+    };
+
+    private static final int PERMISSON_REQUESTCODE = 0;
+
+    /**
+     * 判断是否需要检测，防止不停的弹框
+     */
+    private boolean isNeedCheck = true;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isNeedCheck) {
+            checkPermissions(needPermissions);
+        }
+    }
+
+    /**
+     * requestPermissions方法是请求某一权限，
+     */
+    private void checkPermissions(String... permissions) {
+        List<String> needRequestPermissonList = findDeniedPermissions(permissions);
+        if (null != needRequestPermissonList
+                && needRequestPermissonList.size() > 0) {
+            ActivityCompat.requestPermissions(this,
+                    needRequestPermissonList.toArray(
+                            new String[needRequestPermissonList.size()]),
+                    PERMISSON_REQUESTCODE);
+        }
+    }
+
+    /**
+     * 获取权限集中需要申请权限的列表
+     *
+     * @param permissions
+     * @return checkSelfPermission方法是在用来判断是否app已经获取到某一个权限
+     * shouldShowRequestPermissionRationale方法用来判断是否
+     * 显示申请权限对话框，如果同意了或者不在询问则返回false
+     */
+    private List<String> findDeniedPermissions(String[] permissions) {
+        List<String> needRequestPermissonList = new ArrayList<String>();
+        for (String perm : permissions) {
+            if (ContextCompat.checkSelfPermission(this,
+                    perm) != PackageManager.PERMISSION_GRANTED) {
+                needRequestPermissonList.add(perm);
+            } else {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(
+                        this, perm)) {
+                    needRequestPermissonList.add(perm);
+                }
+            }
+        }
+        return needRequestPermissonList;
+    }
+
+    /**
+     * 检测是否所有的权限都已经授权
+     *
+     * @param grantResults
+     * @return
+     */
+    private boolean verifyPermissions(int[] grantResults) {
+        for (int result : grantResults) {
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            } else {
+                Logger.i(TAG, " PERMISSION request success.");
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 申请权限结果的回调方法
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] paramArrayOfInt) {
+        if (requestCode == PERMISSON_REQUESTCODE) {
+            if (!verifyPermissions(paramArrayOfInt)) {
+                //showMissingPermissionDialog();
+                isNeedCheck = false;
+            }
+        }
+    }
+
+    /**
+     * 显示提示信息
+     */
+    private void showMissingPermissionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示");
+        builder.setMessage("当前应用缺少必要权限。请点击\"设置\"-\"权限\"-打开所需权限。");
+
+        // 拒绝, 退出应用
+        builder.setNegativeButton("取消",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+
+        builder.setPositiveButton("设置",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startAppSettings();
+                    }
+                });
+
+        builder.setCancelable(false);
+
+        builder.show();
+    }
+
+    /**
+     * 启动应用的设置
+     */
+    private void startAppSettings() {
+        Intent intent = new Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        startActivity(intent);
     }
 }
