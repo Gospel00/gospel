@@ -3,14 +3,18 @@ package com.dxc.mycollector;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.taskDownload.DownLoadManager;
 import com.dxc.mycollector.taskDownload.DownLoadService;
 import com.dxc.mycollector.utils.HttpUtils;
+
+import java.io.File;
 
 /**
  * Created by gospel on 2017/8/18.
@@ -73,7 +77,7 @@ public class PersonAcitvity extends BaseActivity {
 
         //使用setText的方法对textview动态赋值
         ((TextView) findViewById(R.id.title_name)).setText("我的信息");
-    }
 
+    }
 }
 
