@@ -84,7 +84,7 @@ public class MainActivity extends Activity implements
                         DLApplication.userName = username.getText().toString();
 
                         Logger.i(TAG, DLApplication.userName + " login success.");
-                        context.startService(new Intent(context, DownLoadService.class));
+//                        context.startService(new Intent(context, DownLoadService.class));
                         finish();
                     } else if (isTure == 0) {
                         Toast.makeText(MainActivity.this, "用户不存在", Toast.LENGTH_SHORT).show();
