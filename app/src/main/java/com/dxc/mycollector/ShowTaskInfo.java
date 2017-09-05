@@ -179,7 +179,7 @@ public class ShowTaskInfo extends BaseActivity {
             Intent intent = new Intent(ShowTaskInfo.this, CeLiangActivity.class);
             TaskInfo taskInfo = listtasks.get(position);
             TaskDetails detailDatas = taskInfo.getTaskDetail();
-            detailDatas.setDateTime(taskInfo.getStartTime().substring(0, 10) + "-" + taskInfo.getEndTime().substring(0, 10));
+            detailDatas.setDateTime(taskInfo.getStartTime().substring(0, 10));
             intent.putExtra("detailDatas", detailDatas);
             startActivity(intent);
             finish();

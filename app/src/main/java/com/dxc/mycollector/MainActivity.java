@@ -75,24 +75,21 @@ public class MainActivity extends Activity implements
                 if (username != null && username.length() > 0) {
                     int isTure = SqliteUtils.getInstance(getApplicationContext()).Quer(lgpwd.getText().toString(), username.getText().toString());
                     if (isTure == 1) {
-                        Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(context, PersonAcitvity.class));
-//                        DLApplication myapp = (DLApplication) getApplicationContext();
-//                        myapp.setUserName(username.getText().toString());
                         DLApplication.userName = username.getText().toString();
-
                         Logger.i(TAG, DLApplication.userName + " login success.");
-//                        context.startService(new Intent(context, DownLoadService.class));
+                        context.startService(new Intent(context, DownLoadService.class));
                         finish();
                     } else if (isTure == 0) {
-                        Toast.makeText(MainActivity.this, "用户不存在", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "用户不存在", Toast.LENGTH_LONG).show();
                         Logger.i(TAG, username.getText().toString() + " login,User name not found.login failed.");
                     } else {
-                        Toast.makeText(MainActivity.this, "密码错误，请重新输入", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "密码错误，请重新输入", Toast.LENGTH_LONG).show();
                         Logger.i(TAG, username.getText().toString() + " login,password error.login failed.");
                     }
                 } else {
-                    Toast.makeText(MainActivity.this, "用户名不能为空", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "用户名不能为空", Toast.LENGTH_LONG).show();
                 }
             }
         });

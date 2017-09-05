@@ -27,7 +27,7 @@
 
     <ListView
         android:id="@+id/left_drawer"
-        android:layout_width="300dp"
+        android:layout_width="280dp"
         android:layout_height="fill_parent"
         android:layout_gravity="start"
         android:background="@color/actionbar_bg_color"
