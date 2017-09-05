@@ -91,11 +91,8 @@ public class BaseActivity extends AppCompatActivity {
                     layout.setVisibility(View.VISIBLE);
                     layout.invalidate();
                 }
-//                DLApplication myapp = (DLApplication) getApplicationContext();
-                Logger.i(TAG, "application user:" + DLApplication.userName);
-                Logger.i(TAG, "application admin:" + DLApplication.amdin);
                 //admin
-                if (!DLApplication.userName.equals(DLApplication.amdin)) {
+                if (DLApplication.userName != null && !DLApplication.userName.equals(DLApplication.amdin)) {
                     if (position != 7) {
                         face.setImageResource(imagesId[position]);
                         name.setText(planetTitles[position]);
