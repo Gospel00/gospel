@@ -77,7 +77,7 @@ public class PersonAcitvity extends BaseActivity {
 //        ((TextView) findViewById(R.id.title_name)).setText("我的信息");
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setCustomView(R.layout.actionbar);
+        actionBar.setCustomView(R.layout.actionbar_plus);
         //必须加2句
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
