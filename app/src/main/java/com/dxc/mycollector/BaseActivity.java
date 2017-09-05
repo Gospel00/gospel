@@ -3,11 +3,15 @@ package com.dxc.mycollector;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.ActivityCompat;
@@ -36,6 +40,7 @@ import java.util.List;
  */
 
 public class BaseActivity extends AppCompatActivity {
+    private Dialog mWeiboDialog;//对话框
     String TAG = BaseActivity.class.getSimpleName();
     //    protected String[] planetTitles;
     protected DrawerLayout drawerLayout;
@@ -44,10 +49,11 @@ public class BaseActivity extends AppCompatActivity {
     protected String[] planetTitles = null;//{"个人信息", "任务管理", "数据管理", "安全管理", "仪器设置", "系统升级", "关于系统"};
     protected int[] imagesId = {R.drawable.assignment, R.drawable.down,
             R.drawable.data, R.drawable.measure, R.drawable.update, R.drawable.system, R.drawable.safe};
-
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = this;
     }
 
     /**
@@ -356,6 +362,23 @@ public class BaseActivity extends AppCompatActivity {
                 case AlertDialog.BUTTON_NEGATIVE:// "取消"第二个按钮取消对话框
                     break;
                 default:
+                    break;
+            }
+        }
+    };//定义加载等待页面方法
+    public void waitingDialog(){
+        mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, "加载中...");//加载对话框
+        mHandler.sendEmptyMessageDelayed(1, 500);//处理消息
+    }
+    //消息处理线程
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    //DialogThridUtils.closeDialog(mDialog);
+                    WeiboDialogUtils.closeDialog(mWeiboDialog);
                     break;
             }
         }

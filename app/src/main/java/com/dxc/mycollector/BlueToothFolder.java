@@ -63,6 +63,7 @@ public class BlueToothFolder extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_bluetooth_fileslist_main_layout);
+        waitingDialog();//加载等待页面对话框方法
 //        myapp = (DLApplication) getApplication();
         fileList = (ListView) findViewById(R.id.showbluetoothfilelistView);
         context = this;
