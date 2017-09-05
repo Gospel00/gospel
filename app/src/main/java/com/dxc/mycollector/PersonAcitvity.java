@@ -1,6 +1,7 @@
 package com.dxc.mycollector;
 
 import android.app.ActionBar;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,7 +9,9 @@ import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dxc.mycollector.taskDownload.DownLoadManager;
 import com.dxc.mycollector.taskDownload.DownLoadService;
@@ -21,15 +24,27 @@ import com.dxc.mycollector.utils.HttpUtils;
 public class PersonAcitvity extends BaseActivity {
     TextView textView;
     String result = null;
-    // private Button button;
-    private Handler handler = new Handler() {
+    private ImageView measure;
+    private ImageView   data;
+    private ImageView task;
+    private ImageView  safe;
+    private ImageView  add;
+    private Dialog mDialog;
+    private Dialog mWeiboDialog;
+    private Button btn_show_weibo_loading;
+    private Button btn_show_thrid_loading;
+    private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
+            super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
                     //Map<String, String> map = slist.get(2); // 例子而已，直接获取下标为2的值了，可以通过循环将list的值取出
                     textView.setText(result);//在handler中更新UI
                     break;
-
+                case 1:
+                    DialogThridUtils.closeDialog(mDialog);
+                    WeiboDialogUtils.closeDialog(mWeiboDialog);
+                    break;
                 default:
                     break;
             }
@@ -40,7 +55,43 @@ public class PersonAcitvity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.person_homepage_layout);
-//        textView = (TextView) findViewById(R.id.textView4);
+       measure=(ImageView)findViewById(R.id.image1);
+        data=(ImageView )findViewById(R.id.image2);
+        task=(ImageView )findViewById(R.id.image3);
+        safe=(ImageView )findViewById(R.id.image4);
+        add= (ImageView) findViewById(R.id.image5);
+
+        findViewById(R.id.image1).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PersonAcitvity.this, ShowTaskInfo.class));
+            }
+        });
+        findViewById(R.id.image2).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PersonAcitvity.this, UploadBlueToothFolder.class));
+            }
+        });
+        findViewById(R.id.image3).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PersonAcitvity.this, ShowTaskInfo.class));
+            }
+        });
+        findViewById(R.id.image4).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(PersonAcitvity.this, "敬请期待......", Toast.LENGTH_LONG).show();
+            }
+        });
+        findViewById(R.id.image5).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(PersonAcitvity.this, "敬请期待......", Toast.LENGTH_LONG).show();
+            }
+        });
+      //textView = (TextView) findViewById(R.id.celiang);
         // button=(Button)findViewById(R.id.button);
 //        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
 //            @Override
