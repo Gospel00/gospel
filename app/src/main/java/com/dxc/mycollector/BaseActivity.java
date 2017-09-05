@@ -3,12 +3,15 @@ package com.dxc.mycollector;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.ActivityCompat;
@@ -49,12 +52,33 @@ public class BaseActivity extends AppCompatActivity {
     protected int[] imagesId = {R.drawable.assignment, R.drawable.down,
             R.drawable.data, R.drawable.measure, R.drawable.update, R.drawable.system, R.drawable.safe};
     Context context;
+    private Dialog mWeiboDialog;//对话框
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
     }
+
+    //定义加载等待页面方法
+    public void waitingDialog() {
+        mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, "加载中...");//加载对话框
+        mHandler.sendEmptyMessageDelayed(1, 500);//处理消息
+    }
+
+    //消息处理线程
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    //DialogThridUtils.closeDialog(mDialog);
+                    WeiboDialogUtils.closeDialog(mWeiboDialog);
+                    break;
+            }
+        }
+    };
 
     /**
      * 重写setContentView，以便于在保留侧滑菜单的同时，让子Activity根据需要加载不同的界面布局
