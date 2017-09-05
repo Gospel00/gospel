@@ -127,10 +127,10 @@ public class PersonAcitvity extends BaseActivity {
     }
 
     protected void backToHome() {
-        Intent intent = new Intent(this, a.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        this.startActivity(intent);
-        finish();
+//        Intent intent = new Intent(this, a.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        this.startActivity(intent);
+//        finish();finish
     }
 
     private void setSimulateClick(View view, float x, float y) {
