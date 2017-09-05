@@ -66,14 +66,14 @@ public class ShowExamineRecord extends BaseActivity {
             getSupportActionBar().setElevation(0);
         }
 
-        taskAdd = (Button) this.findViewById(R.id.taskAdd);
-        //新增安全检查记录
-        taskAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), AddExamineRecord.class));
-            }
-        });
+//        taskAdd = (Button) this.findViewById(R.id.taskAdd);
+//        //新增安全检查记录
+//        taskAdd.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(getApplicationContext(), AddExamineRecord.class));
+//            }
+//        });
         ImageView i = (ImageView) findViewById(R.id.left_imbt);
         i.setOnClickListener(new View.OnClickListener() {
             @Override
