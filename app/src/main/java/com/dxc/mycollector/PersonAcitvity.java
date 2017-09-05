@@ -1,12 +1,14 @@
 package com.dxc.mycollector;
 
 import android.app.ActionBar;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,19 +32,33 @@ import com.dxc.mycollector.utils.HttpUtils;
  * About PersonWellcom
  */
 public class PersonAcitvity extends BaseActivity {
+
+    boolean isOpen = false;
     TextView textView;
     String result = null;
     ImageView mv;
-    protected DrawerLayout drawerLayout;
-    // private Button button;
-    private Handler handler = new Handler() {
+    //    protected DrawerLayout drawerLayout;
+    private ImageView measure;
+    private ImageView data;
+    private ImageView task;
+    private ImageView safe;
+    private ImageView add;
+    private Dialog mDialog;
+    private Dialog mWeiboDialog;
+    private Button btn_show_weibo_loading;
+    private Button btn_show_thrid_loading;
+    private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
+            super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
                     //Map<String, String> map = slist.get(2); // 例子而已，直接获取下标为2的值了，可以通过循环将list的值取出
                     textView.setText(result);//在handler中更新UI
                     break;
-
+                case 1:
+                    DialogThridUtils.closeDialog(mDialog);
+                    WeiboDialogUtils.closeDialog(mWeiboDialog);
+                    break;
                 default:
                     break;
             }
@@ -53,7 +69,43 @@ public class PersonAcitvity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.person_homepage_layout);
-        drawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.menu_activity_first, null);
+        measure = (ImageView) findViewById(R.id.image1);
+        data = (ImageView) findViewById(R.id.image2);
+        task = (ImageView) findViewById(R.id.image3);
+        safe = (ImageView) findViewById(R.id.image4);
+        add = (ImageView) findViewById(R.id.image5);
+
+        findViewById(R.id.image1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PersonAcitvity.this, ShowTaskInfo.class));
+            }
+        });
+        findViewById(R.id.image2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PersonAcitvity.this, UploadBlueToothFolder.class));
+            }
+        });
+        findViewById(R.id.image3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PersonAcitvity.this, ShowTaskInfo.class));
+            }
+        });
+        findViewById(R.id.image4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(PersonAcitvity.this, "敬请期待......", Toast.LENGTH_LONG).show();
+            }
+        });
+        findViewById(R.id.image5).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(PersonAcitvity.this, "敬请期待......", Toast.LENGTH_LONG).show();
+            }
+        });
+//        drawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.menu_activity_first, null);
 //        textView = (TextView) findViewById(R.id.textView4);
         // button=(Button)findViewById(R.id.button);
 //        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
@@ -91,32 +143,13 @@ public class PersonAcitvity extends BaseActivity {
         mv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
-//                 backToHome();
-                RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.item_r);
-                ListView listView = (ListView) findViewById(R.id.left_drawer);
-                int r = relativeLayout.getVisibility();
-                int r2 = listView.getVisibility();
-                Toast.makeText(getApplicationContext(), "zt:" + r, Toast.LENGTH_LONG).show();
-                if (r != View.VISIBLE) {
-                    Toast.makeText(getApplicationContext(), "open:", Toast.LENGTH_LONG).show();
-                    Logger.i(TAG, "open");
-                    relativeLayout.setVisibility(View.INVISIBLE);
-                    drawerLayout.closeDrawer(relativeLayout);
-
+                if (isOpen) {
+                    drawerLayout.closeDrawers();
+                    isOpen = false;
                 } else {
-                    Toast.makeText(getApplicationContext(), "colse:", Toast.LENGTH_LONG).show();
-                    Logger.i(TAG, "colse");
-                    relativeLayout.setVisibility(View.VISIBLE);
-                    drawerLayout.openDrawer(relativeLayout);
+                    drawerLayout.openDrawer(Gravity.LEFT);
+                    isOpen = true;
                 }
-                //当左边的菜单栏是可见的，则关闭
-                //drawerLayout.closeDrawer(relativeLayout);
-//                } else {
-////                    finish();
-//                    //当左边的菜单栏是可见的，则关闭
-//                   // drawerLayout.dra(relativeLayout);
-//                }
             }
         });
 
