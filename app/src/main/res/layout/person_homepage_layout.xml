@@ -32,6 +32,7 @@
             android:layout_marginTop="60dp"
             android:padding="2dp"
             android:text="项目经理        |        李总"
+            android:background="#5aa1d5"
             android:textColor="@color/antique_white"
             android:textSize="@dimen/personal_text_view1" />
     </LinearLayout>
@@ -61,8 +62,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="测量"
-                android:background="#5aa1d5"
-                android:textColor="@color/common_white"
+                android:textColor="#4e5f71"
                 android:textSize="@dimen/personal_text_view2" />
         </LinearLayout>
 
