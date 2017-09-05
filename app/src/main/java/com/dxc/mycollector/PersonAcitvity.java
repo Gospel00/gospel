@@ -82,6 +82,7 @@ public class PersonAcitvity extends BaseActivity {
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.more_wirte);
 
         actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP);  //根据字面意思是显示类型为显示自定义
         actionBar.setDisplayShowCustomEnabled(true); //自定义界面是否可显示
