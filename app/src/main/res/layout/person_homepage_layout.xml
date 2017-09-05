@@ -33,7 +33,7 @@
             android:padding="2dp"
             android:text="项目经理        |        李总"
             android:background="#5aa1d5"
-            android:textColor="@color/antique_white"
+            android:textColor="@color/common_white"
             android:textSize="@dimen/personal_text_view1" />
     </LinearLayout>
 
