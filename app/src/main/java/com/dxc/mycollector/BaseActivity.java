@@ -3,15 +3,12 @@ package com.dxc.mycollector;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.ActivityCompat;
@@ -21,8 +18,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowId;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +29,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dxc.mycollector.bluetooth.BluetoothTools;
 import com.dxc.mycollector.logs.Logger;
 
 import java.util.ArrayList;
@@ -40,7 +40,6 @@ import java.util.List;
  */
 
 public class BaseActivity extends AppCompatActivity {
-    private Dialog mWeiboDialog;//对话框
     String TAG = BaseActivity.class.getSimpleName();
     //    protected String[] planetTitles;
     protected DrawerLayout drawerLayout;
@@ -50,6 +49,7 @@ public class BaseActivity extends AppCompatActivity {
     protected int[] imagesId = {R.drawable.assignment, R.drawable.down,
             R.drawable.data, R.drawable.measure, R.drawable.update, R.drawable.system, R.drawable.safe};
     Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,8 +83,52 @@ public class BaseActivity extends AppCompatActivity {
                 TextView name1 = (TextView) layout.findViewById(R.id.name1);
                 LinearLayout lin = (LinearLayout) layout.findViewById(R.id.item_lin_1);
                 ImageView face = (ImageView) layout.findViewById(R.id.lgicon);
-                TextView name = (TextView) layout.findViewById(R.id.name);
+                TextView name = (TextView) layout.findViewById(R.id.menu_name);
                 TextView num = (TextView) layout.findViewById(R.id.num);
+                LinearLayout logout = (LinearLayout) layout.findViewById(R.id.logout);
+                Button btnexitall = (Button) layout.findViewById(R.id.exitbtn);
+                btnexitall.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new AlertDialog.Builder(context)
+                                .setTitle("退出系统")
+                                .setIcon(android.R.drawable.ic_dialog_info)
+                                .setMessage("您确定要从系统中退出？")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        DLApplication.userName = "";
+                                        finish();
+                                        startActivity(new Intent(BaseActivity.this, MainActivity.class));
+                                    }
+                                })
+                                .setNegativeButton("取消", null)
+                                .show();
+
+//                        new AlertDialog.Builder(getApplicationContext()).setTitle("确认退出吗？")
+//                                .setIcon(android.R.drawable.ic_dialog_info)
+//                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        // 点击“确认”后的操作
+//
+//                                    }
+//                                })
+//                                .setNegativeButton("返回", new DialogInterface.OnClickListener() {
+//
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        // 点击“返回”后的操作,这里不设置没有任何操作
+//                                    }
+//                                }).show();
+                        // super.onBackPressed();
+
+
+                    }
+                });
+
+
                 if (position > 0) {
                     imgv.setVisibility(View.GONE);
                     name1.setVisibility(View.GONE);
@@ -97,12 +141,13 @@ public class BaseActivity extends AppCompatActivity {
                     layout.setVisibility(View.VISIBLE);
                     layout.invalidate();
                 }
+
                 //admin
                 if (DLApplication.userName != null && !DLApplication.userName.equals(DLApplication.amdin)) {
-                    if (position != 7) {
+                    if (position != 6) {
                         face.setImageResource(imagesId[position]);
                         name.setText(planetTitles[position]);
-                    } else {
+                    } else {//==7
                         lin.setVisibility(View.GONE);
                         layout.setVisibility(View.VISIBLE);
                         layout.invalidate();
@@ -111,8 +156,16 @@ public class BaseActivity extends AppCompatActivity {
                     face.setImageResource(imagesId[position]);
                     name.setText(planetTitles[position]);
                 }
+
+                if (position != 6) {
+                    logout.setVisibility(View.GONE);
+                    btnexitall.setVisibility(View.GONE);
+                    layout.setVisibility(View.VISIBLE);
+                    layout.invalidate();
+                }
                 return layout;
             }
+
 
             @Override
             public long getItemId(int position) {
@@ -362,23 +415,6 @@ public class BaseActivity extends AppCompatActivity {
                 case AlertDialog.BUTTON_NEGATIVE:// "取消"第二个按钮取消对话框
                     break;
                 default:
-                    break;
-            }
-        }
-    };//定义加载等待页面方法
-    public void waitingDialog(){
-        mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, "加载中...");//加载对话框
-        mHandler.sendEmptyMessageDelayed(1, 500);//处理消息
-    }
-    //消息处理线程
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 1:
-                    //DialogThridUtils.closeDialog(mDialog);
-                    WeiboDialogUtils.closeDialog(mWeiboDialog);
                     break;
             }
         }
