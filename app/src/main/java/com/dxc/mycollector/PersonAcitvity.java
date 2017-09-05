@@ -40,6 +40,7 @@ public class PersonAcitvity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.person_homepage_layout);
+        ((TextView) findViewById(R.id.textView2)).setText("项目经理        |        " + DLApplication.userName);
 //        textView = (TextView) findViewById(R.id.textView4);
         // button=(Button)findViewById(R.id.button);
 //        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
@@ -52,7 +53,7 @@ public class PersonAcitvity extends BaseActivity {
 //                }
 //                DownLoadManager downLoadManager = new DownLoadManager(PersonAcitvity.this);
 //                downLoadManager.uploadMeasure(null);
-                // startActivity(new Intent(PersonAcitvity.this, CeLiangActivity.class));
+        // startActivity(new Intent(PersonAcitvity.this, CeLiangActivity.class));
 //                new Thread() {//创建子线程进行网络访问的操作
 //                    public void run() {
 //                        try {
@@ -89,7 +90,7 @@ public class PersonAcitvity extends BaseActivity {
         ((TextView) findViewById(R.id.title_name)).setText("我的信息");
 
         //以下代码用于去除阴影
-        if(Build.VERSION.SDK_INT>=21){
+        if (Build.VERSION.SDK_INT >= 21) {
             getSupportActionBar().setElevation(0);
         }
     }
@@ -97,8 +98,7 @@ public class PersonAcitvity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
-        if(item.getItemId() == android.R.id.home)
-        {
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }

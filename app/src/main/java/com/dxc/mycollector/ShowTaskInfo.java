@@ -175,7 +175,7 @@ public class ShowTaskInfo extends BaseActivity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Toast.makeText(context, "开始测量", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "开始测量", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(ShowTaskInfo.this, CeLiangActivity.class);
             TaskInfo taskInfo = listtasks.get(position);
             TaskDetails detailDatas = taskInfo.getTaskDetail();

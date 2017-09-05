@@ -2,12 +2,14 @@
 package com.dxc.mycollector.taskDownload;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Handler;
 
+import com.dxc.mycollector.UploadBlueToothFolder;
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
+import com.dxc.mycollector.model.MeasureData;
 import com.dxc.mycollector.model.TaskDetails;
+import com.dxc.mycollector.model.TaskInfo;
 import com.dxc.mycollector.utils.HttpUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -18,11 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ThreadPoolExecutor;
-
-import com.dxc.mycollector.model.TaskInfo.DetailData;
-import com.dxc.mycollector.model.TaskInfo;
 
 /**
  * Created by gospel on 2017/8/18.
@@ -36,6 +34,8 @@ public class DownLoadManager {
     private static final String pKey = "administrator";
     private static final String upUrl = "http://106.38.157.46:48080/restcenter/measureTaskService/feedbackTask";
     private static final String upKey = "administrator";
+
+    public UploadCallback uploadCallback;
 
     private Context mycontext;
 
@@ -122,7 +122,7 @@ public class DownLoadManager {
                 try {
                     while (i > 0 && i < 10) {
                         resultJson = HttpUtils.getJSONObjectString(pKey, pUrl);// HttpUtils.doPost(null, textView.getText().toString());
-                        if (resultJson == null || "[]".equals(resultJson) || (resultJson.indexOf("FAIL") > -1)) {
+                        if (resultJson == null || "[]".equals(resultJson) || resultJson.length() == 0 || (resultJson != null && resultJson.indexOf("FAIL") > -1)) {
                             //上传FAIL,重新请求，10次后不在
                             Logger.i(TAG, "平台任务接口返回失败，resultJson:" + resultJson);
                             Logger.i(TAG, i + " 次请求...");
@@ -151,6 +151,7 @@ public class DownLoadManager {
                     //上传成功，更新本地数据上传状态
 //                    int result = SqliteUtils.getInstance(mycontext).saveTaskInfo(maps.get(ti), ti);
 //                    Logger.i(TAG, "任务保存成功。测量详情：" + maps.get(ti).toString());
+
                     break;
                 default:
                     break;
@@ -159,13 +160,13 @@ public class DownLoadManager {
     };
 
 
-    public void uploadMeasure(final TaskDetails taskDetails) {
+    public void uploadMeasure(final MeasureData taskInfo) {
         new Thread() {//创建子线程进行网络访问的操作
             public void run() {
                 try {
                     while (ui > 0 && ui < 10) {
-                        resultJsonupload = HttpUtils.postJSONObjectString(upUrl, taskDetails);
-                        if (resultJsonupload == null || (resultJson.indexOf("FAIL") > -1)) {
+                        resultJsonupload = HttpUtils.postJSONObjectString(upUrl, taskInfo);
+                        if (resultJsonupload == null || (resultJsonupload.indexOf("FAIL") > -1)) {
                             //下载任务接口返回FAIL,重新请求，3次后不在
                             Logger.i(TAG, "平台测量数据上传接口请求失败，resultJsonupload:" + resultJsonupload);
                             Logger.i(TAG, ui + " 次上传请求...");
@@ -176,6 +177,7 @@ public class DownLoadManager {
                         } else {
                             ui = 0;
                             Logger.i(TAG, "平台测量数据上传成功，resultJsonupload:" + resultJsonupload);
+                            uploadCallback.callback(true);
                             //处理任务
                             uhandler.sendEmptyMessage(1);
                         }
@@ -187,6 +189,13 @@ public class DownLoadManager {
         }.start();
     }
 
+    public void setUploadCallback(UploadCallback uploadCallback) {
+        this.uploadCallback = uploadCallback;
+    }
+
+    public interface UploadCallback {
+        void callback(boolean statu);
+    }
 
 //    /**
 //     * (从数据库恢复下载任务信息)

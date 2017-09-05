@@ -1,21 +1,29 @@
 package com.dxc.mycollector;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.MeasureData;
+import com.dxc.mycollector.model.TaskDetails;
 import com.dxc.mycollector.model.TaskInfo;
+import com.dxc.mycollector.taskDownload.DownLoadManager;
+import com.dxc.mycollector.utils.HttpUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +33,7 @@ import java.util.List;
  */
 
 public class UploadBlueToothFolder extends BaseActivity {
+    String TAG = UploadBlueToothFolder.class.getSimpleName();
     private ListView uploadfileList;//文件列表
     private List<String> listf;
     private TextView text;//上传按钮
@@ -40,6 +49,18 @@ public class UploadBlueToothFolder extends BaseActivity {
 //        String aa = searchFile("");
         queryDBCDate();
         searchDrawerList();
+
+//        findViewById(R.id.upload).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                try {
+//                    DownLoadManager downLoadManager = new DownLoadManager(UploadBlueToothFolder.this);
+//                    downLoadManager.uploadMeasure(null);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar);
@@ -67,6 +88,7 @@ public class UploadBlueToothFolder extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     /**
      * the one get date not in database
@@ -134,10 +156,66 @@ public class UploadBlueToothFolder extends BaseActivity {
             }
         };
         uploadfileList.setAdapter(adapter);
+        uploadfileList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
     static class Holder {
         TextView fileName = null;
         TextView fileTime = null;
     }
+
+    boolean uptrue = false;
+    private Handler uhandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case 1:
+                    //上传成功，更新本地数据上传状态
+//                    int result = SqliteUtils.getInstance(mycontext).saveTaskInfo(maps.get(ti), ti);
+//                    Logger.i(TAG, "任务保存成功。测量详情：" + maps.get(ti).toString())
+                    if (uptrue) {
+                        Toast.makeText(getApplicationContext(), "上传成功!", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "上传失败!", Toast.LENGTH_LONG).show();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            Toast.makeText(context, "开始上传", Toast.LENGTH_SHORT).show();
+            MeasureData taskInfo = listtasks.get(position);
+            DownLoadManager downLoadManager = new DownLoadManager(UploadBlueToothFolder.this);
+            downLoadManager.uploadMeasure(taskInfo);
+            downLoadManager.setUploadCallback(new DownLoadManager.UploadCallback() {
+                @Override
+                public void callback(boolean statu) {
+                    uptrue = statu;
+                    uhandler.sendEmptyMessage(1);
+                }
+            });
+
+        }
+    }
+
+
+    /**
+     * showUploadResult
+     *
+     * @param result
+     */
+    private void showUploadResult(String result) {
+        String[] strarr = new String[1];
+        strarr[0] = result;
+        new AlertDialog.Builder(this)
+                .setTitle("上传测量数据")
+                .setItems(strarr, null)
+                .setNegativeButton("确定", null)
+                .show();
+    }
+
 }

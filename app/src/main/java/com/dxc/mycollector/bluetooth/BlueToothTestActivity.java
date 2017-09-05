@@ -3,7 +3,7 @@
  * DXC technology
  */
 
-package com.dxc.mycollector;
+package com.dxc.mycollector.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -21,6 +21,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.dxc.mycollector.BaseActivity;
+import com.dxc.mycollector.R;
 
 import java.io.IOException;
 import java.lang.reflect.Method;

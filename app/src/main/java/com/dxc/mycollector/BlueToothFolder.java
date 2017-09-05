@@ -280,7 +280,7 @@ public class BlueToothFolder extends BaseActivity {
         MeasureData measureData = new MeasureData();
         measureData.setSources(personInfos);
         measureData.setGaocheng(hightProcess);
-        measureData.setShoulian("收敛");
+        measureData.setShoulian("0");
         measureData.setCldian("测量点");
         measureData.setCllicheng("测量里程");
         measureData.setStatus("1");

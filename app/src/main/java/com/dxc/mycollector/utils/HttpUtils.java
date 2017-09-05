@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.dxc.mycollector.DLApplication;
 import com.dxc.mycollector.logs.Logger;
+import com.dxc.mycollector.model.MeasureData;
 import com.dxc.mycollector.model.TaskDetails;
 import com.dxc.mycollector.model.TaskDetails1;
 import com.google.gson.Gson;
@@ -166,7 +167,7 @@ public class HttpUtils {
      * @return
      * @throws Exception
      */
-    public static String postJSONObjectString(String path, TaskDetails taskd)
+    public static String postJSONObjectString(String path, MeasureData taskd)
             throws Exception {
         String result = null;
         Map<String, String> map = null;
@@ -174,7 +175,7 @@ public class HttpUtils {
         try {
             url = new URL(path);
             /*封装子对象*/
-//            JSONObject ClientKey = new JSONObject();
+            JSONObject ClientKey = new JSONObject();
 //            ClientKey.put("taskId", "100098");
 //            ClientKey.put("doTime", "2017-09-02");
 //            ClientKey.put("userId", "admin");
@@ -182,18 +183,20 @@ public class HttpUtils {
 //            ClientKey.put("mileageId", "K-10098");
 //            ClientKey.put("pointLabel", "K-10098-0-1");
 //            ClientKey.put("pointId", "K-10098-0-1");
-//            ClientKey.put("taskId", DLApplication.userName);
-//            ClientKey.put("doTime", taskd.getDateTime());
-//            ClientKey.put("userId", DLApplication.userName);
-//            ClientKey.put("mileageLabel", taskd.getMileageLabel());
-//            ClientKey.put("mileageId", taskd.getMileageId());
-//            ClientKey.put("pointLabel", taskd.getPointLabel());
-//            ClientKey.put("pointId", taskd.getPointId());
+            ClientKey.put("taskId", "640");
+            ClientKey.put("doTime", taskd.getCltime());
+            ClientKey.put("userId", (taskd.getClren() == null || taskd.getClren().length() == 0) ? DLApplication.userName : taskd.getClren());
+            ClientKey.put("mileageLabel", "测量里程显示名称4");
+            ClientKey.put("mileageId", "test_89");
+            ClientKey.put("pointLabel", "测量点显示名称");
+            ClientKey.put("pointId", "test_cl1");
+            ClientKey.put("pointValue", taskd.getGaocheng() == null ? "0" : taskd.getGaocheng());
+
 //            if (taskd == null) {
 //                taskd.setMileageLabel("K-10098");
 //            }
             TaskDetails1 t1 = new TaskDetails1();
-            t1.setMileageLabel("K-10098");
+            t1.setMileageLabel("640");
             /*封装Person数组*/
 
 //            JSONObject params = new JSONObject();
@@ -201,7 +204,9 @@ public class HttpUtils {
             /*把JSON数据转换成String类型使用输出流向服务器写*/
             Gson gson = new Gson();
             String content = gson.toJson(t1);//String.valueOf(gson.toJson(taskd));
+            content = "{\"taskId\":\"640\",\"doTime\":\"2017-9-01 14:45:12\",\"userId\":\"\",\"mileageLabel\":\"测量里程显示名称4\",\"mileageId\":\"test_89\",\"pointLabel\":\"测量点显示名称\",\"pointId\":\"test_cl1\",\"pointValue\":\"151.161\"}";
             Logger.i(TAG, "post jsondata：" + content);
+            Logger.i("DownLoadManager", "postjsondata：" + content);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5000);
             conn.setDoOutput(true);//设置允许输出

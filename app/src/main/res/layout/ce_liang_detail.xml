@@ -171,18 +171,19 @@
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_load_style"
-            android:text="获取测量数据"
+            android:text="选择测量仪器"
             android:textColor="@drawable/btn_load_txtcol"
             android:textSize="@dimen/all_btn" />
 
-        <!--<android.support.v7.widget.AppCompatButton
-            android:id="@+id/复核"
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/getbluedatalist"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
-            android:text="复核"
             android:background="@drawable/btn_load_style"
+            android:text="获取测量数据"
             android:textColor="@drawable/btn_load_txtcol"
-            android:textSize="20sp" />-->
+            android:textSize="@dimen/all_btn"
+            android:visibility="invisible"/>
     </LinearLayout>
 </LinearLayout>
