@@ -7,10 +7,13 @@ package com.dxc.mycollector;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -47,11 +50,12 @@ public class ShowTaskInfo extends BaseActivity {
     Context context;
     List<TaskInfo> listtasks = null;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.task_download_main_layout);
+        waitingDialog();//加载等待页面对话框方法
+
         context = this;
         //获取已经下载的任务信息
         getAllTasks();

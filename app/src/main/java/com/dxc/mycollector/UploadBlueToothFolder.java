@@ -44,6 +44,7 @@ public class UploadBlueToothFolder extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upload_bluetooth_fileslist_main_layout);
+        waitingDialog();//加载等待页面方法
         uploadfileList = (ListView) findViewById(R.id.showuploadbluetoothfilelistView);
         context = this;
 //        String aa = searchFile("");
