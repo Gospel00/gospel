@@ -70,7 +70,7 @@ public class ShowTaskInfo extends BaseActivity {
         ((TextView) findViewById(R.id.title_name)).setText("我的任务列表");
 
         //以下代码用于去除阴影
-        if(Build.VERSION.SDK_INT>=21){
+        if (Build.VERSION.SDK_INT >= 21) {
             getSupportActionBar().setElevation(0);
         }
     }
@@ -78,8 +78,7 @@ public class ShowTaskInfo extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
-        if(item.getItemId() == android.R.id.home)
-        {
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
@@ -119,10 +118,15 @@ public class ShowTaskInfo extends BaseActivity {
                     holder = (Holder) convertView.getTag();
                 }
                 TaskInfo taskInfo = listtasks.get(position);
+                String starttime = "";
+                if (taskInfo.getStartTime() != null && taskInfo.getStartTime().length() > 10)
+                    starttime = taskInfo.getStartTime().substring(0, 10);
+                else
+                    starttime = taskInfo.getStartTime();
                 String showstr = taskInfo.getTaskId() + "-" + (taskInfo.getTaskType().equals("T0101") ? "拱顶沉降" : "水平收敛");
                 showstr += "(" + getMeasureType(taskInfo.getMeasureType()) + ")" + taskInfo.getTaskDetail().getPointLabel() + "-" + taskInfo.getTaskDetail().getSection();
                 holder.tasknamepoint.setText(showstr);
-                holder.taskname.setText(taskInfo.getTaskDetail().getProName() + "-" + taskInfo.getTaskDetail().getMileageLabel() + "-" + taskInfo.getTaskDetail().getPointLabel() + taskInfo.getStartTime().substring(0, 10) + "-" + taskInfo.getEndTime().substring(0, 10));
+                holder.taskname.setText(taskInfo.getTaskDetail().getProName() + "-" + taskInfo.getTaskDetail().getMileageLabel() + "-" + taskInfo.getTaskDetail().getPointLabel() + starttime);// + "-" + taskInfo.getEndTime().substring(0, 10)
 
                 return convertView;
             }
