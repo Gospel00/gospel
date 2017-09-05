@@ -61,7 +61,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="测量"
-                android:textColor="#4e5f71"
+                android:background="#5aa1d5"
+                android:textColor="@color/common_white"
                 android:textSize="@dimen/personal_text_view2" />
         </LinearLayout>
 
