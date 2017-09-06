@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingRight="16dp"
-        android:paddingLeft="16dp">
+        android:paddingTop="30dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -36,6 +41,7 @@
             android:id="@+id/textViewmanual"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -59,6 +65,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -83,6 +90,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -107,28 +115,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/border"
+        android:orientation="vertical"
         android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:background="@drawable/border">
+        android:paddingRight="5dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp">
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
 
             <TextView
                 android:id="@+id/textView18"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:text="高程："
                 android:textColor="@drawable/btn_regist_txtcol"
                 android:textSize="@dimen/personal_text_view1" />
@@ -138,37 +147,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_weight="1"
+                android:background="@drawable/border"
+                android:gravity="center"
                 android:text="100"
-                android:background="@drawable/edittextstyle"
-                android:gravity="center" />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="10dp"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp">
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
 
             <TextView
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:text="收敛："
                 android:textColor="@drawable/btn_regist_txtcol"
-                android:textSize="@dimen/personal_text_view1"/>
+                android:textSize="@dimen/personal_text_view1" />
 
             <EditText
                 android:id="@+id/slmanual"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:background="@drawable/edittextstyle"
+                android:background="@drawable/border"
+                android:gravity="center"
                 android:text="100"
-                android:gravity="center" />
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
@@ -176,7 +187,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:orientation="vertical">
 
         <android.support.v7.widget.AppCompatButton
@@ -184,19 +195,9 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/btn_load_style"
-            android:text="选择测量仪器"
+            android:text="提     交"
             android:textColor="@drawable/btn_load_txtcol"
             android:textSize="@dimen/all_btn" />
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/getbluedatalistmanual"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/btn_load_style"
-            android:text="获取测量数据"
-            android:textColor="@drawable/btn_load_txtcol"
-            android:textSize="@dimen/all_btn"
-            android:visibility="invisible"/>
     </LinearLayout>
-    </LinearLayout>
+</LinearLayout>

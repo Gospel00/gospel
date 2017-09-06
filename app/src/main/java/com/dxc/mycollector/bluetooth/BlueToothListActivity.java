@@ -179,7 +179,7 @@ public class BlueToothListActivity extends BaseActivity {
                         WeiboDialogUtils.closeDialog(mWeiboDialog);
                     }
                     Intent intent2 = new Intent();
-                    intent2.putExtra(EXTRA_DEVICE_ADDRESS, getAddress);
+//                    intent2.putExtra(EXTRA_DEVICE_ADDRESS, getAddress);
                     intent2.putExtra("result", "取消配对");
                     // Set result and finish this Activity
                     setResult(Activity.RESULT_OK, intent2);
@@ -296,7 +296,7 @@ public class BlueToothListActivity extends BaseActivity {
                         Logger.e(TAG, "btSocket.connect() failed." + e.getMessage());
                         try {
                             Logger.e(TAG, "trying fallback...");
-                            Logger.i(TAG, "调用发射机制连接设备...");
+                            Logger.i(TAG, "调用反射机制连接设备...");
                             btSocket = (BluetoothSocket) btDev.getClass().getMethod("createRfcommSocket", new Class[]{int.class}).invoke(btDev, 1);
                             btSocket.connect();
                             mHandler.sendEmptyMessageDelayed(2, 3000);//处理消息
