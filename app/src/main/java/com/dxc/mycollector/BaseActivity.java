@@ -1,7 +1,6 @@
 package com.dxc.mycollector;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -21,7 +20,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowId;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -30,9 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.dxc.mycollector.bluetooth.BluetoothTools;
 import com.dxc.mycollector.logs.Logger;
 
 import java.util.ArrayList;
@@ -63,7 +59,7 @@ public class BaseActivity extends AppCompatActivity {
     //定义加载等待页面方法
     public void waitingDialog() {
         mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, "加载中...");//加载对话框
-        mHandler.sendEmptyMessageDelayed(1, 500);//处理消息
+        mHandler.sendEmptyMessageDelayed(1, 1000);//处理消息
     }
 
     //消息处理线程

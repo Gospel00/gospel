@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="150dp"
         android:layout_height="110dp"
-        android:background="@drawable/loading_bg"
+        android:background="@color/common_white"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingBottom="10dp"
@@ -23,7 +23,7 @@
             android:layout_height="35dp"
             android:layout_gravity="center_horizontal"
             android:indeterminateBehavior="repeat"
-            android:indeterminateDrawable="@mipmap/dilog_loading_img1"
+            android:indeterminateDrawable="@drawable/dialog_loading"
             android:indeterminateOnly="true" />
 
         <TextView
