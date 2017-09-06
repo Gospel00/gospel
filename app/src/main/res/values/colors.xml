@@ -40,6 +40,7 @@
     <color name="bright_foreground_material_dark">@android:color/white</color>
     <color name="bright_foreground_material_light">@android:color/black</color>
     <color name="button_material_dark">#ff5a595b</color>
+    <color name="button_exit">#5aa1d5</color>
     <color name="button_material_light">#ffd6d7d7</color>
     <color name="center_pop_view_top">#ffb6b6b6</color>
     <color name="darkgray">#ff4e4b4b</color>

@@ -37,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.dxc.mycollector.bluetooth.BlueToothListActivity;
 import com.dxc.mycollector.bluetooth.BluetoothManager;
 import com.dxc.mycollector.bluetooth.BluetoothTools;
 import com.dxc.mycollector.bluetooth.DeviceListActivity;
@@ -60,7 +61,8 @@ public class CeLiangActivity extends BaseActivity {
     private TextView etclsj;//测量时间
     private TextView etgc;//高程
     private TextView etsl;//收敛
-    private Button button;//获取蓝牙数据
+    private Button button;//连接设备
+    private Button datalist;//获取蓝牙数据
 
     /**
      * 自定义的打开 Bluetooth 的请求码，与 onActivityResult 中返回的 requestCode 匹配。
@@ -94,6 +96,7 @@ public class CeLiangActivity extends BaseActivity {
 
 
         button = (Button) findViewById(R.id.getbluedata);
+        datalist = (Button) findViewById(R.id.getbluedatalist);
         etcllc = (TextView) findViewById(R.id.cllc);
         etcld = (TextView) findViewById(R.id.cld);
         etclr = (TextView) findViewById(R.id.clr);
@@ -127,14 +130,14 @@ public class CeLiangActivity extends BaseActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((BluetoothManager.isBluetoothSupported())
-                        && (!BluetoothManager.isBluetoothEnabled())) {
-                    turnOnBluetooth();
-                } else {
-                    //开始搜索
-                    Intent serverIntent = new Intent(CeLiangActivity.this, DeviceListActivity.class);
-                    startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-                }
+//                if ((BluetoothManager.isBluetoothSupported())
+//                        && (!BluetoothManager.isBluetoothEnabled())) {
+//                    turnOnBluetooth();
+//                } else {
+                //开始搜索
+                Intent serverIntent = new Intent(CeLiangActivity.this, BlueToothListActivity.class);
+                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+//                }
             }
         });
 
@@ -164,9 +167,9 @@ public class CeLiangActivity extends BaseActivity {
 
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO Auto-generated method stub
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
@@ -213,10 +216,11 @@ public class CeLiangActivity extends BaseActivity {
                 // When DeviceListActivity returns with a device to connect
                 if (resultCode == Activity.RESULT_OK) {
                     // Get the device MAC address
-//                    String address = data.getExtras()
-//                            .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+                    String address = data.getExtras()
+                            .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
 //                    //显示在按钮上
-//                    button.setText(button.getText() + ":" + address);
+                    button.setText(button.getText() + ":" + address);
+                    datalist.setVisibility(View.VISIBLE);
 //                    // Get the BLuetoothDevice object
 //                    device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address);
 //                    Intent selectDeviceIntent = new Intent(BluetoothTools.ACTION_SELECTED_DEVICE);//选择动作
@@ -224,18 +228,18 @@ public class CeLiangActivity extends BaseActivity {
 //                    sendBroadcast(selectDeviceIntent);
                 }
                 break;
-            case REQUEST_CODE_BLUETOOTH_ON:
-                // When DeviceListActivity returns with a device to connect
-                if (resultCode == BLUETOOTH_DISCOVERABLE_DURATION) {
-                    ///开始搜索
-                    Intent serverIntent = new Intent(CeLiangActivity.this, DeviceListActivity.class);
-                    startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-                } else {
-                    Toast.makeText(this, "用户拒绝开启蓝牙", Toast.LENGTH_SHORT).show();
-                    Logger.i(TAG, "用户拒绝开启蓝牙");
-                }
-
-                break;
+//            case REQUEST_CODE_BLUETOOTH_ON:
+//                // When DeviceListActivity returns with a device to connect
+//                if (resultCode == BLUETOOTH_DISCOVERABLE_DURATION) {
+//                    ///开始搜索
+//                    Intent serverIntent = new Intent(CeLiangActivity.this, DeviceListActivity.class);
+//                    startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+//                } else {
+//                    Toast.makeText(this, "用户拒绝开启蓝牙", Toast.LENGTH_SHORT).show();
+//                    Logger.i(TAG, "用户拒绝开启蓝牙");
+//                }
+//
+//                break;
         }
     }
 
@@ -290,7 +294,6 @@ public class CeLiangActivity extends BaseActivity {
             Logger.i(TAG, "开始连接...");
             btSocket.connect();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
