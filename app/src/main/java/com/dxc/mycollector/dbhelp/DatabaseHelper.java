@@ -158,15 +158,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //创建用户信息表
         String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME3
                 + " (id integer primary key autoincrement," +
+                "taskId  varchar(100),"+
                 "cllicheng varchar(2000)," +
                 "cldian varchar(2000)," +
-                "clren varchar(2000)," +
-                "cltime varchar(2000)," +
-                "gaocheng varchar(2000)," +
-                "shoulian varchar(2000)," +
+                "cllichengId varchar(2000)," +
+               "cldianId varchar(2000)," +
+                "clren varchar(100)," +
+                "cltime varchar(50)," +
+                "gaocheng varchar(100)," +
+                "shoulian varchar(100)," +
                 "status varchar(100)," +
                 "datatype varchar(100)," +
-                "sources varchar(100))";
+               "createtime varchar(50)," +
+                "updatetime varchar(50)," +
+                "sources varchar(1000))";
         try {
             db.execSQL(sql);
         } catch (Exception e) {
