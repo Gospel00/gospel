@@ -2,20 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
     android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
-
+    android:paddingRight="16dp"
+    android:paddingLeft="16dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+
             android:layout_weight="1"
             android:gravity="left|center_vertical"
             android:text="测量里程：" />
@@ -23,9 +27,8 @@
         <TextView
             android:id="@+id/cllc"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:gravity="right|center_vertical" />
 
@@ -40,9 +43,8 @@
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:gravity="left|center_vertical"
             android:text="测量点：" />
@@ -50,9 +52,8 @@
         <TextView
             android:id="@+id/cld"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:gravity="right|center_vertical" />
     </LinearLayout>
@@ -65,9 +66,8 @@
         <TextView
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:gravity="left|center_vertical"
             android:text="测量人：" />
@@ -75,9 +75,8 @@
         <TextView
             android:id="@+id/clr"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:gravity="right|center_vertical" />
     </LinearLayout>
@@ -91,9 +90,8 @@
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:gravity="left|center_vertical"
             android:text="测量时间：" />
@@ -101,75 +99,93 @@
         <TextView
             android:id="@+id/clsj"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:gravity="right|center_vertical" />
     </LinearLayout>
 
+</LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginLeft="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:background="@drawable/border">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp">
 
         <TextView
             android:id="@+id/textView18"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:gravity="left|center_vertical"
-            android:text="高程：" />
+            android:gravity="center_vertical"
+            android:text="高程："
+            android:textColor="@drawable/btn_regist_txtcol"
+            android:textSize="@dimen/personal_text_view1" />
 
-        <TextView
+        <EditText
             android:id="@+id/gc"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:gravity="right|center_vertical" />
+            android:text="100"
+            android:background="@drawable/edittextstyle"
+            android:gravity="center" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp">
 
         <TextView
             android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:gravity="left|center_vertical"
-            android:text="收敛：" />
+            android:gravity="center_vertical"
+            android:text="收敛："
+            android:textColor="@drawable/btn_regist_txtcol"
+            android:textSize="@dimen/personal_text_view1"/>
 
-        <TextView
+        <EditText
             android:id="@+id/sl"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:gravity="right|center_vertical" />
+            android:background="@drawable/edittextstyle"
+            android:text="100"
+            android:gravity="center" />
     </LinearLayout>
+</LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/getbluedata"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="20dp"
             android:background="@drawable/btn_load_style"
             android:text="选择测量仪器"
             android:textColor="@drawable/btn_load_txtcol"
