@@ -15,7 +15,9 @@ public class MeasureData implements Serializable {
     private String cltime;
     private String gaocheng;
     private String shoulian;
-    private String dataType;//0是出数值，1是新测量的数据
+    private String createTime;
+    private String updateTime;
+    private String dataType;//0是手动录入，1是蓝牙录入
     private String status;//0是已经上传成功，1否
     public String downloadId;
 
@@ -110,8 +112,9 @@ public class MeasureData implements Serializable {
                 ", gaocheng='" + gaocheng + '\'' +
                 ", shoulian='" + shoulian + '\'' +
                 ", status='" + status + '\'' +
-
                 //zrw add
+                ", createtime='" + createTime + '\'' +
+                ", updatetime='" + updateTime + '\'' +
                 ", dataType='" + dataType + '\'' +
 
                 '}';

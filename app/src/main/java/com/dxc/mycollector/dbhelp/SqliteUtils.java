@@ -134,8 +134,10 @@ public class SqliteUtils {
             try {
                 Cursor cursor = db.rawQuery("select * from tbl_measure where cldian=?", new String[]{measure.getCldian().toString()});
                 if (cursor.getCount() <= 0) {
-                    db.execSQL("insert into tbl_measure(cllicheng,cldian,clren,cltime,gaocheng,shoulian,status,datatype,sources) values(?,?,?,?,?,?,?,?,?) ",
-                            new String[]{measure.getCllicheng(), measure.getCldian(), measure.getClren(), measure.getCltime(), measure.getGaocheng(), measure.getShoulian(), measure.getStatus(), measure.getDataType(), measure.getSources()});
+                    db.execSQL("insert into tbl_measure(cllicheng,cldian,clren,cltime,gaocheng," +
+                                    "shoulian,status,datatype,sources,taskId,cllichengId,cldianId," +
+                                    "createtime,updatetime) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?) ",
+                            new String[]{measure.getCllicheng(), measure.getCldian(), measure.getClren(), measure.getCltime(), measure.getGaocheng(), measure.getShoulian(), measure.getStatus(), measure.getDataType(), measure.getSources(),"","","","",""});
                     return 1;
                 }
                 if(cursor.getCount() >0)
@@ -241,4 +243,35 @@ public class SqliteUtils {
         }
         return list;
     }
+
+    public int UpdateState(String taskIdS,TaskDetails td,String taskname,String nowtime,String gc,String sl)
+    {
+        if (td != null) {
+            try {
+                Cursor cursor = db.rawQuery("select * from tbl_measure where taskId=?", new String[]{taskIdS});
+                if (cursor.getCount() <= 0) {
+                    db.execSQL("insert into tbl_measure(cllicheng,cldian,clren,cltime,gaocheng," +
+                                    "shoulian,status,datatype,sources,taskId,cllichengId,cldianId," +
+                                    "createtime,updatetime) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?) ",
+                            new String[]{td.getMileageLabel(), td.getPointLabel(),
+                                    taskname, nowtime,gc.trim(), sl.trim(),"1", "0",
+                                    "",taskIdS,nowtime,""});
+                    return 1;
+                }
+                if(cursor.getCount() >0)
+                {
+                    return 1;
+                }
+                return 0;
+            } catch (Exception e) {
+                Log.d("保存信息异常：", e.getMessage().toString());
+                return 0;
+            }
+        } else {
+            return 0;
+        }
+
+        }
+
+
 }

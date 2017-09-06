@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".BaseActivity"></activity>
+        <activity android:name=".CeliangManualOperation"></activity>
         <activity android:name=".RegisterAcitvity"></activity>
         <activity android:name=".PersonAcitvity"></activity>
         <!--<activity android:name=".TaskDownloadActivity"></activity>-->

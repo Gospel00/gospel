@@ -63,6 +63,9 @@ public class CeLiangActivity extends BaseActivity {
     private TextView etsl;//收敛
     private Button button;//连接设备
     private Button datalist;//获取蓝牙数据
+    private Button buttonmaual;//连接设备
+    private  String UserName="";//用户名
+    TaskDetails detailDatas;
 
     /**
      * 自定义的打开 Bluetooth 的请求码，与 onActivityResult 中返回的 requestCode 匹配。
@@ -77,7 +80,7 @@ public class CeLiangActivity extends BaseActivity {
     private StringBuffer mOutStringBuffer;
     private BluetoothDevice device;
     public static String message;
-
+    Intent intent;
     //该UUID表示串口服务
     //请参考文章<a href="http://wiley.iteye.com/blog/1179417">http://wiley.iteye.com/blog/1179417</a>
     static final String SPP_UUID = "00001101-0000-1000-8000-00805F9B34FB";
@@ -96,21 +99,24 @@ public class CeLiangActivity extends BaseActivity {
 
 
         button = (Button) findViewById(R.id.getbluedata);
-        datalist = (Button) findViewById(R.id.getbluedatalist);
+       //ZRW datalist = (Button) findViewById(R.id.getbluedatalist);
         etcllc = (TextView) findViewById(R.id.cllc);
         etcld = (TextView) findViewById(R.id.cld);
         etclr = (TextView) findViewById(R.id.clr);
         etclsj = (TextView) findViewById(R.id.clsj);
         etgc = (TextView) findViewById(R.id.gc);
         etsl = (TextView) findViewById(R.id.sl);
-        Intent intent = getIntent();
+        buttonmaual = (Button) findViewById(R.id.turntomanual);
+        intent = getIntent();
         try {
             MeasureData measureData = (MeasureData) intent.getSerializableExtra("measureData");
             if (measureData == null) {
                 TaskDetails detailDatas = (TaskDetails) intent.getSerializableExtra("detailDatas");
+
                 etcllc.setText(detailDatas.getMileageLabel());
                 etcld.setText(detailDatas.getPointLabel());
                 etclr.setText(detailDatas.getSection());
+                UserName=detailDatas.getSection();
                 etclsj.setText(detailDatas.getDateTime());
                 etgc.setText(detailDatas.getInitialValue());
                 etsl.setText(detailDatas.getInitialValue());
@@ -118,6 +124,7 @@ public class CeLiangActivity extends BaseActivity {
                 etcllc.setText(measureData.getCllicheng());
                 etcld.setText(measureData.getCldian());
                 etclr.setText(measureData.getClren());
+                UserName=measureData.getClren();
                 etclsj.setText(measureData.getCltime());
                 etgc.setText(measureData.getGaocheng());
                 etsl.setText(measureData.getShoulian());
@@ -127,6 +134,23 @@ public class CeLiangActivity extends BaseActivity {
             l.e("showCeLiang", String.valueOf(d));
 
         }
+
+        buttonmaual.setOnClickListener(new View.OnClickListener() {//手动跳转
+            @Override
+            public void onClick(View v) {
+                detailDatas = (TaskDetails) intent.getSerializableExtra("detailDatas");
+                String taskId = (String) intent.getStringExtra("taskId");
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("taskpass", detailDatas);
+                bundle.putSerializable("taskId_operation", taskId);
+                bundle.putSerializable("task_user",UserName );
+                Intent intents  = new Intent(CeLiangActivity.this, CeliangManualOperation.class);
+                intents.putExtras(bundle);
+                startActivity(intents);
+            }
+        });
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,7 +244,7 @@ public class CeLiangActivity extends BaseActivity {
                             .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
 //                    //显示在按钮上
                     button.setText(button.getText() + ":" + address);
-                    datalist.setVisibility(View.VISIBLE);
+                   //ZRW datalist.setVisibility(View.VISIBLE);
 //                    // Get the BLuetoothDevice object
 //                    device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address);
 //                    Intent selectDeviceIntent = new Intent(BluetoothTools.ACTION_SELECTED_DEVICE);//选择动作
