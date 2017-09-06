@@ -186,7 +186,7 @@ public class ShowTaskInfo extends BaseActivity {
             detailDatas.setDateTime(taskInfo.getStartTime().substring(0, 10));
             intent.putExtra("detailDatas", detailDatas);
             startActivity(intent);
-            finish();
+//            finish();
 //            selectItem(position);
 //            actionAlertDialog();
         }

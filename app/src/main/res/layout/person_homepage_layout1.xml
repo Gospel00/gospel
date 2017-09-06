@@ -37,7 +37,7 @@
         android:text="ToggleButton" />
 
     <ListView
-        android:id="@+id/lvDevices"
+        android:id="@+id/lvDevices1"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:drawSelectorOnTop="true" />
