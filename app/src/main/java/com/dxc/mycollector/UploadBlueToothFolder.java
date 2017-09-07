@@ -3,7 +3,6 @@ package com.dxc.mycollector;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,10 +19,9 @@ import android.widget.Toast;
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.MeasureData;
-import com.dxc.mycollector.model.TaskDetails;
-import com.dxc.mycollector.model.TaskInfo;
+import com.dxc.mycollector.pullableview.MyListener;
+import com.dxc.mycollector.pullableview.PullToRefreshLayout;
 import com.dxc.mycollector.taskDownload.DownLoadManager;
-import com.dxc.mycollector.utils.HttpUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +60,10 @@ public class UploadBlueToothFolder extends BaseActivity {
 //                }
 //            }
 //        });
+        //下拉刷新
+        ((PullToRefreshLayout) findViewById(R.id.refresh_view2))
+                .setOnRefreshListener(new MyListener());
+        uploadfileList = (ListView) findViewById(R.id.showuploadbluetoothfilelistView);
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar);
