@@ -144,7 +144,7 @@
 
             <EditText
                 android:id="@+id/gcmanual"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="@drawable/border"
@@ -173,7 +173,7 @@
 
             <EditText
                 android:id="@+id/slmanual"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="@drawable/border"
