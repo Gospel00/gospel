@@ -1,68 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="5dp"
-    tools:context=".ShowTaskInfo">
+    android:padding="5dp">
 
-    <!--<RelativeLayout
-        android:id="@+id/headlayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:textSize="@dimen/all_title" />  &lt;!&ndash;android:text="我的任务列表"&ndash;&gt;
-
-       &lt;!&ndash;<Button
-            android:id="@+id/add_task"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="60dp"
-            android:layout_toRightOf="@+id/center"
-            />&ndash;&gt;
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_below="@+id/center"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"/>
-           &lt;!&ndash; android:background="@color/huise"
-            android:paddingLeft="1920dp"
-            android:singleLine="true" &ndash;&gt;
-
-    </RelativeLayout>-->
-
-    <RelativeLayout
-        android:id="@+id/mylistview"
+    <com.dxc.mycollector.pullableview.PullToRefreshLayout
+        android:id="@+id/refresh_view1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/headlayout"
-        android:layout_marginTop="2dp">
 
-        <ListView
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <include layout="@layout/refresh_head" />
+
+        <com.dxc.mycollector.pullableview.PullableListView
             android:id="@+id/task_listView"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:drawSelectorOnTop="true" />
-        <!--<TextView
-            android:id="@+id/center111"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="http://106.38.157.46:48080/restcenter/restcenter/measureTaskService/getMeasureTasks"
-            android:textSize="@dimen/all_title" />-->
+            android:background="@color/white"
+            android:divider="@color/gray"
+            android:dividerHeight="1dp" />
 
-    </RelativeLayout>
+        <include layout="@layout/load_more" />
+
+    </com.dxc.mycollector.pullableview.PullToRefreshLayout>
 
 </RelativeLayout>

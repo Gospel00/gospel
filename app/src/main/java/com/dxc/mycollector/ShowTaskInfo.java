@@ -7,14 +7,10 @@ package com.dxc.mycollector;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,14 +21,13 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dxc.mycollector.dbhelp.SqliteUtils;
-import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.TaskDetails;
 import com.dxc.mycollector.model.TaskInfo;
+import com.dxc.mycollector.pullableview.MyListener;
+import com.dxc.mycollector.pullableview.PullToRefreshLayout;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,13 +49,9 @@ public class ShowTaskInfo extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.task_download_main_layout);
-        context = this;
         waitingDialog();//加载等待页面对话框方法
-        //获取已经下载的任务信息
-        getAllTasks();
-        //初始化ListView
-        initDrawerList();
 
+        context = this;
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar);
         //必须加2句
@@ -72,11 +63,23 @@ public class ShowTaskInfo extends BaseActivity {
         // 使用setText的方法对textview动态赋值
         ((TextView) findViewById(R.id.title_name)).setText("我的任务列表");
 
+//下拉刷新
+        ((PullToRefreshLayout) findViewById(R.id.refresh_view1))
+                .setOnRefreshListener(new MyListener());
+        listview = (ListView) findViewById(R.id.task_listView);
+
+        //获取已经下载的任务信息
+        getAllTasks();
+        //初始化ListView
+        initDrawerList();
         //以下代码用于去除阴影
         if (Build.VERSION.SDK_INT >= 21) {
             getSupportActionBar().setElevation(0);
         }
     }
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -97,17 +100,16 @@ public class ShowTaskInfo extends BaseActivity {
     }
 
     private void initDrawerList() {
-        listview = (ListView) this.findViewById(R.id.task_listView);
-        BaseAdapter adapter = new BaseAdapter() {
-            @Override
-            public View getView(final int position, View convertView, ViewGroup parent) {
-                Holder holder = null;
-                if (convertView == null) {
-                    holder = new Holder();
-                    convertView = LayoutInflater.from(context).inflate(R.layout.task_download_list_item_layout, null);
-                    holder.tasknamepoint = (TextView) convertView.findViewById(R.id.show_task_name_point);
-                    holder.taskname = (TextView) convertView.findViewById(R.id.show_task_name);
-                    convertView.setTag(holder);
+                    BaseAdapter adapter = new BaseAdapter() {
+                        @Override
+                        public View getView(final int position, View convertView, ViewGroup parent) {
+                            Holder holder = null;
+                            if (convertView == null) {
+                                holder = new Holder();
+                                convertView = LayoutInflater.from(context).inflate(R.layout.task_download_list_item_layout, null);
+                                holder.tasknamepoint = (TextView) convertView.findViewById(R.id.show_task_name_point);
+                                holder.taskname = (TextView) convertView.findViewById(R.id.show_task_name);
+                                convertView.setTag(holder);
 //                    Button upbtn = (Button) convertView.findViewById(R.id.kaishicl);
 //                    upbtn.setOnClickListener(new View.OnClickListener() {
 //                        @Override
@@ -194,23 +196,23 @@ public class ShowTaskInfo extends BaseActivity {
         }
     }
 
-    protected void actionAlertDialog() {
-//        ArrayList<Person> list = initData();
-        AlertDialog.Builder builder;
-        AlertDialog alertDialog;
-//        Context context = getApplicationContext();
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-//        LayoutInflater.from(context).inflate(R.layout.task_download_list_item_layout, null);
-        View layout = inflater.inflate(R.layout.task_download_main_layout, (ViewGroup) findViewById(R.id.mylistview));
-//        ListView myListView = (ListView) layout.findViewById(R.id.mylistview);
-//        MyAdapter adapter = new MyAdapter(context, list);
-//        myListView.setAdapter(adapter);
-        builder = new AlertDialog.Builder(context);
-        builder.setView(layout);
-        alertDialog = builder.create();
-        alertDialog.show();
-
-    }
+//    protected void actionAlertDialog() {
+////        ArrayList<Person> list = initData();
+//        AlertDialog.Builder builder;
+//        AlertDialog alertDialog;
+////        Context context = getApplicationContext();
+//        LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+////        LayoutInflater.from(context).inflate(R.layout.task_download_list_item_layout, null);
+////        View layout = inflater.inflate(R.layout.task_download_main_layout, (ViewGroup) findViewById(R.id.mylistview));
+////        ListView myListView = (ListView) layout.findViewById(R.id.mylistview);
+////        MyAdapter adapter = new MyAdapter(context, list);
+////        myListView.setAdapter(adapter);
+//        builder = new AlertDialog.Builder(context);
+//        builder.setView(layout);
+//        alertDialog = builder.create();
+//        alertDialog.show();
+//
+//    }
 
 
     /**

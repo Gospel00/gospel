@@ -1,13 +1,10 @@
 package com.dxc.mycollector.utils;
 
-import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.dxc.mycollector.DLApplication;
 import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.MeasureData;
-import com.dxc.mycollector.model.TaskDetails;
 import com.dxc.mycollector.model.TaskDetails1;
 import com.google.gson.Gson;
 
@@ -23,10 +20,8 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -34,8 +29,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.dxc.mycollector.DLApplication.userName;
 
 
 /**
@@ -106,6 +99,9 @@ public class HttpUtils {
         conn.setReadTimeout(5000);// 设置超时的时间
         // HttpURLConnection对象是通过HTTP协议请求path路径的，所以需要设置请求方式，可以不设置，因为默认为get
         conn.setRequestMethod("GET");
+        OutputStream os = conn.getOutputStream();
+        os.write("{\"userId\":\"administrator\"}".getBytes());
+        os.close();
         if (conn.getResponseCode() == 200) {// 判断请求码是否200，否则为失败
             InputStream is = conn.getInputStream(); // 获取输入流
             byte[] data = readStream(is); // 把输入流转换成字符串组
