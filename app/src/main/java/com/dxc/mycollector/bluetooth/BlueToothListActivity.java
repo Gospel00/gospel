@@ -328,7 +328,7 @@ public class BlueToothListActivity extends BaseActivity {
                 while (r[0] == 0) {
 //                if (btAdapt.getState() == BluetoothAdapter.STATE_ON) {
                     Object[] lstDevice = btAdapt.getBondedDevices().toArray();
-                    Logger.i(TAG, "list::" + lstDevice.length);
+//                    Logger.i(TAG, "list::" + lstDevice.length);
                     //组装搜索到的蓝牙信息
                     for (int i = 0; i < lstDevice.length; i++) {
                         BluetoothDevice device = (BluetoothDevice) lstDevice[i];
@@ -339,7 +339,7 @@ public class BlueToothListActivity extends BaseActivity {
                     }
                     btAdapt.startDiscovery();
                     //只有搜索到蓝牙才退出搜索
-                    if (lstDevice.length > 0) {
+                    if (lstDevices.size() > 0) {
                         r[0] = 1;
                         mHandler.sendEmptyMessageDelayed(5, 1000);//处理消息
                     } else {
