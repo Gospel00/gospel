@@ -54,9 +54,8 @@ public class ShowTaskInfo extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.task_download_main_layout);
-        waitingDialog();//加载等待页面对话框方法
-
         context = this;
+        waitingDialog();//加载等待页面对话框方法
         //获取已经下载的任务信息
         getAllTasks();
         //初始化ListView
