@@ -96,6 +96,7 @@ public class HttpUtils {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         // 单位为毫秒，设置超时时间为5秒
         conn.setConnectTimeout(15 * 1000);
+        conn.setReadTimeout(5000);// 设置超时的时间
         // HttpURLConnection对象是通过HTTP协议请求path路径的，所以需要设置请求方式，可以不设置，因为默认为get
         conn.setRequestMethod("GET");
         OutputStream os = conn.getOutputStream();

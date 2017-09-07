@@ -11,6 +11,7 @@ import com.dxc.mycollector.model.MeasureData;
 import com.dxc.mycollector.model.TaskDetails;
 import com.dxc.mycollector.model.TaskInfo;
 import com.dxc.mycollector.utils.HttpUtils;
+import com.dxc.mycollector.utils.JsonUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -30,7 +31,7 @@ public class DownLoadManager {
 
     String TAG = DownLoadManager.class.getSimpleName();
     //    private static final String pUrl = "http://106.38.157.46:48080/restcenter/restcenter/measureTaskService/getMeasureTasks";
-    private static final String pUrl = "http://106.38.157.46:48080/restcenter/measureTaskService/getMeasureTasks";
+    private static final String pUrl = "http://106.38.157.46:48080/restcenter/measureTaskService/getMeasureTasks?userId=administrator";
     private static final String pKey = "administrator";
     private static final String upUrl = "http://106.38.157.46:48080/restcenter/measureTaskService/feedbackTask";
     private static final String upKey = "administrator";
@@ -76,37 +77,39 @@ public class DownLoadManager {
             switch (msg.what) {
                 case 0:
                     Gson gson = new Gson();
-                    JsonArray jsonDatas = new JsonParser().parse(resultJson).getAsJsonObject().getAsJsonArray("data");
-                    TaskInfo[] tempt = new TaskInfo[jsonDatas.size()];
-                    Logger.i(TAG, "jsonDatas:" + jsonDatas.toString());
-                    Logger.i(TAG, "master TaskInfo num:任务数:" + (jsonDatas.size()));
-                    Map<TaskDetails, TaskInfo> maps = new HashMap<TaskDetails, TaskInfo>();
-                    List<TaskDetails> ltd = new ArrayList<TaskDetails>();
-                    int i1 = 0;
-                    for (JsonElement element : jsonDatas) {
-                        taskInfo = gson.fromJson(element, TaskInfo.class);
-                        tempt[i1] = taskInfo;
-                        i1++;
-                        //遍历子任务
-                        JsonArray jsonElements = new JsonParser().parse(element.toString()).getAsJsonObject().getAsJsonArray("detail");
-                        TaskDetails[] temp = new TaskDetails[jsonElements.size()];
-                        int i = 0;
-                        for (JsonElement elementd : jsonElements) {
-                            detailData = gson.fromJson(elementd, TaskDetails.class);
-                            temp[i] = detailData;
-                            i++;
-                            maps.put(detailData, taskInfo);
-                            ltd.add(detailData);
+                    if (JsonUtils.isGoodJson(resultJson)) {
+                        JsonArray jsonDatas = new JsonParser().parse(resultJson).getAsJsonObject().getAsJsonArray("data");
+                        TaskInfo[] tempt = new TaskInfo[jsonDatas.size()];
+                        Logger.i(TAG, "jsonDatas:" + jsonDatas.toString());
+                        Logger.i(TAG, "master TaskInfo num:任务数:" + (jsonDatas.size()));
+                        Map<TaskDetails, TaskInfo> maps = new HashMap<TaskDetails, TaskInfo>();
+                        List<TaskDetails> ltd = new ArrayList<TaskDetails>();
+                        int i1 = 0;
+                        for (JsonElement element : jsonDatas) {
+                            taskInfo = gson.fromJson(element, TaskInfo.class);
+                            tempt[i1] = taskInfo;
+                            i1++;
+                            //遍历子任务
+                            JsonArray jsonElements = new JsonParser().parse(element.toString()).getAsJsonObject().getAsJsonArray("detail");
+                            TaskDetails[] temp = new TaskDetails[jsonElements.size()];
+                            int i = 0;
+                            for (JsonElement elementd : jsonElements) {
+                                detailData = gson.fromJson(elementd, TaskDetails.class);
+                                temp[i] = detailData;
+                                i++;
+                                maps.put(detailData, taskInfo);
+                                ltd.add(detailData);
+                            }
+                            taskInfo.setDetail(temp);
                         }
-                        taskInfo.setDetail(temp);
-                    }
-                    Logger.i(TAG, "maps:::" + maps.toString());
-                    Logger.i(TAG, "task Details info num:任务数:" + (i + 1));
-                    //根据测量点保存测量任务信息
-                    for (TaskDetails ti : ltd) {
-                        //保存数据
-                        int result = SqliteUtils.getInstance(mycontext).saveTaskInfo(maps.get(ti), ti);
+                        Logger.i(TAG, "maps:::" + maps.toString());
+                        Logger.i(TAG, "task Details info num:任务数:" + (i + 1));
+                        //根据测量点保存测量任务信息
+                        for (TaskDetails ti : ltd) {
+                            //保存数据
+                            int result = SqliteUtils.getInstance(mycontext).saveTaskInfo(maps.get(ti), ti);
 //                        Logger.i(TAG, "任务保存成功。测量详情：" + maps.get(ti).toString());
+                        }
                     }
                     break;
                 default:
@@ -122,7 +125,7 @@ public class DownLoadManager {
                 try {
                     while (i > 0 && i < 10) {
                         resultJson = HttpUtils.getJSONObjectString(pKey, pUrl);// HttpUtils.doPost(null, textView.getText().toString());
-                        if (resultJson == null || "[]".equals(resultJson) || resultJson.length() == 0 || (resultJson != null && resultJson.indexOf("FAIL") > -1)) {
+                        if (!JsonUtils.isGoodJson(resultJson) || (resultJson.indexOf("FAIL") > -1)) {
                             //上传FAIL,重新请求，10次后不在
                             Logger.i(TAG, "平台任务接口返回失败，resultJson:" + resultJson);
                             Logger.i(TAG, i + " 次请求...");
@@ -166,7 +169,7 @@ public class DownLoadManager {
                 try {
                     while (ui > 0 && ui < 10) {
                         resultJsonupload = HttpUtils.postJSONObjectString(upUrl, taskInfo);
-                        if (resultJsonupload == null || (resultJsonupload.indexOf("FAIL") > -1)) {
+                        if (!JsonUtils.isGoodJson(resultJson) || (resultJsonupload.indexOf("FAIL") > -1)) {
                             //下载任务接口返回FAIL,重新请求，3次后不在
                             Logger.i(TAG, "平台测量数据上传接口请求失败，resultJsonupload:" + resultJsonupload);
                             Logger.i(TAG, ui + " 次上传请求...");
