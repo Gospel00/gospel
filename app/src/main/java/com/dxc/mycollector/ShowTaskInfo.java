@@ -185,6 +185,8 @@ public class ShowTaskInfo extends BaseActivity {
             detailDatas.setDateTime(taskInfo.getStartTime().substring(0, 10));
             intent.putExtra("detailDatas", detailDatas);
             intent.putExtra("taskId", taskInfo.getTaskId());
+           String df= taskInfo.getTaskType();
+            intent.putExtra("tasktypes", taskInfo.getTaskType());
             startActivity(intent);
 //            finish();
 //            selectItem(position);
