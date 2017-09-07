@@ -23,6 +23,7 @@ import com.dxc.mycollector.bluetooth.DeviceListActivity;
 import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.MeasureData;
 import com.dxc.mycollector.model.TaskDetails;
+import com.dxc.mycollector.model.TaskInfo;
 
 public class CeLiangActivity extends BaseActivity {
     String TAG = CeLiangActivity.class.getSimpleName();
@@ -102,11 +103,17 @@ public class CeLiangActivity extends BaseActivity {
             public void onClick(View v) {
                 detailDatas = (TaskDetails) intent.getSerializableExtra("detailDatas");
                 String taskId = (String) intent.getStringExtra("taskId");
+                String typeNum=(String) intent.getStringExtra("tasktypes");
+                String returnStr=String.valueOf(detailDatas.getPointLabel());
+                returnStr= returnStr.substring(returnStr.lastIndexOf("("));//截取收敛或者高程
+
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("taskpass", detailDatas);
                 bundle.putSerializable("taskId_operation", taskId);
                 bundle.putSerializable("task_user", UserName);
+                bundle.putSerializable("choose_one", returnStr);
+                bundle.putSerializable("tasktypes", typeNum);
                 Intent intents = new Intent(CeLiangActivity.this, CeliangManualOperation.class);
                 intents.putExtras(bundle);
                 startActivity(intents);
