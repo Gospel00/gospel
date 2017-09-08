@@ -24,7 +24,7 @@ public class PullableListViewActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_listview);
+		//setContentView(R.layout.activity_listview);
 		ptrl = ((PullToRefreshLayout) findViewById(R.id.refresh_view));
 		ptrl.setOnRefreshListener(new MyListener());
 		listView = (ListView) findViewById(R.id.content_view);
