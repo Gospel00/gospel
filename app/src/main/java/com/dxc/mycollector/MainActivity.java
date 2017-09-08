@@ -3,6 +3,7 @@ package com.dxc.mycollector;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +12,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -39,7 +42,26 @@ public class MainActivity extends Activity implements
     private EditText username;
     private EditText lgpwd;
     Context context;
-
+    private Dialog mWeiboDialog;//对话框
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    //DialogThridUtils.closeDialog(mDialog);
+                    if (context != null && mWeiboDialog != null) {
+                        WeiboDialogUtils.closeDialog(mWeiboDialog);
+                    }
+                    break;
+            }
+        }
+    };
+    //定义加载等待页面方法
+    public void waitingDialog() {
+        mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, "加载中...");//加载对话框
+        mHandler.sendEmptyMessageDelayed(1, 1000);//处理消息
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +73,7 @@ public class MainActivity extends Activity implements
             finish();
         }
         setContentView(R.layout.login_layout);
-
+        context = this;
         button = (Button) findViewById(R.id.login);
         registerBtn = (Button) findViewById(R.id.register);
         username = (EditText) findViewById(R.id.username);
@@ -72,6 +94,7 @@ public class MainActivity extends Activity implements
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                waitingDialog();//加载等待页面对话框方法
                 if (username != null && username.length() > 0) {
                     int isTure = SqliteUtils.getInstance(getApplicationContext()).Quer(lgpwd.getText().toString(), username.getText().toString());
                     if (isTure == 1) {
