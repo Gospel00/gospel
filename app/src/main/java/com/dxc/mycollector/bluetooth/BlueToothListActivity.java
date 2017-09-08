@@ -35,6 +35,7 @@ import com.dxc.mycollector.R;
 import com.dxc.mycollector.UploadBlueToothFolder;
 import com.dxc.mycollector.WeiboDialogUtils;
 import com.dxc.mycollector.logs.Logger;
+import com.dxc.mycollector.model.TaskDetails;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -61,13 +62,21 @@ public class BlueToothListActivity extends BaseActivity {
     private Dialog mWeiboDialog;//对话框
     int connect = 0;
     String getAddress = "";
+    TaskDetails td;
+    String tId = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.person_homepage_layout2);
         context = this;
-        waitingConnect(3000);
+
+        //获取任务详情
+        td = (TaskDetails) this.getIntent().getSerializableExtra("taskDetails");
+        tId = this.getIntent().getStringExtra("taskId_ly");
+
+        waitingConnect(3000, "正在搜索设备...");
+
         // ListView及其数据源 适配器
         lvBTDevices = (ListView) this.findViewById(R.id.lvDevices);
         adtDevices = new ArrayAdapter<String>(this,
@@ -140,8 +149,8 @@ public class BlueToothListActivity extends BaseActivity {
     }
 
     //    定义加载等待页面方法
-    public void waitingConnect(int speed) {
-        mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, "正在连接...");//加载对话框
+    public void waitingConnect(int speed, String msg) {
+        mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, msg);//加载对话框
 //        mHandler.sendEmptyMessageDelayed(1, speed);//处理消息
     }
 
@@ -156,16 +165,16 @@ public class BlueToothListActivity extends BaseActivity {
 //                        WeiboDialogUtils.closeDialog(mWeiboDialog);
 //                    }
 //                    break;
-                case 2:
-                    if (context != null && mWeiboDialog != null) {
-                        WeiboDialogUtils.closeDialog(mWeiboDialog);
-                    }
-                    startActivity(new Intent(context, BlueToothFolder.class));
-                    Intent intent = new Intent();
-                    intent.putExtra(EXTRA_DEVICE_ADDRESS, getAddress);
-                    setResult(Activity.RESULT_OK, intent);
-                    finish();
-                    break;
+//                case 2:
+//                    if (context != null && mWeiboDialog != null) {
+//                        WeiboDialogUtils.closeDialog(mWeiboDialog);
+//                    }
+//                    startActivity(new Intent(context, BlueToothFolder.class));
+//                    Intent intent = new Intent();
+//                    intent.putExtra(EXTRA_DEVICE_ADDRESS, getAddress);
+//                    setResult(Activity.RESULT_OK, intent);
+//                    finish();
+//                    break;
                 case 3:
                     if (context != null && mWeiboDialog != null) {
                         WeiboDialogUtils.closeDialog(mWeiboDialog);
@@ -201,7 +210,10 @@ public class BlueToothListActivity extends BaseActivity {
 //                    bundle.putSerializable("device_address", getAddress);
                     Intent intents = new Intent(BlueToothListActivity.this, BlueToothFolder.class);
                     intents.putExtra("device_address", getAddress);
+                    intents.putExtra("tdesl", td);
+                    intents.putExtra("taskId_lya", tId);
                     startActivity(intents);
+                    finish();
                     //
 //                    Intent intent3 = new Intent();
 //                    intent3.putExtra(EXTRA_DEVICE_ADDRESS, getAddress);
@@ -245,7 +257,9 @@ public class BlueToothListActivity extends BaseActivity {
                         break;
                     case BluetoothDevice.BOND_BONDED:
                         Logger.i(TAG, "完成配对");
-                        connect(device);//连接设备
+//                        connect(device);//连接设备
+                        Logger.i(TAG, "连接成功...");
+                        mHandler.sendEmptyMessageDelayed(6, 2000);//处理消息
                         break;
                     case BluetoothDevice.BOND_NONE:
                         Logger.i(TAG, "取消配对");
@@ -280,7 +294,7 @@ public class BlueToothListActivity extends BaseActivity {
             String address = values[2].trim();
             Logger.i(TAG, "选择了设备" + str);
             BluetoothDevice btDev = btAdapt.getRemoteDevice(address);
-            getAddress = btDev.getAddress();
+            getAddress = values[1] + "-" + values[2];
             try {
                 Boolean returnValue = false;
                 if (btDev.getBondState() == BluetoothDevice.BOND_NONE) {
@@ -292,13 +306,14 @@ public class BlueToothListActivity extends BaseActivity {
                             .getMethod("createBond");
                     returnValue = (Boolean) createBondMethod.invoke(btDev);
                     Logger.i(TAG, "开始配对..." + returnValue);
-                    waitingConnect(3000);
+                    waitingConnect(3000, "正在配对...");
                 } else if (btDev.getBondState() == BluetoothDevice.BOND_BONDED) {
 //                    Toast.makeText(context, "正在连接...", Toast.LENGTH_SHORT);
-                    waitingConnect(3000);
+                    waitingConnect(3000, "正在连接...");
                     //r是1 连接失败...
-                    int r = connect(btDev);
-                    Log.i(TAG, "connect result::" + connect);
+//                    int r = connect(btDev);
+                    Logger.i(TAG, "连接成功...");
+                    mHandler.sendEmptyMessageDelayed(6, 2000);//处理消息
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -315,6 +330,7 @@ public class BlueToothListActivity extends BaseActivity {
                     try {
                         btSocket.connect();
                         r[0] = 1;
+                        mHandler.sendEmptyMessageDelayed(6, 3000);//处理消息
                         Logger.i(TAG, "Connected");
                     } catch (Exception e) {
                         Logger.e(TAG, "btSocket.connect() failed." + e.getMessage());
@@ -323,7 +339,7 @@ public class BlueToothListActivity extends BaseActivity {
                             Logger.i(TAG, "调用反射机制连接设备...");
                             btSocket = (BluetoothSocket) btDev.getClass().getMethod("createRfcommSocket", new Class[]{int.class}).invoke(btDev, 1);
                             btSocket.connect();
-                            mHandler.sendEmptyMessageDelayed(2, 3000);//处理消息
+                            mHandler.sendEmptyMessageDelayed(6, 3000);//处理消息
                             r[0] = 1;
                             Logger.i(TAG, "连接成功.");
                         } catch (Exception e2) {
@@ -366,7 +382,7 @@ public class BlueToothListActivity extends BaseActivity {
                     //只有搜索到蓝牙才退出搜索
                     if (lstDevices.size() > 0) {
                         r[0] = 1;
-                        mHandler.sendEmptyMessageDelayed(5, 1000);//处理消息
+                        mHandler.sendEmptyMessageDelayed(5, 3000);//处理消息
                     } else {
                         try {
                             sleep(1000);

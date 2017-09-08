@@ -7,14 +7,10 @@ package com.dxc.mycollector;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,14 +21,13 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dxc.mycollector.dbhelp.SqliteUtils;
-import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.TaskDetails;
 import com.dxc.mycollector.model.TaskInfo;
+import com.dxc.mycollector.pullableview.MyListener;
+import com.dxc.mycollector.pullableview.PullToRefreshLayout;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,13 +49,9 @@ public class ShowTaskInfo extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.task_download_main_layout);
-        context = this;
         waitingDialog();//加载等待页面对话框方法
-        //获取已经下载的任务信息
-        getAllTasks();
-        //初始化ListView
-        initDrawerList();
 
+        context = this;
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar);
         //必须加2句
@@ -72,11 +63,21 @@ public class ShowTaskInfo extends BaseActivity {
         // 使用setText的方法对textview动态赋值
         ((TextView) findViewById(R.id.title_name)).setText("我的任务列表");
 
+//下拉刷新
+        ((PullToRefreshLayout) findViewById(R.id.refresh_view1))
+                .setOnRefreshListener(new MyListener());
+        listview = (ListView) findViewById(R.id.task_listView);
+
+        //获取已经下载的任务信息
+        getAllTasks();
+        //初始化ListView
+        initDrawerList();
         //以下代码用于去除阴影
         if (Build.VERSION.SDK_INT >= 21) {
             getSupportActionBar().setElevation(0);
         }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -97,7 +98,6 @@ public class ShowTaskInfo extends BaseActivity {
     }
 
     private void initDrawerList() {
-        listview = (ListView) this.findViewById(R.id.task_listView);
         BaseAdapter adapter = new BaseAdapter() {
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
@@ -185,75 +185,73 @@ public class ShowTaskInfo extends BaseActivity {
             detailDatas.setDateTime(taskInfo.getStartTime().substring(0, 10));
             intent.putExtra("detailDatas", detailDatas);
             intent.putExtra("taskId", taskInfo.getTaskId());
+            intent.putExtra("tasktypes", taskInfo.getTaskType());
             startActivity(intent);
-//            finish();
-//            selectItem(position);
-//            actionAlertDialog();
         }
     }
 
-    protected void actionAlertDialog() {
-//        ArrayList<Person> list = initData();
-        AlertDialog.Builder builder;
-        AlertDialog alertDialog;
-//        Context context = getApplicationContext();
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-//        LayoutInflater.from(context).inflate(R.layout.task_download_list_item_layout, null);
-        View layout = inflater.inflate(R.layout.task_download_main_layout, (ViewGroup) findViewById(R.id.mylistview));
-//        ListView myListView = (ListView) layout.findViewById(R.id.mylistview);
-//        MyAdapter adapter = new MyAdapter(context, list);
-//        myListView.setAdapter(adapter);
-        builder = new AlertDialog.Builder(context);
-        builder.setView(layout);
-        alertDialog = builder.create();
-        alertDialog.show();
+//    protected void actionAlertDialog() {
+////        ArrayList<Person> list = initData();
+//        AlertDialog.Builder builder;
+//        AlertDialog alertDialog;
+////        Context context = getApplicationContext();
+//        LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+////        LayoutInflater.from(context).inflate(R.layout.task_download_list_item_layout, null);
+////        View layout = inflater.inflate(R.layout.task_download_main_layout, (ViewGroup) findViewById(R.id.mylistview));
+////        ListView myListView = (ListView) layout.findViewById(R.id.mylistview);
+////        MyAdapter adapter = new MyAdapter(context, list);
+////        myListView.setAdapter(adapter);
+//        builder = new AlertDialog.Builder(context);
+//        builder.setView(layout);
+//        alertDialog = builder.create();
+//        alertDialog.show();
+//
+//    }
 
-    }
 
-
-    /**
-     * 选择行
-     *
-     * @param position
-     */
-    private void selectItem(int position) {
-//        Toast.makeText(this, planetTitles[position], Toast.LENGTH_SHORT).show();
-        TaskInfo taskInfo = listtasks.get(position);
-        TaskDetails detailDatas = taskInfo.getTaskDetail();
-        String[] strarr = new String[1];
-//        int i = 0;
-//        for (TaskDetails detailData : detailDatas) {
-        strarr[0] = detailDatas.getProName() + "-" + detailDatas.getMileageLabel() + "-" + detailDatas.getPointLabel();
+//    /**
+//     * 选择行
+//     *
+//     * @param position
+//     */
+//    private void selectItem(int position) {
+////        Toast.makeText(this, planetTitles[position], Toast.LENGTH_SHORT).show();
+//        TaskInfo taskInfo = listtasks.get(position);
+//        TaskDetails detailDatas = taskInfo.getTaskDetail();
+//        String[] strarr = new String[1];
+////        int i = 0;
+////        for (TaskDetails detailData : detailDatas) {
+//        strarr[0] = detailDatas.getProName() + "-" + detailDatas.getMileageLabel() + "-" + detailDatas.getPointLabel();
+////        }
+//        new AlertDialog.Builder(this)
+//                .setTitle("测量仪器列表")
+//                .setItems(strarr, null)
+//                .setNegativeButton("确定", null)
+//                .show();
+//    }
+//
+//    /**
+//     * 嵌套ListView
+//     *
+//     * @param listView
+//     */
+//    public void setListViewHeightBasedOnChildren(ListView listView) {
+//        // 获取ListView对应的Adapter
+//        ListAdapter listAdapter = listView.getAdapter();
+//        if (listAdapter == null) {
+//            return;
 //        }
-        new AlertDialog.Builder(this)
-                .setTitle("测量仪器列表")
-                .setItems(strarr, null)
-                .setNegativeButton("确定", null)
-                .show();
-    }
-
-    /**
-     * 嵌套ListView
-     *
-     * @param listView
-     */
-    public void setListViewHeightBasedOnChildren(ListView listView) {
-        // 获取ListView对应的Adapter
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            return;
-        }
-        int totalHeight = 0;
-        for (int i = 0, len = listAdapter.getCount(); i < len; i++) {
-            // listAdapter.getCount()返回数据项的数目
-            View listItem = listAdapter.getView(i, null, listView);
-            // 计算子项View 的宽高
-            listItem.measure(0, 0);
-            // 统计所有子项的总高度
-            totalHeight += listItem.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-    }
+//        int totalHeight = 0;
+//        for (int i = 0, len = listAdapter.getCount(); i < len; i++) {
+//            // listAdapter.getCount()返回数据项的数目
+//            View listItem = listAdapter.getView(i, null, listView);
+//            // 计算子项View 的宽高
+//            listItem.measure(0, 0);
+//            // 统计所有子项的总高度
+//            totalHeight += listItem.getMeasuredHeight();
+//        }
+//        ViewGroup.LayoutParams params = listView.getLayoutParams();
+//        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+//        listView.setLayoutParams(params);
+//    }
 }

@@ -1,11 +1,13 @@
 package com.dxc.mycollector;
 
 import android.app.ActionBar;
-import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -49,6 +51,26 @@ public class RegisterAcitvity extends AppCompatActivity {
     /* private RadioGroup sex;
      private RadioButton male;
      private RadioButton female;*/
+    private Dialog mWeiboDialog;//对话框
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    //DialogThridUtils.closeDialog(mDialog);
+                    if (context != null && mWeiboDialog != null) {
+                        WeiboDialogUtils.closeDialog(mWeiboDialog);
+                    }
+                    break;
+            }
+        }
+    };
+    //定义加载等待页面方法
+    public void waitingDialog() {
+        mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, "加载中...");//加载对话框
+        mHandler.sendEmptyMessageDelayed(1, 1000);//处理消息
+    }
     //省级选项值
     private String[] province = new String[]{"省份", "北京", "上海", "天津", "广东"};//,"重庆","黑龙江","江苏","山东","浙江","香港","澳门"};
     //地级选项值
@@ -91,6 +113,7 @@ public class RegisterAcitvity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_layout);
         setSpinner();
+        context = this;
         button = (Button) findViewById(R.id.register);
         username = (EditText) findViewById(R.id.siguername);
         password = (EditText) findViewById(R.id.sigpassword);
@@ -108,17 +131,14 @@ public class RegisterAcitvity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User newUser = GetText();
+                waitingDialog();//加载等待页面对话框方法
+
                 if (!isEmpty(newUser)) {
 //                boolean isTure = userServices.register(user);
                     int isTure = SqliteUtils.getInstance(getApplicationContext()).saveUser(newUser);
                     if (isTure == 1) {
                         Toast.makeText(RegisterAcitvity.this, "注册成功", Toast.LENGTH_LONG).show();
                         Logger.i(TAG, username.getText().toString() + " register success.");
-                        try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     } else if (isTure == -1) {
                         Toast.makeText(RegisterAcitvity.this, "该用户已存在", Toast.LENGTH_SHORT).show();
@@ -128,8 +148,10 @@ public class RegisterAcitvity extends AppCompatActivity {
                         Logger.i(TAG, username.getText().toString() + "register failed.");
                     }
                 }
+
             }
         });
+
 
 //        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
 //        actionBar.setCustomView(R.layout.actionbar);

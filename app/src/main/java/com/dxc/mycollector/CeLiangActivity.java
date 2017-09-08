@@ -23,6 +23,7 @@ import com.dxc.mycollector.bluetooth.DeviceListActivity;
 import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.MeasureData;
 import com.dxc.mycollector.model.TaskDetails;
+import com.dxc.mycollector.model.TaskInfo;
 
 public class CeLiangActivity extends BaseActivity {
     String TAG = CeLiangActivity.class.getSimpleName();
@@ -35,7 +36,7 @@ public class CeLiangActivity extends BaseActivity {
     private Button button;//连接设备
     private Button datalist;//获取蓝牙数据
     private Button buttonmaual;//连接设备
-    private String UserName = "";//用户名
+    //    private String userName = "";//用户名
     TaskDetails detailDatas;
     Intent intent;
     /**
@@ -58,8 +59,6 @@ public class CeLiangActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ce_liang_detail);
-
-
         button = (Button) findViewById(R.id.getbluedata);
         //ZRW datalist = (Button) findViewById(R.id.getbluedatalist);
         etcllc = (TextView) findViewById(R.id.cllc);
@@ -67,49 +66,50 @@ public class CeLiangActivity extends BaseActivity {
         etclr = (TextView) findViewById(R.id.clr);
         etclsj = (TextView) findViewById(R.id.clsj);
         etgc = (TextView) findViewById(R.id.gc);
-        etsl = (TextView) findViewById(R.id.sl);
+//        etsl = (TextView) findViewById(R.id.sl);
         buttonmaual = (Button) findViewById(R.id.turntomanual);
         intent = getIntent();
         try {
-            MeasureData measureData = (MeasureData) intent.getSerializableExtra("measureData");
-            if (measureData == null) {
-                TaskDetails detailDatas = (TaskDetails) intent.getSerializableExtra("detailDatas");
-
-                etcllc.setText(detailDatas.getMileageLabel());
-                etcld.setText(detailDatas.getPointLabel());
-                etclr.setText(detailDatas.getSection());
-                UserName = detailDatas.getSection();
-                etclsj.setText(detailDatas.getDateTime());
-                etgc.setText(detailDatas.getInitialValue());
-                etsl.setText(detailDatas.getInitialValue());
-            } else {
-                etcllc.setText(measureData.getCllicheng());
-                etcld.setText(measureData.getCldian());
-                etclr.setText(measureData.getClren());
-                UserName = measureData.getClren();
-                etclsj.setText(measureData.getCltime());
-                etgc.setText(measureData.getGaocheng());
-                etsl.setText(measureData.getShoulian());
-            }
+//            MeasureData measureData = (MeasureData) intent.getSerializableExtra("measureData");
+//            if (measureData == null) {
+            detailDatas = (TaskDetails) intent.getSerializableExtra("detailDatas");
+            etcllc.setText(detailDatas.getMileageLabel());
+            etcld.setText(detailDatas.getPointLabel());
+            etclr.setText(detailDatas.getSection());
+//            UserName = DLApplication.userName == null ? "" : DLApplication.userName;
+            etclsj.setText(detailDatas.getDateTime());
+            etgc.setText(detailDatas.getInitialValue());
+//            etsl.setText(detailDatas.getInitialValue());
+//            } else {
+//                etcllc.setText(measureData.getCllicheng());
+//                etcld.setText(measureData.getCldian());
+//                etclr.setText(measureData.getClren());
+//                UserName = measureData.getClren();
+//                etclsj.setText(measureData.getCltime());
+//                etgc.setText(measureData.getGaocheng());
+//                etsl.setText(measureData.getShoulian());
+//            }
         } catch (Exception d) {
-            Logger l = new Logger();
-            l.e("showCeLiang", String.valueOf(d));
-
+            Logger.e(TAG, String.valueOf(d));
         }
 
         buttonmaual.setOnClickListener(new View.OnClickListener() {//手动跳转
             @Override
             public void onClick(View v) {
-                detailDatas = (TaskDetails) intent.getSerializableExtra("detailDatas");
                 String taskId = (String) intent.getStringExtra("taskId");
-
+                String typeNum = (String) intent.getStringExtra("tasktypes");
+                String returnStr = String.valueOf(detailDatas.getPointLabel());
+//                returnStr = returnStr.substring(returnStr.lastIndexOf("("));//截取收敛或者高程
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("taskpass", detailDatas);
                 bundle.putSerializable("taskId_operation", taskId);
-                bundle.putSerializable("task_user", UserName);
+                bundle.putSerializable("task_user", DLApplication.userName == null ? "" : DLApplication.userName);
+//                bundle.putSerializable("choose_one", returnStr);
+                bundle.putSerializable("tasktypes", typeNum);
                 Intent intents = new Intent(CeLiangActivity.this, CeliangManualOperation.class);
                 intents.putExtras(bundle);
                 startActivity(intents);
+                finish();
             }
         });
 
@@ -118,6 +118,11 @@ public class CeLiangActivity extends BaseActivity {
             public void onClick(View v) {
                 //开始搜索
                 Intent serverIntent = new Intent(CeLiangActivity.this, BlueToothListActivity.class);
+                Bundle bundle = new Bundle();
+                String taskId = intent.getStringExtra("taskId");
+                bundle.putSerializable("taskId_ly", taskId);
+                bundle.putSerializable("taskDetails", detailDatas);
+                serverIntent.putExtras(bundle);
                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
             }
         });

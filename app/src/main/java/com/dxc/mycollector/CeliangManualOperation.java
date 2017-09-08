@@ -7,15 +7,25 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.text.format.Time;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.model.TaskDetails;
+import com.dxc.mycollector.model.TaskInfo;
+import com.dxc.mycollector.utils.CalcUtils;
+
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by zhangruw on 9/6/2017.
@@ -35,6 +45,7 @@ public class CeliangManualOperation extends BaseActivity {
     String taskname;
     String sl = "";
     String gc = "";
+    String taskType = "";//测量类型T0101拱顶，T0102收敛
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -42,7 +53,35 @@ public class CeliangManualOperation extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ce_liang_manual);
 
+        taskType = ((String) this.getIntent().getStringExtra("tasktypes"));
+        td = (TaskDetails) this.getIntent().getSerializableExtra("taskpass");
+        taskId = (String) this.getIntent().getStringExtra("taskId_operation");
+        taskname = (String) this.getIntent().getStringExtra("task_user");
+
         getAndSetDate();
+
+//        EditText ds = null;
+
+//        if (taskType.equals("T0101")) {
+//            ds = (EditText) findViewById(R.id.gcmanual);
+//        } else {
+//            ds = (EditText) findViewById(R.id.slmanual);
+//        }
+//        ds.setFilters(new InputFilter[]{
+//                new InputFilter() {
+//                    public CharSequence filter(CharSequence source, int start,
+//                                               int end, Spanned dest, int dstart, int dend) {
+//                        return source.length() < 1 ? dest.subSequence(dstart, dend) : "";
+//                    }
+//                }
+//        });
+        btn.setOnClickListener(new View.OnClickListener() {//手动跳转
+            @Override
+            public void onClick(View v) {
+                insertToDB(taskId, td, taskname, String.valueOf(twetclsj.getText()));
+            }
+        });
+
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar);
         actionBar.setHomeButtonEnabled(true);
@@ -51,23 +90,14 @@ public class CeliangManualOperation extends BaseActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP);  //根据字面意思是显示类型为显示自定义
         actionBar.setDisplayShowCustomEnabled(true); //自定义界面是否可显示
         ((TextView) findViewById(R.id.title_name)).setText("录入测量数据");
-
         //以下代码用于去除阴影
         if (Build.VERSION.SDK_INT >= 21) {
             getSupportActionBar().setElevation(0);
         }
-
-        btn.setOnClickListener(new View.OnClickListener() {//手动跳转
-            @Override
-            public void onClick(View v) {
-                insertToDB(taskId, td, taskname, String.valueOf(twetclsj.getText()));
-            }
-        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO Auto-generated method stub
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
@@ -78,92 +108,118 @@ public class CeliangManualOperation extends BaseActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void getAndSetDate() {
         btn = (Button) findViewById(R.id.getbluedatamanuals);
-        etshoulian = (EditText) findViewById(R.id.gcmanual);
-        egaocheng = (EditText) findViewById(R.id.slmanual);
+        egaocheng = (EditText) findViewById(R.id.gcmanual);
+//        etshoulian = (EditText) findViewById(R.id.slmanual);
+//        LinearLayout gcl = (LinearLayout) findViewById(R.id.gc_layout);
+//        LinearLayout sll = (LinearLayout) findViewById(R.id.sl_layout);
+//        LinearLayout gcsl = (LinearLayout) findViewById(R.id.gc_sl_layout);
+//        LinearLayout manualcustom = (LinearLayout) findViewById(R.id.manualcustom);
+//        if (taskType.equals("T0101")) {
+//            gcl.setVisibility(View.GONE);
+//            egaocheng.setVisibility(View.GONE);
+////            gcsl.invalidate();
+//            manualcustom.invalidate();
+//        } else {
+////            sll.setVisibility(View.GONE);
+////            etshoulian.setVisibility(View.GONE);
+////            gcsl.invalidate();
+//            manualcustom.invalidate();
+//        }
         twcllc = (TextView) findViewById(R.id.cllcmanual);
         twetcld = (TextView) findViewById(R.id.cldmanual);
         twetclr = (TextView) findViewById(R.id.clrmanual);
         twetclsj = (TextView) findViewById(R.id.clsjmanual);
 
-
         // 用intent1.getStringExtra()来得到activity1发过来的字符串。
-        td = (TaskDetails) this.getIntent().getSerializableExtra("taskpass");
-        taskId = (String) this.getIntent().getStringExtra("taskId_operation");
-        taskname = (String) this.getIntent().getStringExtra("task_user");
         twcllc.setText(td.getMileageLabel());
         twetcld.setText(td.getPointLabel());
         twetclr.setText(taskname);
-
-//        String date=new SimpleDateFormat("yyyy-MM-DD").format(new java.util.Date());
-
-        twetclsj.setText(String.valueOf(""));
-
-
+        twetclsj.setText(getSystemTime());
     }
 
+    public String getSystemTime() {
+        Date nowTime = new Date(System.currentTimeMillis());
+        SimpleDateFormat sdFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String retStrFormatNowDate = sdFormatter.format(nowTime);
+        return retStrFormatNowDate;
+    }
 
     public void insertToDB(final String taskId, final TaskDetails td, final String taskname, final String time) {
         gc = String.valueOf(egaocheng.getText());
-        sl = String.valueOf(etshoulian.getText());
-        if (!egaocheng.equals(sl)) {
+        if (gc == null || gc.length() == 0) {
             new AlertDialog.Builder(context)
-                    .setTitle("复合")
-                    .setIcon(android.R.drawable.ic_dialog_info)
-                    .setMessage("测量数据高程与历史记录不一致" + "\r\n" + "高程新：" + "" + "")
+                    .setTitle("系统提示")
+                    .setIcon(R.drawable.warn_small)
+                    .setMessage("测量结果不能为空!\n初始值：" + td.getInitialValue())
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
-                            demo(taskId, td, taskname, time);
-                            //startActivity(new Intent(BaseActivity.this, MainActivity.class));
                         }
                     })
-                    .setNegativeButton("取消", null)
                     .show();
-
+            return;
         }
-
-//                Toast.makeText(CeliangManualOperation.this, "保存失败", Toast.LENGTH_LONG).show();
-
-
+//        sl = String.valueOf(etshoulian.getText());
+//        if (!egaocheng.equals(td.getInitialValue())) {
+        new AlertDialog.Builder(context)
+                .setTitle("系统提示")
+                .setIcon(R.drawable.warn_small)
+                .setMessage("本次测量： " + gc + "   " + "\n初始值： " + td.getInitialValue() + "\n" + "本次测量与初始值差：" + String.valueOf(CalcUtils.sub(Double.parseDouble(gc), Double.parseDouble(td.getInitialValue()))))
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        insertDB(taskId, td, taskname, time);
+                        //startActivity(new Intent(BaseActivity.this, MainActivity.class));
+                    }
+                })
+                .setNegativeButton("取消", null)
+                .show();
+//        }
+//        else if (!sl.equals(td.getInitialValue())) {
+//            new AlertDialog.Builder(context)
+//                    .setTitle("系统提示")
+//                    .setIcon(R.drawable.warn_small)
+//                    .setMessage( "收敛 新：" +gc +" " + "旧："+td.getInitialValue()+"\r\n" + "本次测量值与初始值相差："+String.valueOf(Double.parseDouble(sl)-Double.parseDouble(td.getInitialValue())))
+//                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            insertDB(taskId, td, taskname, time);
+//                            //startActivity(new Intent(BaseActivity.this, MainActivity.class));
+//                        }
+//                    })
+//                    .setNegativeButton("取消", null)
+//                    .show();
+//        }
     }
 
-    public void demo(String taskId, TaskDetails td, String taskname, String time) {
+    //只管gc这个字段，因为每次测量保存只有一个测量值，现在都用gc这个字段存储
+    public void insertDB(String taskId, TaskDetails td, String taskname, String time) {
         final SqliteUtils su = new SqliteUtils(this);
-        if (taskId != null && gc != null && sl != null) {
-            if (su.UpdateState(taskId, td, taskname, time, gc, sl) == 1) {
-                //Toast.makeText(CeliangManualOperation.this, "保存成功", Toast.LENGTH_LONG).show();
-
+        if (taskId != null && gc != null) {
+            if (su.saveCustomMeasure(taskId, td, taskname, time, gc, "0") == 1) {
                 new AlertDialog.Builder(context)
-                        .setTitle("保存结果")
-                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .setTitle("系统提示")
+                        .setIcon(R.drawable.success_small)
                         .setMessage("测量数据保存成功")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-//                                DLApplication.userName = "";
-//                                finish();
                                 Intent intent = new Intent();
                                 intent.setClass(CeliangManualOperation.this, ShowTaskInfo.class);
                                 intent.putExtra("State", true);
                                 startActivity(intent);
-
-                                // startActivity(new Intent(CeliangManualOperation.this, MainActivity.class));
+                                finish();
                             }
                         })
-                        .setNegativeButton("取消", null)
                         .show();
-
             } else {
                 new AlertDialog.Builder(context)
-                        .setTitle("保存结果")
-                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .setTitle("系统提示")
+                        .setIcon(R.drawable.bedefeated_small)
                         .setMessage("测量数据保存失败")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
-//                                startActivity(new Intent(CeliangManualOperation.this, ShowTaskInfo.class));
                             }
                         })
                         .setNegativeButton("取消", null)
@@ -173,7 +229,6 @@ public class CeliangManualOperation extends BaseActivity {
             Toast.makeText(CeliangManualOperation.this, "高程,收敛不能为空", Toast.LENGTH_LONG).show();
         }
     }
-
 }
 
 

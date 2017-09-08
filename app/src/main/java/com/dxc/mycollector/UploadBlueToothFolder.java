@@ -23,6 +23,8 @@ import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.MeasureData;
 import com.dxc.mycollector.model.TaskDetails;
 import com.dxc.mycollector.model.TaskInfo;
+import com.dxc.mycollector.pullableview.MyListener;
+import com.dxc.mycollector.pullableview.PullToRefreshLayout;
 import com.dxc.mycollector.taskDownload.DownLoadManager;
 import com.dxc.mycollector.utils.HttpUtils;
 
@@ -51,6 +53,12 @@ public class UploadBlueToothFolder extends BaseActivity {
 //        String aa = searchFile("");
         queryDBCDate();
         searchDrawerList();
+
+        //下拉刷新
+        ((PullToRefreshLayout) findViewById(R.id.refresh_view2))
+                .setOnRefreshListener(new MyListener());
+        uploadfileList = (ListView) findViewById(R.id.showuploadbluetoothfilelistView);
+
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar);
@@ -91,58 +99,59 @@ public class UploadBlueToothFolder extends BaseActivity {
     }
 
     private void searchDrawerList() {
-        BaseAdapter adapter = new BaseAdapter() {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                Holder holder = null;
-                if (convertView == null) {
-                    holder = new Holder();
-                    convertView = LayoutInflater.from(context).inflate(R.layout.upload_bluetooth_list_item_layout, null);
-                    holder.fileName = (TextView) convertView.findViewById(R.id.upload_bluetoothfile_file_name);
-                    holder.fileTime = (TextView) convertView.findViewById(R.id.upload_bluetoothfile_file_time);
-                    text = (TextView) convertView.findViewById(R.id.upload);
-                    convertView.setTag(holder);
-                    text.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v) {
-                            int i = 0;
-                            try {
-//                                readFile(pathFile);
-                            } catch (Exception e) {
-                                String dff = e.toString();
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-
-                } else {
-                    holder = (Holder) convertView.getTag();
-                }
-                MeasureData taskInfo = listtasks.get(position);
-                holder.fileName.setText(taskInfo.getTaskId() + "-" + taskInfo.getCldian() + "-" + taskInfo.getCllicheng());
-                holder.fileTime.setText(taskInfo.getCltime());
-                return convertView;
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return position;
-            }
-
-            @Override
-            public Object getItem(int position) {
-                return listtasks.get(position);
-            }
-
-            @Override
-            public int getCount() {
-                return listtasks.size();
-            }
-        };
         uploadfileList.setAdapter(adapter);
         uploadfileList.setOnItemClickListener(new DrawerItemClickListener());
     }
+
+    BaseAdapter adapter = new BaseAdapter() {
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            Holder holder = null;
+            if (convertView == null) {
+                holder = new Holder();
+                convertView = LayoutInflater.from(context).inflate(R.layout.upload_bluetooth_list_item_layout, null);
+                holder.fileName = (TextView) convertView.findViewById(R.id.upload_bluetoothfile_file_name);
+                holder.fileTime = (TextView) convertView.findViewById(R.id.upload_bluetoothfile_file_time);
+                text = (TextView) convertView.findViewById(R.id.upload);
+                convertView.setTag(holder);
+                text.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        int i = 0;
+                        try {
+//                                readFile(pathFile);
+                        } catch (Exception e) {
+                            String dff = e.toString();
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+            } else {
+                holder = (Holder) convertView.getTag();
+            }
+            MeasureData taskInfo = listtasks.get(position);
+            holder.fileName.setText(taskInfo.getTaskId() + "-" + taskInfo.getCldian() + "-" + taskInfo.getCllicheng());
+            holder.fileTime.setText(taskInfo.getCltime());
+            return convertView;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return listtasks.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return listtasks.size();
+        }
+    };
 
     static class Holder {
         TextView fileName = null;
@@ -152,14 +161,20 @@ public class UploadBlueToothFolder extends BaseActivity {
     boolean uptrue = false;
     String msgstr = "";
     String tid = "";
+    int poist = -1;
     private Handler uhandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case 1:
                     if (uptrue) {
-                        Toast.makeText(getApplicationContext(), "上传成功!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "上传成功!", Toast.LENGTH_SHORT).show();
                         //上传成功，更新本地数据上传状态
                         int result = SqliteUtils.getInstance(context).updateUpLoadStatus(tid);
+                        if (result > 0) {
+                            //更新上传列表
+                            listtasks.remove(poist);
+                            adapter.notifyDataSetChanged();
+                        }
                     } else {
                         if (msgstr != null && msgstr.length() > 0) {
                             msgstr = msgstr.substring(msgstr.indexOf("msg"), msgstr.length() - 1);
@@ -175,7 +190,7 @@ public class UploadBlueToothFolder extends BaseActivity {
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 //            Toast.makeText(context, "开始上传", Toast.LENGTH_SHORT).show();
             final MeasureData taskInfo = listtasks.get(position);
             DownLoadManager downLoadManager = new DownLoadManager(UploadBlueToothFolder.this);
@@ -183,9 +198,10 @@ public class UploadBlueToothFolder extends BaseActivity {
             downLoadManager.setUploadCallback(new DownLoadManager.UploadCallback() {
                 @Override
                 public void callback(boolean statu, String msg) {
+                    poist = position;
                     uptrue = statu;
                     msgstr = msg;
-                    tid = taskInfo.getTaskId();
+                    tid = taskInfo.getCldianId();
                     uhandler.sendEmptyMessage(1);
                 }
             });

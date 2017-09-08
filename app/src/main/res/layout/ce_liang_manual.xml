@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/manualcustom"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -113,21 +114,22 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/gc_sl_layout"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/border"
         android:orientation="vertical"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp">
+        android:padding="5dp">
 
         <LinearLayout
+            android:id="@+id/gc_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_margin="10dp"
             android:orientation="horizontal"
             android:paddingLeft="5dp"
             android:paddingRight="5dp">
@@ -138,25 +140,26 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="高程："
+                android:text="本次测量结果："
                 android:textColor="@drawable/btn_regist_txtcol"
                 android:textSize="@dimen/personal_text_view1" />
 
             <EditText
                 android:id="@+id/gcmanual"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="@drawable/border"
                 android:gravity="center"
-                android:text="100"
+                android:text=""
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <LinearLayout
+        <!--<LinearLayout
+            android:id="@+id/sl_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_margin="10dp"
             android:orientation="horizontal"
             android:paddingLeft="5dp"
             android:paddingRight="5dp">
@@ -173,14 +176,14 @@
 
             <EditText
                 android:id="@+id/slmanual"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="@drawable/border"
                 android:gravity="center"
-                android:text="100"
+                android:text=""
                 android:textStyle="bold" />
-        </LinearLayout>
+        </LinearLayout>-->
     </LinearLayout>
 
     <LinearLayout

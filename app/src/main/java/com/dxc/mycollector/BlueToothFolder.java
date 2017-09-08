@@ -3,11 +3,15 @@ package com.dxc.mycollector;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -17,11 +21,14 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dxc.mycollector.bluetooth.BlueToothTestActivity;
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.MeasureData;
+import com.dxc.mycollector.model.TaskDetails;
+import com.dxc.mycollector.utils.CalcUtils;
 import com.dxc.mycollector.utils.DateConver;
 import com.dxc.mycollector.utils.FilesUtils;
 
@@ -49,12 +56,14 @@ import java.util.List;
  * About BlueToothFolder getReceiveFiles
  */
 public class BlueToothFolder extends BaseActivity {
+    String TAG = BlueToothFolder.class.getSimpleName();
     Context context;
     private ListView fileList;//文件列表
     private String pathFile = "";//文件路径
     private TextView text;//解析按钮
     private List<File> listf = new ArrayList<>();
     DLApplication myapp = null;
+    private Dialog mWeiboDialog;//对话框
     /**
      * html change to json
      */
@@ -63,21 +72,31 @@ public class BlueToothFolder extends BaseActivity {
     JSONArray jsonArray = new JSONArray();
     String personInfos = "";
     String createTime = "";
-    String hightProcess = "";
+    String hightProcess = "";//存放解析出来的测量值
+    String shoulProcess = "";
     //蓝牙地址
     String lyaddress = "";
+    TaskDetails td;
+    String tId = "";
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_bluetooth_fileslist_main_layout);
-        waitingDialog();//加载等待页面对话框方法
-        fileList = (ListView) findViewById(R.id.showbluetoothfilelistView);
         context = this;
+
+        fileList = (ListView) findViewById(R.id.showbluetoothfilelistView);
+
+        waitingDialog("正在读取蓝牙接收到的文件...");//加载等待页面对话框方法
+
 //        String aa = searchFile("");
         //接收蓝牙地址
-        lyaddress = getIntent().getStringExtra("device_address");
+        lyaddress = this.getIntent().getStringExtra("device_address");
+        //测量详情
+        td = (TaskDetails) this.getIntent().getSerializableExtra("tdesl");
+        tId = this.getIntent().getStringExtra("taskId_lya");
+
         initDrawerList();
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
@@ -99,7 +118,6 @@ public class BlueToothFolder extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO Auto-generated method stub
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
@@ -107,63 +125,73 @@ public class BlueToothFolder extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //定义加载等待页面方法
+    public void waitingDialog(String msg) {
+        mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, msg);//加载对话框
+        mHandler.sendEmptyMessageDelayed(1, 2000);//处理消息
+    }
+
+    //消息处理线程
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    //DialogThridUtils.closeDialog(mDialog);
+                    if (context != null && mWeiboDialog != null) {
+                        WeiboDialogUtils.closeDialog(mWeiboDialog);
+                    }
+                    break;
+            }
+        }
+    };
+
     private void initDrawerList() {
         //初始化List
         listf = FilesUtils.listFileSortByModifyTime(Environment.getExternalStorageDirectory().getPath() + "/bluetooth/");
-        BaseAdapter adapter = new BaseAdapter() {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                Holder holder = null;
-                if (convertView == null) {
-                    holder = new Holder();
-                    convertView = LayoutInflater.from(context).inflate(R.layout.show_bluetooth_list_item_layout, null);
-                    holder.fileName = (TextView) convertView.findViewById(R.id.show_bluetoothfile_file_name);
-                    holder.fileTime = (TextView) convertView.findViewById(R.id.show_bluetoothfile_file_time);
-//                    text = (TextView) convertView.findViewById(R.id.jiexi);
-                    convertView.setTag(holder);
-//                    text.setOnClickListener(new View.OnClickListener() {
-//
-//                        @Override
-//                        public void onClick(View v) {
-//                            int i = 0;
-//                            try {
-//                                readFile(pathFile);
-//                            } catch (Exception e) {
-//                                String dff = e.toString();
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    });
 
-                } else {
-                    holder = (Holder) convertView.getTag();
-                }
-                File files = listf.get(position);
-                Date datef = new Date(files.lastModified());
-                holder.fileName.setText(files.getName() + "(" + lyaddress + ")");
-                holder.fileTime.setText(DateConver.ConverToStringNYRSFM(datef));
-                return convertView;
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return position;
-            }
-
-            @Override
-            public Object getItem(int position) {
-                return listf.get(position);
-            }
-
-            @Override
-            public int getCount() {
-                return listf.size();
-            }
-        };
         fileList.setAdapter(adapter);
         fileList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
+    BaseAdapter adapter = new BaseAdapter() {
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            Holder holder = null;
+            if (convertView == null) {
+                holder = new Holder();
+                convertView = LayoutInflater.from(context).inflate(R.layout.show_bluetooth_list_item_layout, null);
+                holder.fileName = (TextView) convertView.findViewById(R.id.show_bluetoothfile_file_name);
+                holder.fileTime = (TextView) convertView.findViewById(R.id.show_bluetoothfile_file_time);
+                convertView.setTag(holder);
+            } else {
+                holder = (Holder) convertView.getTag();
+            }
+            File files = listf.get(position);
+            Date datef = new Date(files.lastModified());
+            String fName = files.getName();
+            Logger.i(TAG, "filen:" + fName);
+            holder.fileName.setText(fName + " " + (lyaddress == null ? "" : "(" + lyaddress + ")"));
+            holder.fileTime.setText(DateConver.ConverToStringNYRSFM(datef));
+            return convertView;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return listf.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return listf.size();
+        }
+    };
 
     static class Holder {
         TextView fileName = null;
@@ -173,58 +201,23 @@ public class BlueToothFolder extends BaseActivity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            waitingDialog("正在解析测量数据...");
             File files = listf.get(position);
             //解析文件
-            try {
-                readFile(files.getAbsolutePath());
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Logger.e(TAG, "解析文件异常:" + e.getMessage());
-            }
+            readFile(files.getAbsolutePath(), position);
         }
     }
 
-
-    /**
-     * 读取蓝牙文件夹
-     *
-     * @param keyword
-     * @return
-     */
-    private String searchFile(String keyword) {
-        String path = Environment.getExternalStorageDirectory().getPath();
-        String result = "";
-        File[] files = new File(path + "/bluetooth/").listFiles();
-        listf = new ArrayList<>();
-        if (files != null) {
-            for (File file : files) {
-//            if (file.getName().indexOf(keyword) >= 0) {
-                String fn = file.getName();
-                listf.add(file);
-                result += fn + "\n";// + "(" + file.getPath() + ")\n";
-                pathFile = file.getPath();
-//            }
-            }
-//            if (result.equals("")) {
-//                result = "找不到文件!!";
-//            }
-            return result;
-        } else {
-            result = "找不到文件!!";
-            return result;
-        }
-
-    }
 
     /**
      * @param filePath Memory card Bluetooth path address
      */
-    private void readFile(String filePath) throws JSONException {
+    private int readFile(String filePath, final int position) {
         String htmlCode = "";
-        if (filePath == null) return;
+        if (filePath == null) return -1;
         File file = new File(filePath);
         if (file.isDirectory()) {
-            return;
+            return -1;
         } else {
             try {
                 InputStream is = new FileInputStream(file);
@@ -235,15 +228,55 @@ public class BlueToothFolder extends BaseActivity {
                     while ((line = br.readLine()) != null) {
                         htmlCode = htmlCode + line;
                     }
-                    changeToJson(htmlCode);
-                    // showDialog(Arrays.asList(getArrayBcak()));
-                    //在这里将解析出来的数据放到MeasureData里，调用saveData方法存起来，再调用select方法显示出来(复核)
-                    sendToObject();
+                    //如果数据解析成，则提示用户本次测量的数据，并对数据进行复核检查
+                    int r = changeToJson(htmlCode);
+                    if (r > 0) {
+//                        showDialog(Arrays.asList(getArrayBcak()));
+                        new AlertDialog.Builder(context)
+                                .setTitle("系统提示")
+                                .setIcon(R.drawable.warn_small)
+                                .setMessage("本次测量： " + hightProcess + "   " + "\n初始值： " + td.getInitialValue() + "\n" + "本次测量与初始值差：" + String.valueOf(CalcUtils.sub(Double.parseDouble(hightProcess), Double.parseDouble(td.getInitialValue()))))
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //在这里将解析出来的数据放到MeasureData里，调用saveData方法存起来，再调用select方法显示出来(复核)
+                                        int sr = sendToObject();
+                                        if (sr > 0) {
+                                            listf.remove(position);
+                                            adapter.notifyDataSetChanged();
+                                            new AlertDialog.Builder(context)
+                                                    .setTitle("系统提示")
+                                                    .setIcon(R.drawable.success_small)
+                                                    .setMessage("测量数据保存成功")
+                                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
 
+                                                        }
+                                                    })
+                                                    .show();
+                                        }
+                                        //startActivity(new Intent(BaseActivity.this, MainActivity.class));
+                                    }
+                                })
+                                .setNegativeButton("取消", null)
+                                .show();
+                    } else {
+                        Toast.makeText(context, "数据解析错误，请确保蓝牙数据是否损坏", Toast.LENGTH_SHORT).show();
+                        Logger.e(TAG, "数据解析错误，请确保蓝牙数据是否损坏");
+                        return -1;
+                    }
                 }
             } catch (FileNotFoundException e) {
+                Toast.makeText(context, "您选择的文件不存在!", Toast.LENGTH_SHORT).show();
+                Logger.e(TAG, "您选择的文件不存在!");
+                return -1;
             } catch (IOException e) {
+                Toast.makeText(context, "您选择的文件读取失败!", Toast.LENGTH_SHORT).show();
+                Logger.e(TAG, "您选择的文件读取失败!");
+                return -1;
             }
+            return 1;
         }
     }
 
@@ -252,41 +285,52 @@ public class BlueToothFolder extends BaseActivity {
      *
      * @param htmlCode get one page's html code
      */
-    private void changeToJson(String htmlCode) throws JSONException {
-        l.clear();
-        tmpObj = new JSONObject();
-        jsonArray = new JSONArray();
-        Document document = (Document) Jsoup.parse(htmlCode);
-        Elements elements = document.select("tr");//elements.select("tr").size();
-        for (Element ele : elements) {
-            if (ele.select("th").size() > 2) {
-                for (int a = 0; a < ele.select("th").size(); a++) {
-                    String titles = (ele.select("th").get(a).text()).trim();
-                    String keys = (ele.select("td").get(a).text()).trim();
+    private int changeToJson(String htmlCode) {
+        try {
+            l.clear();
+            tmpObj = new JSONObject();
+            jsonArray = new JSONArray();
+            Document document = (Document) Jsoup.parse(htmlCode);
+            Elements elements = document.select("tr");//elements.select("tr").size();
+            for (Element ele : elements) {
+                if (ele.select("th").size() > 2) {
+                    for (int a = 0; a < ele.select("th").size(); a++) {
+                        String titles = (ele.select("th").get(a).text()).trim();
+                        String keys = (ele.select("td").get(a).text()).trim();
+                        String oneLine = titles + ":" + keys + "\n";
+                        if (titles != "") {
+                            l.add(oneLine); // Log.i(TAG, "This is PPM .");
+                            tmpObj.put(titles, keys);
+                        }
+                        if (titles.equals("高程")) {
+                            hightProcess = keys;
+                        }
+                        if (titles.equals("收敛")) {
+                            hightProcess = keys;
+                        }
+                    }
+                } else {
+                    String titles = (ele.select("th").get(0).text()).trim();
+                    String keys = (ele.select("td").get(0).text()).trim();
                     String oneLine = titles + ":" + keys + "\n";
                     if (titles != "") {
-                        l.add(oneLine); // Log.i(TAG, "This is PPM .");
+                        l.add(oneLine);
                         tmpObj.put(titles, keys);
-                    }
-                    if (titles.equals("高程")) {
-                        hightProcess = keys;
-                    }
-                }
-            } else {
-                String titles = (ele.select("th").get(0).text()).trim();
-                String keys = (ele.select("td").get(0).text()).trim();
-                String oneLine = titles + ":" + keys + "\n";
-                if (titles != "") {
-                    l.add(oneLine);
-                    tmpObj.put(titles, keys);
-                    if (titles.equals("创建日期")) {
-                        createTime = keys;
+
+                        if (titles.equals("创建日期")) {
+                            createTime = keys;
+                        }
                     }
                 }
             }
+            jsonArray.put(tmpObj);
+            personInfos = jsonArray.toString(); // 将JSONArray转换得到String
+            return 1;
+        } catch (JSONException e) {
+            Logger.e(TAG, "数据解析错误，请确保蓝牙数据是否损坏。");
+            e.printStackTrace();
+            return -1;
         }
-        jsonArray.put(tmpObj);
-        personInfos = jsonArray.toString(); // 将JSONArray转换得到String
     }
 
     /**
@@ -307,34 +351,43 @@ public class BlueToothFolder extends BaseActivity {
     private String[] getArrayBcak() {
         String[] a = new String[5];
         a[0] = personInfos;
-        a[1] = "用户：" + "";//zrw  有问题
+        a[1] = "用户：" + DLApplication.userName == null ? "" : DLApplication.userName;//zrw  有问题
         a[2] = "DateTime:" + dateChange();
         a[3] = "高程:" + hightProcess;
-        a[4] = "收敛:" + "0";
+        a[4] = "收敛:" + shoulProcess;
         return a;
     }
 
-    private void sendToObject() {
+    private int sendToObject() {
         MeasureData measureData = new MeasureData();
+        measureData.setTaskId(tId);
         measureData.setSources(personInfos);
         measureData.setGaocheng(hightProcess);
-        measureData.setShoulian("0");
-        measureData.setCldian("测量点");
-        measureData.setCllicheng("测量里程");
+//        measureData.setShoulian(shoulProcess);
+        measureData.setCldian(td.getMileageLabel());
+        measureData.setCldianId(td.getMileageId());
+        measureData.setCllicheng(td.getPointLabel());
+        measureData.setCldianId(td.getPointId());
         measureData.setStatus("1");
         measureData.setDataType("1");
         measureData.setCltime(dateChange());
-        measureData.setClren("");
+        measureData.setClren(DLApplication.userName == null ? "" : DLApplication.userName);
+        measureData.setUpdateTime("");
+        measureData.setCreateTime(DateConver.getStringDate());
         SqliteUtils sdb = new SqliteUtils(this);
-        Logger.e(TAG, sdb.saveMeasure(measureData) + "插入结果");
+//        Logger.i(TAG, sdb.saveMeasure(measureData) + "插入结果");
         if (sdb.saveMeasure(measureData) == 1) {
             //startActivity(new Intent(BlueToothFolder.this, CeLiangActivity.class));
-            Intent intent = new Intent(BlueToothFolder.this, CeLiangActivity.class);
-            intent.putExtra("measureData", measureData);
-            startActivity(intent);
-            finish();
+//            Intent intent = new Intent(BlueToothFolder.this, CeLiangActivity.class);
+//            intent.putExtra("measureData", measureData);
+//            startActivity(intent);
+//            finish();
+            Logger.i(TAG, "蓝牙传输测量数据保存成功.");
+            return 1;
+        } else {
+            Logger.i(TAG, "蓝牙传输测量数据保存失败.");
+            return -1;
         }
-
     }
 
     private String dateChange() {
