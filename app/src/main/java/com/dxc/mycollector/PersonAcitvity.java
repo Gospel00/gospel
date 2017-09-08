@@ -7,25 +7,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.dxc.mycollector.logs.Logger;
-import com.dxc.mycollector.taskDownload.DownLoadManager;
-import com.dxc.mycollector.taskDownload.DownLoadService;
-import com.dxc.mycollector.utils.HttpUtils;
 
 /**
  * Created by gospel on 2017/8/18.
@@ -153,10 +142,10 @@ public class PersonAcitvity extends BaseActivity {
             }
         });
 
-        //以下代码用于去除阴影
-        if (Build.VERSION.SDK_INT >= 21) {
-            getSupportActionBar().setElevation(0);
-        }
+     //以下代码用于去除阴影
+       if (Build.VERSION.SDK_INT >= 21) {
+           getSupportActionBar().setElevation(0);
+       }
     }
 
     protected void backToHome() {
