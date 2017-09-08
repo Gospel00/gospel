@@ -8,17 +8,23 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.dxc.mycollector.bluetooth.BlueToothTestActivity;
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.MeasureData;
+import com.dxc.mycollector.utils.DateConver;
+import com.dxc.mycollector.utils.FilesUtils;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +41,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,7 +53,7 @@ public class BlueToothFolder extends BaseActivity {
     private ListView fileList;//文件列表
     private String pathFile = "";//文件路径
     private TextView text;//解析按钮
-    private List<String> listf;
+    private List<File> listf = new ArrayList<>();
     DLApplication myapp = null;
     /**
      * html change to json
@@ -57,17 +64,20 @@ public class BlueToothFolder extends BaseActivity {
     String personInfos = "";
     String createTime = "";
     String hightProcess = "";
+    //蓝牙地址
+    String lyaddress = "";
 
-
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_bluetooth_fileslist_main_layout);
         waitingDialog();//加载等待页面对话框方法
-//        myapp = (DLApplication) getApplication();
         fileList = (ListView) findViewById(R.id.showbluetoothfilelistView);
         context = this;
-        String aa = searchFile("");
+//        String aa = searchFile("");
+        //接收蓝牙地址
+        lyaddress = getIntent().getStringExtra("device_address");
         initDrawerList();
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
@@ -78,11 +88,11 @@ public class BlueToothFolder extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP);  //根据字面意思是显示类型为显示自定义
         actionBar.setDisplayShowCustomEnabled(true); //自定义界面是否可显示
-       // 使用setText的方法对textview动态赋值
-        ((TextView) findViewById(R.id.title_name)).setText("数据管理");
+        // 使用setText的方法对textview动态赋值
+        ((TextView) findViewById(R.id.title_name)).setText("接收到的测量数据列表");
 
-       //以下代码用于去除阴影
-        if(Build.VERSION.SDK_INT>=21){
+        //以下代码用于去除阴影
+        if (Build.VERSION.SDK_INT >= 21) {
             getSupportActionBar().setElevation(0);
         }
     }
@@ -90,8 +100,7 @@ public class BlueToothFolder extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
-        if(item.getItemId() == android.R.id.home)
-        {
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
@@ -99,6 +108,8 @@ public class BlueToothFolder extends BaseActivity {
     }
 
     private void initDrawerList() {
+        //初始化List
+        listf = FilesUtils.listFileSortByModifyTime(Environment.getExternalStorageDirectory().getPath() + "/bluetooth/");
         BaseAdapter adapter = new BaseAdapter() {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -107,26 +118,30 @@ public class BlueToothFolder extends BaseActivity {
                     holder = new Holder();
                     convertView = LayoutInflater.from(context).inflate(R.layout.show_bluetooth_list_item_layout, null);
                     holder.fileName = (TextView) convertView.findViewById(R.id.show_bluetoothfile_file_name);
-                    text = (TextView) convertView.findViewById(R.id.jiexi);
+                    holder.fileTime = (TextView) convertView.findViewById(R.id.show_bluetoothfile_file_time);
+//                    text = (TextView) convertView.findViewById(R.id.jiexi);
                     convertView.setTag(holder);
-                    text.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v) {
-                            int i = 0;
-                            try {
-                                readFile(pathFile);
-                            } catch (Exception e) {
-                                String dff = e.toString();
-                                e.printStackTrace();
-                            }
-                        }
-                    });
+//                    text.setOnClickListener(new View.OnClickListener() {
+//
+//                        @Override
+//                        public void onClick(View v) {
+//                            int i = 0;
+//                            try {
+//                                readFile(pathFile);
+//                            } catch (Exception e) {
+//                                String dff = e.toString();
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    });
 
                 } else {
                     holder = (Holder) convertView.getTag();
                 }
-                holder.fileName.setText(listf.get(position));
+                File files = listf.get(position);
+                Date datef = new Date(files.lastModified());
+                holder.fileName.setText(files.getName() + "(" + lyaddress + ")");
+                holder.fileTime.setText(DateConver.ConverToStringNYRSFM(datef));
                 return convertView;
             }
 
@@ -146,23 +161,46 @@ public class BlueToothFolder extends BaseActivity {
             }
         };
         fileList.setAdapter(adapter);
+        fileList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
 
     static class Holder {
         TextView fileName = null;
+        TextView fileTime = null;
     }
 
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            File files = listf.get(position);
+            //解析文件
+            try {
+                readFile(files.getAbsolutePath());
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Logger.e(TAG, "解析文件异常:" + e.getMessage());
+            }
+        }
+    }
+
+
+    /**
+     * 读取蓝牙文件夹
+     *
+     * @param keyword
+     * @return
+     */
     private String searchFile(String keyword) {
         String path = Environment.getExternalStorageDirectory().getPath();
         String result = "";
         File[] files = new File(path + "/bluetooth/").listFiles();
         listf = new ArrayList<>();
-        if(files !=null) {
+        if (files != null) {
             for (File file : files) {
 //            if (file.getName().indexOf(keyword) >= 0) {
                 String fn = file.getName();
-                listf.add(fn);
+                listf.add(file);
                 result += fn + "\n";// + "(" + file.getPath() + ")\n";
                 pathFile = file.getPath();
 //            }
@@ -171,8 +209,7 @@ public class BlueToothFolder extends BaseActivity {
 //                result = "找不到文件!!";
 //            }
             return result;
-        }else
-        {
+        } else {
             result = "找不到文件!!";
             return result;
         }
@@ -291,7 +328,6 @@ public class BlueToothFolder extends BaseActivity {
         SqliteUtils sdb = new SqliteUtils(this);
         Logger.e(TAG, sdb.saveMeasure(measureData) + "插入结果");
         if (sdb.saveMeasure(measureData) == 1) {
-
             //startActivity(new Intent(BlueToothFolder.this, CeLiangActivity.class));
             Intent intent = new Intent(BlueToothFolder.this, CeLiangActivity.class);
             intent.putExtra("measureData", measureData);

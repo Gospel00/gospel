@@ -110,6 +110,10 @@ public class HttpUtils {
             InputStream is = conn.getInputStream(); // 获取输入流
             byte[] data = readStream(is); // 把输入流转换成字符串组
             result = new String(data); // 把字符串组转换成字符串
+        } else {
+            InputStream is = conn.getErrorStream(); // 获取输入流
+            byte[] data = readStream(is); // 把输入流转换成字符串组
+            result = new String(data); // 把字符串组转换成字符串
         }
         return result;
     }
@@ -205,7 +209,7 @@ public class HttpUtils {
             /*把JSON数据转换成String类型使用输出流向服务器写*/
             Gson gson = new Gson();
             String content = gson.toJson(t1);//String.valueOf(gson.toJson(taskd));
-            content = "{\"taskId\":\"640\",\"doTime\":\"2017-9-01 14:45:12\",\"userId\":\"\",\"mileageLabel\":\"测量里程显示名称4\",\"mileageId\":\"test_89\",\"pointLabel\":\"测量点显示名称\",\"pointId\":\"test_cl1\",\"pointValue\":\"151.161\"}";
+            content = "{\"taskId\":\"595\",\"doTime\":\"2017-09-01 14:45:12\",\"userId\":\"administrator\",\"mileageLabel\":\"测量里程显示名称1\",\"mileageId\":\"test_89\",\"pointLabel\":\"测量点显示名称\",\"pointId\":\"test_cl1\",\"pointValue\":\"134.161\"}";
             Logger.i(TAG, "post jsondata：" + content);
             Logger.i("DownLoadManager", "postjsondata：" + content);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -214,7 +218,7 @@ public class HttpUtils {
             conn.setRequestMethod("POST");
             conn.setRequestProperty("User-Agent", "Fiddler");
             conn.setRequestProperty("Content-Type", "application/json");
-//            conn.setRequestProperty("Accept", "application/json");
+            conn.setRequestProperty("Accept", "application/json");
             conn.setRequestProperty("Charset", encoding);
             OutputStream os = conn.getOutputStream();
             os.write(content.getBytes());
@@ -223,6 +227,10 @@ public class HttpUtils {
             int code = conn.getResponseCode();
             if (code == 200) {
                 InputStream is = conn.getInputStream(); // 获取输入流
+                byte[] data = readStream(is); // 把输入流转换成字符串组
+                result = new String(data); // 把字符串组转换成字符串
+            } else {
+                InputStream is = conn.getErrorStream(); // 获取输入流
                 byte[] data = readStream(is); // 把输入流转换成字符串组
                 result = new String(data); // 把字符串组转换成字符串
             }

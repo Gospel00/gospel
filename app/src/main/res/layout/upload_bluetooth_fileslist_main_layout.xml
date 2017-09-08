@@ -9,43 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".BlueToothFolder">
 
-    <!--<RelativeLayout
-        android:id="@+id/headlayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="测量数据列表"
-            android:textSize="@dimen/all_title" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_below="@+id/center"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            android:background="@color/huise"
-            android:paddingLeft="1080dp"
-            android:paddingRight="10dp"
-            android:singleLine="true" />
-
-        &lt;!&ndash;
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="切换用户"
-                android:id="@+id/userbutton"
-                android:layout_alignParentBottom="true"
-                android:layout_toRightOf="@+id/center"
-                />&ndash;&gt;
-    </RelativeLayout>-->
 
     <RelativeLayout
         android:layout_width="match_parent"

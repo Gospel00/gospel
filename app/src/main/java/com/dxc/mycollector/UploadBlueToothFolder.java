@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,18 +52,6 @@ public class UploadBlueToothFolder extends BaseActivity {
         queryDBCDate();
         searchDrawerList();
 
-//        findViewById(R.id.upload).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                try {
-//                    DownLoadManager downLoadManager = new DownLoadManager(UploadBlueToothFolder.this);
-//                    downLoadManager.uploadMeasure(null);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar);
         //必须加2句
@@ -82,7 +71,6 @@ public class UploadBlueToothFolder extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO Auto-generated method stub
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
@@ -131,13 +119,9 @@ public class UploadBlueToothFolder extends BaseActivity {
                 } else {
                     holder = (Holder) convertView.getTag();
                 }
-//                holder.fileName.setText(listtasks.get(position).g);
                 MeasureData taskInfo = listtasks.get(position);
-
-
-                holder.fileName.setText(taskInfo.getCldian() + "-" + taskInfo.getCllicheng() + "-" + taskInfo.getShoulian());
+                holder.fileName.setText(taskInfo.getTaskId() + "-" + taskInfo.getCldian() + "-" + taskInfo.getCllicheng());
                 holder.fileTime.setText(taskInfo.getCltime());
-                Logger.e(TAG, taskInfo.toString());
                 return convertView;
             }
 
@@ -166,17 +150,21 @@ public class UploadBlueToothFolder extends BaseActivity {
     }
 
     boolean uptrue = false;
+    String msgstr = "";
+    String tid = "";
     private Handler uhandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case 1:
-                    //上传成功，更新本地数据上传状态
-//                    int result = SqliteUtils.getInstance(mycontext).saveTaskInfo(maps.get(ti), ti);
-//                    Logger.i(TAG, "任务保存成功。测量详情：" + maps.get(ti).toString())
                     if (uptrue) {
                         Toast.makeText(getApplicationContext(), "上传成功!", Toast.LENGTH_LONG).show();
+                        //上传成功，更新本地数据上传状态
+                        int result = SqliteUtils.getInstance(context).updateUpLoadStatus(tid);
                     } else {
-                        Toast.makeText(getApplicationContext(), "上传失败!", Toast.LENGTH_LONG).show();
+                        if (msgstr != null && msgstr.length() > 0) {
+                            msgstr = msgstr.substring(msgstr.indexOf("msg"), msgstr.length() - 1);
+                        }
+                        Toast.makeText(getApplicationContext(), "上传失败!\n" + msgstr, Toast.LENGTH_LONG).show();
                     }
                     break;
                 default:
@@ -189,17 +177,18 @@ public class UploadBlueToothFolder extends BaseActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //            Toast.makeText(context, "开始上传", Toast.LENGTH_SHORT).show();
-            MeasureData taskInfo = listtasks.get(position);
+            final MeasureData taskInfo = listtasks.get(position);
             DownLoadManager downLoadManager = new DownLoadManager(UploadBlueToothFolder.this);
             downLoadManager.uploadMeasure(taskInfo);
             downLoadManager.setUploadCallback(new DownLoadManager.UploadCallback() {
                 @Override
-                public void callback(boolean statu) {
+                public void callback(boolean statu, String msg) {
                     uptrue = statu;
+                    msgstr = msg;
+                    tid = taskInfo.getTaskId();
                     uhandler.sendEmptyMessage(1);
                 }
             });
-
         }
     }
 
