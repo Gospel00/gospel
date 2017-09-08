@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,6 +45,7 @@ public class ShowTaskInfo extends BaseActivity {
     private Button taskAdd;
     Context context;
     List<TaskInfo> listtasks = null;
+    String potid = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,11 @@ public class ShowTaskInfo extends BaseActivity {
         waitingDialog();//加载等待页面对话框方法
 
         context = this;
+
+        //获取任务完成标识
+        potid = this.getIntent().getStringExtra("potid");
+
+
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar);
         //必须加2句
@@ -101,26 +108,45 @@ public class ShowTaskInfo extends BaseActivity {
         BaseAdapter adapter = new BaseAdapter() {
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
+                TaskInfo taskInfo = listtasks.get(position);
                 Holder holder = null;
+                View layout = View.inflate(getApplicationContext(), R.layout.task_download_list_item_layout, null);
+
                 if (convertView == null) {
+
                     holder = new Holder();
                     convertView = LayoutInflater.from(context).inflate(R.layout.task_download_list_item_layout, null);
+                    //已完成任务
+                    ImageView imageViews1 = (ImageView) convertView.findViewById(R.id.imageView1);
+                    //待完成任务
+                    ImageView imageViews = (ImageView) convertView.findViewById(R.id.imageView);
                     holder.tasknamepoint = (TextView) convertView.findViewById(R.id.show_task_name_point);
                     holder.taskname = (TextView) convertView.findViewById(R.id.show_task_name);
                     convertView.setTag(holder);
-//                    Button upbtn = (Button) convertView.findViewById(R.id.kaishicl);
-//                    upbtn.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            startActivity(new Intent(getApplicationContext(), CeLiangActivity.class));
-////                            Toast.makeText(ShowTaskInfo.this, "接口正在开发中...", Toast.LENGTH_SHORT).show();
-////                            selectItem(position);
-//                        }
-//                    });
+                    // 如果potid不为空说明是完成任务后跳转过来的，在列表中能找到该任务，将其状态改为已完成
+                    if (potid != null && potid.equals(taskInfo.getTaskDetail().getPointId())) {
+                        imageViews.setVisibility(View.GONE);
+                        convertView.invalidate();
+                    } else {
+                        imageViews1.setVisibility(View.GONE);
+                        convertView.invalidate();
+                    }
                 } else {
+                    //已完成任务
+                    ImageView imageViews1 = (ImageView) convertView.findViewById(R.id.imageView1);
+                    //待完成任务
+                    ImageView imageViews = (ImageView) convertView.findViewById(R.id.imageView);
+                    //如果potid不为空说明是完成任务后跳转过来的，在列表中能找到该任务，将其状态改为已完成
+                    if (potid != null && potid.equals(taskInfo.getTaskDetail().getPointId())) {
+                        imageViews.setVisibility(View.GONE);
+                        convertView.invalidate();
+                    } else {
+                        imageViews1.setVisibility(View.GONE);
+                        convertView.invalidate();
+                    }
                     holder = (Holder) convertView.getTag();
                 }
-                TaskInfo taskInfo = listtasks.get(position);
+
                 String starttime = "";
                 if (taskInfo.getStartTime() != null && taskInfo.getStartTime().length() > 10)
                     starttime = taskInfo.getStartTime().substring(0, 10);

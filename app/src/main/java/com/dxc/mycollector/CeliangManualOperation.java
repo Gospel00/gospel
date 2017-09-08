@@ -193,7 +193,7 @@ public class CeliangManualOperation extends BaseActivity {
     }
 
     //只管gc这个字段，因为每次测量保存只有一个测量值，现在都用gc这个字段存储
-    public void insertDB(String taskId, TaskDetails td, String taskname, String time) {
+    public void insertDB(String taskId, final TaskDetails td, String taskname, String time) {
         final SqliteUtils su = new SqliteUtils(this);
         if (taskId != null && gc != null) {
             if (su.saveCustomMeasure(taskId, td, taskname, time, gc, "0") == 1) {
@@ -207,6 +207,7 @@ public class CeliangManualOperation extends BaseActivity {
                                 Intent intent = new Intent();
                                 intent.setClass(CeliangManualOperation.this, ShowTaskInfo.class);
                                 intent.putExtra("State", true);
+                                intent.putExtra("potid", td.getPointId());
                                 startActivity(intent);
                                 finish();
                             }
