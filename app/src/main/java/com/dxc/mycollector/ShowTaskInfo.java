@@ -79,8 +79,6 @@ public class ShowTaskInfo extends BaseActivity {
     }
 
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
@@ -100,16 +98,16 @@ public class ShowTaskInfo extends BaseActivity {
     }
 
     private void initDrawerList() {
-                    BaseAdapter adapter = new BaseAdapter() {
-                        @Override
-                        public View getView(final int position, View convertView, ViewGroup parent) {
-                            Holder holder = null;
-                            if (convertView == null) {
-                                holder = new Holder();
-                                convertView = LayoutInflater.from(context).inflate(R.layout.task_download_list_item_layout, null);
-                                holder.tasknamepoint = (TextView) convertView.findViewById(R.id.show_task_name_point);
-                                holder.taskname = (TextView) convertView.findViewById(R.id.show_task_name);
-                                convertView.setTag(holder);
+        BaseAdapter adapter = new BaseAdapter() {
+            @Override
+            public View getView(final int position, View convertView, ViewGroup parent) {
+                Holder holder = null;
+                if (convertView == null) {
+                    holder = new Holder();
+                    convertView = LayoutInflater.from(context).inflate(R.layout.task_download_list_item_layout, null);
+                    holder.tasknamepoint = (TextView) convertView.findViewById(R.id.show_task_name_point);
+                    holder.taskname = (TextView) convertView.findViewById(R.id.show_task_name);
+                    convertView.setTag(holder);
 //                    Button upbtn = (Button) convertView.findViewById(R.id.kaishicl);
 //                    upbtn.setOnClickListener(new View.OnClickListener() {
 //                        @Override
@@ -187,12 +185,8 @@ public class ShowTaskInfo extends BaseActivity {
             detailDatas.setDateTime(taskInfo.getStartTime().substring(0, 10));
             intent.putExtra("detailDatas", detailDatas);
             intent.putExtra("taskId", taskInfo.getTaskId());
-           String df= taskInfo.getTaskType();
             intent.putExtra("tasktypes", taskInfo.getTaskType());
             startActivity(intent);
-//            finish();
-//            selectItem(position);
-//            actionAlertDialog();
         }
     }
 
@@ -215,49 +209,49 @@ public class ShowTaskInfo extends BaseActivity {
 //    }
 
 
-    /**
-     * 选择行
-     *
-     * @param position
-     */
-    private void selectItem(int position) {
-//        Toast.makeText(this, planetTitles[position], Toast.LENGTH_SHORT).show();
-        TaskInfo taskInfo = listtasks.get(position);
-        TaskDetails detailDatas = taskInfo.getTaskDetail();
-        String[] strarr = new String[1];
-//        int i = 0;
-//        for (TaskDetails detailData : detailDatas) {
-        strarr[0] = detailDatas.getProName() + "-" + detailDatas.getMileageLabel() + "-" + detailDatas.getPointLabel();
+//    /**
+//     * 选择行
+//     *
+//     * @param position
+//     */
+//    private void selectItem(int position) {
+////        Toast.makeText(this, planetTitles[position], Toast.LENGTH_SHORT).show();
+//        TaskInfo taskInfo = listtasks.get(position);
+//        TaskDetails detailDatas = taskInfo.getTaskDetail();
+//        String[] strarr = new String[1];
+////        int i = 0;
+////        for (TaskDetails detailData : detailDatas) {
+//        strarr[0] = detailDatas.getProName() + "-" + detailDatas.getMileageLabel() + "-" + detailDatas.getPointLabel();
+////        }
+//        new AlertDialog.Builder(this)
+//                .setTitle("测量仪器列表")
+//                .setItems(strarr, null)
+//                .setNegativeButton("确定", null)
+//                .show();
+//    }
+//
+//    /**
+//     * 嵌套ListView
+//     *
+//     * @param listView
+//     */
+//    public void setListViewHeightBasedOnChildren(ListView listView) {
+//        // 获取ListView对应的Adapter
+//        ListAdapter listAdapter = listView.getAdapter();
+//        if (listAdapter == null) {
+//            return;
 //        }
-        new AlertDialog.Builder(this)
-                .setTitle("测量仪器列表")
-                .setItems(strarr, null)
-                .setNegativeButton("确定", null)
-                .show();
-    }
-
-    /**
-     * 嵌套ListView
-     *
-     * @param listView
-     */
-    public void setListViewHeightBasedOnChildren(ListView listView) {
-        // 获取ListView对应的Adapter
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            return;
-        }
-        int totalHeight = 0;
-        for (int i = 0, len = listAdapter.getCount(); i < len; i++) {
-            // listAdapter.getCount()返回数据项的数目
-            View listItem = listAdapter.getView(i, null, listView);
-            // 计算子项View 的宽高
-            listItem.measure(0, 0);
-            // 统计所有子项的总高度
-            totalHeight += listItem.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-    }
+//        int totalHeight = 0;
+//        for (int i = 0, len = listAdapter.getCount(); i < len; i++) {
+//            // listAdapter.getCount()返回数据项的数目
+//            View listItem = listAdapter.getView(i, null, listView);
+//            // 计算子项View 的宽高
+//            listItem.measure(0, 0);
+//            // 统计所有子项的总高度
+//            totalHeight += listItem.getMeasuredHeight();
+//        }
+//        ViewGroup.LayoutParams params = listView.getLayoutParams();
+//        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+//        listView.setLayoutParams(params);
+//    }
 }

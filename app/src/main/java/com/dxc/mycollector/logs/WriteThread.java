@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import android.annotation.SuppressLint;
+import android.os.Environment;
 
 import com.google.gson.Gson;
 
@@ -24,8 +25,8 @@ public class WriteThread extends Thread {
 
     public boolean isWriteThreadLive = false;// 写日志线程是否已经在运行
 
-    private static final String LOG_DIR = "/mnt/sdcard/Tunnel/log/";
-    private static final String LOG_SERVICE_LOG_PATH = LOG_DIR + "tunnerRecord.txt";
+    private static final String LOG_DIR = Environment.getExternalStorageDirectory().getPath() + "/Tunnel/log/";
+    private static final String LOG_SERVICE_LOG_PATH = LOG_DIR + "tunnerlog.txt";
 
     public ConcurrentLinkedQueue<Object> linkedQueue = new ConcurrentLinkedQueue<Object>();
 
@@ -35,7 +36,7 @@ public class WriteThread extends Thread {
             // 日志文件超过50M备份
             if (file.length() > 50 * 1024 * 1024) {
                 // File file1 = new File(LOG_DIR + "xDeviceService_bak.txt");
-                File file1 = new File(LOG_DIR + "tunnerRecord_bak.txt");
+                File file1 = new File(LOG_DIR + "tunnerlog_bak.txt");
                 if (file1.exists()) {
                     file1.delete();
                 }
@@ -43,10 +44,14 @@ public class WriteThread extends Thread {
             }
         } else {
             try {
-                file.createNewFile();
+                boolean cYes = file.createNewFile();
+                if (cYes)
+                    Logger.e(WriteThread.class.getSimpleName(), "日志文件创建成功.");
+                else
+                    Logger.e(WriteThread.class.getSimpleName(), "创建日志文件失败.");
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
+                Logger.e(WriteThread.class.getSimpleName(), "创建日志文件失败." + e.getMessage());
             }
         }
     }

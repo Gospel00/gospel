@@ -6,10 +6,7 @@
     <com.dxc.mycollector.pullableview.PullToRefreshLayout
         android:id="@+id/refresh_view1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="match_parent">
 
         <include layout="@layout/refresh_head" />
 
@@ -17,10 +14,6 @@
             android:id="@+id/task_listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="@color/white"
             android:divider="@color/gray"
             android:dividerHeight="1dp" />
 

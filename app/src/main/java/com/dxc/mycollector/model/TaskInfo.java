@@ -15,6 +15,7 @@ public class TaskInfo {
     private String endTime;//结束时间
     private TaskDetails[] detail;//详细信息
     private TaskDetails taskDetail;//存放单条
+    private String status;//0已完成，1处理中。所有下载下来的任务都是处理中状态
 
     public int getId() {
         return id;

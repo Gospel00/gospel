@@ -28,9 +28,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dxc.mycollector.BaseActivity;
+import com.dxc.mycollector.BlueToothFolder;
+import com.dxc.mycollector.CeLiangActivity;
+import com.dxc.mycollector.CeliangManualOperation;
 import com.dxc.mycollector.R;
+import com.dxc.mycollector.UploadBlueToothFolder;
 import com.dxc.mycollector.WeiboDialogUtils;
 import com.dxc.mycollector.logs.Logger;
+import com.dxc.mycollector.model.TaskDetails;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -57,13 +62,21 @@ public class BlueToothListActivity extends BaseActivity {
     private Dialog mWeiboDialog;//对话框
     int connect = 0;
     String getAddress = "";
+    TaskDetails td;
+    String tId = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.person_homepage_layout2);
         context = this;
-        waitingConnect(3000);
+
+        //获取任务详情
+        td = (TaskDetails) this.getIntent().getSerializableExtra("taskDetails");
+        tId = this.getIntent().getStringExtra("taskId_ly");
+
+        waitingConnect(3000, "正在搜索设备...");
+
         // ListView及其数据源 适配器
         lvBTDevices = (ListView) this.findViewById(R.id.lvDevices);
         adtDevices = new ArrayAdapter<String>(this,
@@ -136,8 +149,8 @@ public class BlueToothListActivity extends BaseActivity {
     }
 
     //    定义加载等待页面方法
-    public void waitingConnect(int speed) {
-        mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, "正在连接...");//加载对话框
+    public void waitingConnect(int speed, String msg) {
+        mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, msg);//加载对话框
 //        mHandler.sendEmptyMessageDelayed(1, speed);//处理消息
     }
 
@@ -147,22 +160,21 @@ public class BlueToothListActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case 1:
-                    if (context != null && mWeiboDialog != null) {
-                        WeiboDialogUtils.closeDialog(mWeiboDialog);
-                    }
-                    break;
-                case 2:
-                    if (context != null && mWeiboDialog != null) {
-                        WeiboDialogUtils.closeDialog(mWeiboDialog);
-                    }
-                    Intent intent = new Intent();
-                    intent.putExtra(EXTRA_DEVICE_ADDRESS, getAddress);
-//                    intent.putExtra("result", null);
-                    // Set result and finish this Activity
-                    setResult(Activity.RESULT_OK, intent);
-                    finish();
-                    break;
+//                case 1:
+//                    if (context != null && mWeiboDialog != null) {
+//                        WeiboDialogUtils.closeDialog(mWeiboDialog);
+//                    }
+//                    break;
+//                case 2:
+//                    if (context != null && mWeiboDialog != null) {
+//                        WeiboDialogUtils.closeDialog(mWeiboDialog);
+//                    }
+//                    startActivity(new Intent(context, BlueToothFolder.class));
+//                    Intent intent = new Intent();
+//                    intent.putExtra(EXTRA_DEVICE_ADDRESS, getAddress);
+//                    setResult(Activity.RESULT_OK, intent);
+//                    finish();
+//                    break;
                 case 3:
                     if (context != null && mWeiboDialog != null) {
                         WeiboDialogUtils.closeDialog(mWeiboDialog);
@@ -189,6 +201,25 @@ public class BlueToothListActivity extends BaseActivity {
                     if (context != null && mWeiboDialog != null) {
                         WeiboDialogUtils.closeDialog(mWeiboDialog);
                     }
+                    break;
+                case 6:
+                    if (context != null && mWeiboDialog != null) {
+                        WeiboDialogUtils.closeDialog(mWeiboDialog);
+                    }
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable("device_address", getAddress);
+                    Intent intents = new Intent(BlueToothListActivity.this, BlueToothFolder.class);
+                    intents.putExtra("device_address", getAddress);
+                    intents.putExtra("tdesl", td);
+                    intents.putExtra("taskId_lya", tId);
+                    startActivity(intents);
+                    finish();
+                    //
+//                    Intent intent3 = new Intent();
+//                    intent3.putExtra(EXTRA_DEVICE_ADDRESS, getAddress);
+//                    // Set result and finish this Activity
+//                    setResult(Activity.RESULT_OK, intent3);
+//                    finish();
                     break;
             }
         }
@@ -226,7 +257,9 @@ public class BlueToothListActivity extends BaseActivity {
                         break;
                     case BluetoothDevice.BOND_BONDED:
                         Logger.i(TAG, "完成配对");
-                        connect(device);//连接设备
+//                        connect(device);//连接设备
+                        Logger.i(TAG, "连接成功...");
+                        mHandler.sendEmptyMessageDelayed(6, 2000);//处理消息
                         break;
                     case BluetoothDevice.BOND_NONE:
                         Logger.i(TAG, "取消配对");
@@ -234,6 +267,11 @@ public class BlueToothListActivity extends BaseActivity {
                     default:
                         break;
                 }
+            } else if (BluetoothAdapter.ACTION_SCAN_MODE_CHANGED.equals(action)) {
+                device = intent
+                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                Logger.i(TAG, device.getName() + " 处于连接状态,无需再次连接.");
+                mHandler.sendEmptyMessageDelayed(6, 1000);//处理消息
             }
         }
     };
@@ -256,7 +294,7 @@ public class BlueToothListActivity extends BaseActivity {
             String address = values[2].trim();
             Logger.i(TAG, "选择了设备" + str);
             BluetoothDevice btDev = btAdapt.getRemoteDevice(address);
-            getAddress = btDev.getAddress();
+            getAddress = values[1] + "-" + values[2];
             try {
                 Boolean returnValue = false;
                 if (btDev.getBondState() == BluetoothDevice.BOND_NONE) {
@@ -268,13 +306,14 @@ public class BlueToothListActivity extends BaseActivity {
                             .getMethod("createBond");
                     returnValue = (Boolean) createBondMethod.invoke(btDev);
                     Logger.i(TAG, "开始配对..." + returnValue);
-                    waitingConnect(3000);
+                    waitingConnect(3000, "正在配对...");
                 } else if (btDev.getBondState() == BluetoothDevice.BOND_BONDED) {
 //                    Toast.makeText(context, "正在连接...", Toast.LENGTH_SHORT);
-                    waitingConnect(3000);
+                    waitingConnect(3000, "正在连接...");
                     //r是1 连接失败...
-                    int r = connect(btDev);
-                    Log.i(TAG, "connect result::" + connect);
+//                    int r = connect(btDev);
+                    Logger.i(TAG, "连接成功...");
+                    mHandler.sendEmptyMessageDelayed(6, 2000);//处理消息
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -291,6 +330,7 @@ public class BlueToothListActivity extends BaseActivity {
                     try {
                         btSocket.connect();
                         r[0] = 1;
+                        mHandler.sendEmptyMessageDelayed(6, 3000);//处理消息
                         Logger.i(TAG, "Connected");
                     } catch (Exception e) {
                         Logger.e(TAG, "btSocket.connect() failed." + e.getMessage());
@@ -299,11 +339,12 @@ public class BlueToothListActivity extends BaseActivity {
                             Logger.i(TAG, "调用反射机制连接设备...");
                             btSocket = (BluetoothSocket) btDev.getClass().getMethod("createRfcommSocket", new Class[]{int.class}).invoke(btDev, 1);
                             btSocket.connect();
-                            mHandler.sendEmptyMessageDelayed(2, 3000);//处理消息
+                            mHandler.sendEmptyMessageDelayed(6, 3000);//处理消息
                             r[0] = 1;
                             Logger.i(TAG, "连接成功.");
                         } catch (Exception e2) {
                             Logger.e(TAG, "Couldn't establish Bluetooth connection!");
+                            Logger.i(TAG, "连接失败.");
                             mHandler.sendEmptyMessageDelayed(3, 2000);//处理消息
                             r[0] = 1;
                         }
@@ -341,7 +382,7 @@ public class BlueToothListActivity extends BaseActivity {
                     //只有搜索到蓝牙才退出搜索
                     if (lstDevices.size() > 0) {
                         r[0] = 1;
-                        mHandler.sendEmptyMessageDelayed(5, 1000);//处理消息
+                        mHandler.sendEmptyMessageDelayed(5, 3000);//处理消息
                     } else {
                         try {
                             sleep(1000);
@@ -354,51 +395,4 @@ public class BlueToothListActivity extends BaseActivity {
             }
         }.start();
     }
-//    class ClickEvent implements View.OnClickListener {
-//        @Override
-//        public void onClick(View v) {
-//            if (v == btnSearch)// 搜索蓝牙设备，在BroadcastReceiver显示结果
-//            {
-//                if (btAdapt.getState() == BluetoothAdapter.STATE_OFF) {// 如果蓝牙还没开启
-//                    Toast.makeText(BlueToothListActivity.this, "请先打开蓝牙", Toast.LENGTH_LONG)
-//                            .show();
-//                    return;
-//                }
-//                if (btAdapt.isDiscovering())
-//                    btAdapt.cancelDiscovery();
-//                lstDevices.clear();
-//                Object[] lstDevice = btAdapt.getBondedDevices().toArray();
-//                for (int i = 0; i < lstDevice.length; i++) {
-//                    BluetoothDevice device = (BluetoothDevice) lstDevice[i];
-//                    String str = "已配对|" + device.getName() + "|"
-//                            + device.getAddress();
-//                    lstDevices.add(str); // 获取设备名称和mac地址
-//                    adtDevices.notifyDataSetChanged();
-//                }
-//                setTitle("本机蓝牙地址：" + btAdapt.getAddress());
-//                btAdapt.startDiscovery();
-//            } else if (v == tbtnSwitch) {// 本机蓝牙启动/关闭
-//                if (tbtnSwitch.isChecked() == false)
-//                    btAdapt.enable();
-//
-//                else if (tbtnSwitch.isChecked() == true)
-//                    btAdapt.disable();
-//            } else if (v == btnDis)// 本机可以被搜索
-//            {
-//                Intent discoverableIntent = new Intent(
-//                        BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-//                discoverableIntent.putExtra(
-//                        BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-//                startActivity(discoverableIntent);
-//            } else if (v == btnExit) {
-//                try {
-//                    if (btSocket != null)
-//                        btSocket.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                BlueToothListActivity.this.finish();
-//            }
-//        }
-//    }
 }

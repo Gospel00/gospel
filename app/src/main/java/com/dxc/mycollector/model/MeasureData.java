@@ -8,8 +8,12 @@ import java.io.Serializable;
  */
 
 public class MeasureData implements Serializable {
+    private int id;
+    private String taskId;
     private String cllicheng;
     private String cldian;
+    private String cllichengId;
+    private String cldianId;
     private String sources;
     private String clren;
     private String cltime;
@@ -43,14 +47,6 @@ public class MeasureData implements Serializable {
 
     public void setDataType(String dataType) {
         this.dataType = dataType;
-    }
-
-    public String getDownloadId() {
-        return downloadId;
-    }
-
-    public void setDownloadId(String downloadId) {
-        this.downloadId = downloadId;
     }
 
     public String getSources() {
@@ -101,22 +97,79 @@ public class MeasureData implements Serializable {
         this.status = status;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getDownloadId() {
+        return downloadId;
+    }
+
+    public void setDownloadId(String downloadId) {
+        this.downloadId = downloadId;
+    }
+
+    public String getCllichengId() {
+        return cllichengId;
+    }
+
+    public void setCllichengId(String cllichengId) {
+        this.cllichengId = cllichengId;
+    }
+
+    public String getCldianId() {
+        return cldianId;
+    }
+
+    public void setCldianId(String cldianId) {
+        this.cldianId = cldianId;
+    }
+
     @Override
     public String toString() {
         return "MeasureData{" +
-                "sources='" + sources + '\'' +
+                "id=" + id +
+                ", taskId='" + taskId + '\'' +
                 ", cllicheng='" + cllicheng + '\'' +
                 ", cldian='" + cldian + '\'' +
+                ", sources='" + sources + '\'' +
                 ", clren='" + clren + '\'' +
                 ", cltime='" + cltime + '\'' +
                 ", gaocheng='" + gaocheng + '\'' +
                 ", shoulian='" + shoulian + '\'' +
-                ", status='" + status + '\'' +
-                //zrw add
-                ", createtime='" + createTime + '\'' +
-                ", updatetime='" + updateTime + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
                 ", dataType='" + dataType + '\'' +
-
+                ", status='" + status + '\'' +
+                ", downloadId='" + downloadId + '\'' +
                 '}';
     }
 }

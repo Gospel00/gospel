@@ -66,11 +66,13 @@ public class RegisterAcitvity extends AppCompatActivity {
             }
         }
     };
+
     //定义加载等待页面方法
     public void waitingDialog() {
         mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, "加载中...");//加载对话框
         mHandler.sendEmptyMessageDelayed(1, 1000);//处理消息
     }
+
     //省级选项值
     private String[] province = new String[]{"省份", "北京", "上海", "天津", "广东"};//,"重庆","黑龙江","江苏","山东","浙江","香港","澳门"};
     //地级选项值
@@ -140,6 +142,7 @@ public class RegisterAcitvity extends AppCompatActivity {
                         Toast.makeText(RegisterAcitvity.this, "注册成功", Toast.LENGTH_LONG).show();
                         Logger.i(TAG, username.getText().toString() + " register success.");
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
                     } else if (isTure == -1) {
                         Toast.makeText(RegisterAcitvity.this, "该用户已存在", Toast.LENGTH_SHORT).show();
                         Logger.i(TAG, username.getText().toString() + " user name exist.register failed.");
@@ -174,7 +177,7 @@ public class RegisterAcitvity extends AppCompatActivity {
         ((TextView) findViewById(R.id.title_name)).setText("注册");
 
         //以下代码用于去除阴影
-        if(Build.VERSION.SDK_INT>=21){
+        if (Build.VERSION.SDK_INT >= 21) {
             getSupportActionBar().setElevation(0);
         }
     }
@@ -182,8 +185,7 @@ public class RegisterAcitvity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
-        if(item.getItemId() == android.R.id.home)
-        {
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }

@@ -11,6 +11,7 @@ import com.dxc.mycollector.model.TaskDetails;
 import com.dxc.mycollector.model.TaskInfo;
 import com.dxc.mycollector.model.MeasureData;
 import com.dxc.mycollector.model.User;
+import com.dxc.mycollector.utils.DateConver;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -137,34 +138,39 @@ public class SqliteUtils {
                     db.execSQL("insert into tbl_measure(cllicheng,cldian,clren,cltime,gaocheng," +
                                     "shoulian,status,datatype,sources,taskId,cllichengId,cldianId," +
                                     "createtime,updatetime) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?) ",
-                            new String[]{measure.getCllicheng(), measure.getCldian(), measure.getClren(), measure.getCltime(), measure.getGaocheng(), measure.getShoulian(), measure.getStatus(), measure.getDataType(), measure.getSources(),"","","","",""});
+                            new String[]{measure.getCllicheng(), measure.getCldian(), measure.getClren(), measure.getCltime(), measure.getGaocheng(),
+                                    measure.getShoulian(), measure.getStatus(), measure.getDataType(), measure.getSources(), measure.getTaskId(),
+                                    measure.getCllichengId(), measure.getCldianId(), measure.getCreateTime(), ""});
                     return 1;
                 }
-                if(cursor.getCount() >0)
-                {
+                if (cursor.getCount() > 0) {
                     return 1;
                 }
                 return 0;
             } catch (Exception e) {
-                Log.d("保存测量信息异常：", e.getMessage().toString());
+                Logger.e(TAG, "保存蓝牙读取测量数据异常：" + e.getMessage().toString());
                 return 0;
             }
         } else {
             return 0;
         }
     }
+
     /**
-     * 将Measure存储到数据库。
+     * 查询未上传的测量数据
      */
-    public  List<MeasureData> queryMeasure() {
+    public List<MeasureData> queryMeasure() {
         List<MeasureData> list = new ArrayList<MeasureData>();
         try {
             Cursor cursor = db.rawQuery("select * from tbl_measure where status =?", new String[]{"1"});
             if (cursor.moveToFirst()) {
                 do {
                     MeasureData downLoadData = new MeasureData();
+                    downLoadData.setTaskId(cursor.getString(cursor.getColumnIndex("taskId")));
                     downLoadData.setCllicheng(cursor.getString(cursor.getColumnIndex("cllicheng")));
                     downLoadData.setCldian(cursor.getString(cursor.getColumnIndex("cldian")));
+                    downLoadData.setCllichengId(cursor.getString(cursor.getColumnIndex("cllichengId")));
+                    downLoadData.setCldianId(cursor.getString(cursor.getColumnIndex("cldianId")));
                     downLoadData.setClren(cursor.getString(cursor.getColumnIndex("clren")));
                     downLoadData.setCltime(cursor.getString(cursor.getColumnIndex("cltime")));
                     downLoadData.setGaocheng(cursor.getString(cursor.getColumnIndex("gaocheng")));
@@ -175,7 +181,7 @@ public class SqliteUtils {
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
-            Log.d("保存测量信息异常：", e.getMessage().toString());
+            Logger.e("查询未上传的测量数据异常：", e.getMessage().toString());
             return null;
         }
         return list;
@@ -191,13 +197,13 @@ public class SqliteUtils {
                 if (cursor.getCount() <= 0) {
                     db.execSQL("insert into tbl_task(taskId,userId,taskType,measureType," +
                                     "startTime,endTime,proName,section,mileageLabel,mileageId," +
-                                    "pointLabel,pointId,initialValue) values(?,?,?,?,?,?,?,?,?,?,?,?,?) ",
+                                    "pointLabel,pointId,initialValue,status) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?) ",
                             new String[]{downLoadData.getTaskId(), downLoadData.getUserId(), downLoadData.getTaskType(),
                                     downLoadData.getMeasureType(), downLoadData.getStartTime(), downLoadData.getEndTime(),
                                     taskDetails.getProName(), taskDetails.getSection(),
                                     taskDetails.getMileageLabel(), taskDetails.getMileageId(),
                                     taskDetails.getPointLabel(), taskDetails.getPointId()
-                                    , taskDetails.getInitialValue()});
+                                    , taskDetails.getInitialValue(), "1"});
                     return 1;
                 }
             } catch (Exception e) {
@@ -244,34 +250,66 @@ public class SqliteUtils {
         return list;
     }
 
-    public int UpdateState(String taskIdS,TaskDetails td,String taskname,String nowtime,String gc,String sl)
-    {
+    /**
+     * 手动输入测量数据保存方法
+     *
+     * @param taskIdS
+     * @param td
+     * @param taskname
+     * @param nowtime
+     * @param gc
+     * @param sl
+     * @return
+     */
+    public int saveCustomMeasure(String taskIdS, TaskDetails td, String taskname, String nowtime, String gc, String sl) {
         if (td != null) {
             try {
-                Cursor cursor = db.rawQuery("select * from tbl_measure where taskId=?", new String[]{taskIdS});
+                Cursor cursor = db.rawQuery("select * from tbl_measure where cldianId=?", new String[]{td.getPointId()});
                 if (cursor.getCount() <= 0) {
-                    db.execSQL("insert into tbl_measure(cllicheng,cldian,clren,cltime,gaocheng," +
-                                    "shoulian,status,datatype,sources,taskId,cllichengId,cldianId," +
+                    db.execSQL("insert into tbl_measure(cllicheng,cldian,cllichengId,cldianId,clren,cltime,gaocheng," +
+                                    "shoulian,status,datatype,sources,taskId," +
                                     "createtime,updatetime) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?) ",
-                            new String[]{td.getMileageLabel(), td.getPointLabel(),
-                                    taskname, nowtime,gc.trim(), sl.trim(),"1", "0",
-                                    "",taskIdS,nowtime,""});
+                            new String[]{td.getMileageLabel(), td.getPointLabel(), td.getMileageId(), td.getPointId(),
+                                    taskname, nowtime, gc.trim(), sl.trim(), "1", "0",
+                                    "", taskIdS, nowtime, ""});
                     return 1;
                 }
-                if(cursor.getCount() >0)
-                {
+                if (cursor.getCount() > 0) {
                     return 1;
                 }
                 return 0;
             } catch (Exception e) {
-                Log.d("保存信息异常：", e.getMessage().toString());
+                Log.d("手动输入测量值保存异常：", e.getMessage().toString());
                 return 0;
             }
         } else {
             return 0;
         }
+    }
 
+    /**
+     * 更新数据上传状态
+     *
+     * @param pointId
+     * @return
+     */
+    public int updateUpLoadStatus(String pointId) {
+        if (pointId != null) {
+            try {
+//                Cursor cursor = db.rawQuery("select * from tbl_measure where taskId=?", new String[]{taskId});
+//                if (cursor.getCount() <= 0) {
+                db.execSQL("update tbl_measure set status =?,updatetime =? where cldianId=?",
+                        new String[]{"0", DateConver.getStringDate(), pointId});
+                return 1;
+//                } else {
+//                    return 0;
+//                }
+            } catch (Exception e) {
+                Logger.e("上传成功，更新上传状态失败：", e.getMessage().toString());
+                return 0;
+            }
+        } else {
+            return 0;
         }
-
-
+    }
 }
