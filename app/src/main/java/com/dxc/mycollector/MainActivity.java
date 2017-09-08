@@ -57,16 +57,16 @@ public class MainActivity extends Activity implements
             }
         }
     };
+
     //定义加载等待页面方法
     public void waitingDialog() {
         mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, "加载中...");//加载对话框
         mHandler.sendEmptyMessageDelayed(1, 500);//处理消息
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //初始化文件夹
-        initFolder();
 
         if (DLApplication.userName != null && DLApplication.userName.length() > 0) {
             startActivity(new Intent(getApplicationContext(), PersonAcitvity.class));
@@ -96,9 +96,11 @@ public class MainActivity extends Activity implements
             public void onClick(View v) {
                 waitingDialog();//加载等待页面对话框方法
                 if (username != null && username.length() > 0) {
+                    //初始化文件夹
+                    initFolder();
                     int isTure = SqliteUtils.getInstance(getApplicationContext()).Quer(lgpwd.getText().toString(), username.getText().toString());
                     if (isTure == 1) {
-                        Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(context, PersonAcitvity.class));
                         DLApplication.userName = username.getText().toString();
                         Logger.i(TAG, DLApplication.userName + " login success.");
@@ -130,7 +132,7 @@ public class MainActivity extends Activity implements
     }
 
     public void initFolder() {
-        String dbPath = "/mnt/sdcard/Tunner/log";
+        String dbPath = Environment.getExternalStorageDirectory().getPath() + "/Tunnel/log";
         //创建日志存放目录
         File dbp = new File(dbPath);
         if (!dbp.exists()) {
