@@ -60,7 +60,7 @@ public class MainActivity extends Activity implements
     //定义加载等待页面方法
     public void waitingDialog() {
         mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, "加载中...");//加载对话框
-        mHandler.sendEmptyMessageDelayed(1, 1000);//处理消息
+        mHandler.sendEmptyMessageDelayed(1, 500);//处理消息
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
