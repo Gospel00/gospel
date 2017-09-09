@@ -153,9 +153,10 @@ public class ShowTaskInfo extends BaseActivity {
                 else
                     starttime = taskInfo.getStartTime();
                 String showstr = taskInfo.getTaskId() + "-" + (taskInfo.getTaskType().equals("T0101") ? "拱顶沉降" : "水平收敛");
-                showstr += "(" + getMeasureType(taskInfo.getMeasureType()) + ")" + taskInfo.getTaskDetail().getPointLabel() + "-" + taskInfo.getTaskDetail().getSection();
+                // "(" + getMeasureType(taskInfo.getMeasureType()) + ")" +
+                showstr += taskInfo.getTaskDetail().getMileageLabel() + "-" + taskInfo.getTaskDetail().getPointLabel();
                 holder.tasknamepoint.setText(showstr);
-                holder.taskname.setText(taskInfo.getTaskDetail().getProName() + "-" + taskInfo.getTaskDetail().getMileageLabel() + "-" + starttime);// + "-" + taskInfo.getEndTime().substring(0, 10)
+                holder.taskname.setText(taskInfo.getTaskDetail().getProName() + "-" + taskInfo.getTaskDetail().getSection() + "-" + starttime);// + "-" + taskInfo.getEndTime().substring(0, 10)
 
                 return convertView;
             }
