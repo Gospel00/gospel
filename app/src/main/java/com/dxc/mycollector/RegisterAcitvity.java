@@ -52,26 +52,6 @@ public class RegisterAcitvity extends AppCompatActivity {
      private RadioButton male;
      private RadioButton female;*/
     private Dialog mWeiboDialog;//对话框
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 1:
-                    //DialogThridUtils.closeDialog(mDialog);
-                    if (context != null && mWeiboDialog != null) {
-                        WeiboDialogUtils.closeDialog(mWeiboDialog);
-                    }
-                    break;
-            }
-        }
-    };
-
-    //定义加载等待页面方法
-    public void waitingDialog() {
-        mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, "加载中...");//加载对话框
-        mHandler.sendEmptyMessageDelayed(1, 1000);//处理消息
-    }
 
     //省级选项值
     private String[] province = new String[]{"省份", "北京", "上海", "天津", "广东"};//,"重庆","黑龙江","江苏","山东","浙江","香港","澳门"};
@@ -137,11 +117,16 @@ public class RegisterAcitvity extends AppCompatActivity {
 
                 if (!isEmpty(newUser)) {
 //                boolean isTure = userServices.register(user);
-                    int isTure = SqliteUtils.getInstance(getApplicationContext()).saveUser(newUser);
+                    int isTure = SqliteUtils.getInstance(context).saveUser(newUser);
                     if (isTure == 1) {
                         Toast.makeText(RegisterAcitvity.this, "注册成功", Toast.LENGTH_LONG).show();
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         Logger.i(TAG, username.getText().toString() + " register success.");
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        startActivity(new Intent(RegisterAcitvity.this, MainActivity.class));
                         finish();
                     } else if (isTure == -1) {
                         Toast.makeText(RegisterAcitvity.this, "该用户已存在", Toast.LENGTH_SHORT).show();
@@ -155,16 +140,6 @@ public class RegisterAcitvity extends AppCompatActivity {
             }
         });
 
-
-//        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-//        actionBar.setCustomView(R.layout.actionbar);
-//
-//        //必须加2句
-//        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);  //根据字面意思是显示类型为显示自定义
-//        actionBar.setDisplayShowCustomEnabled(true); //自定义界面是否可显示
-//
-//        //使用setText的方法对textview动态赋值
-//        ((TextView) findViewById(R.id.title_name)).setText("注册");
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar);
         //必须加2句
@@ -182,9 +157,29 @@ public class RegisterAcitvity extends AppCompatActivity {
         }
     }
 
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    //DialogThridUtils.closeDialog(mDialog);
+                    if (context != null && mWeiboDialog != null) {
+                        WeiboDialogUtils.closeDialog(mWeiboDialog);
+                    }
+                    break;
+            }
+        }
+    };
+
+    //定义加载等待页面方法
+    public void waitingDialog() {
+        mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, "加载中...");//加载对话框
+        mHandler.sendEmptyMessageDelayed(1, 1000);//处理消息
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO Auto-generated method stub
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
