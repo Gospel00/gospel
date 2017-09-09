@@ -51,8 +51,9 @@ public class CalcUtils {
      * @return
      */
 
-    public static Double sub(Double a, Double b) {
-        return calc(a, b, -1, TYPE_SUBTRACT, null);
+    public static String sub(Double a, Double b) {
+        BigDecimal bd = new BigDecimal(calc(a, b, -1, TYPE_SUBTRACT, null)).setScale(4,BigDecimal.ROUND_HALF_UP);//四舍五入保留4位
+        return bd.toString();
     }
 
     /**

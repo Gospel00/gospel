@@ -25,6 +25,7 @@ import com.dxc.mycollector.model.TaskDetails;
 import com.dxc.mycollector.model.TaskInfo;
 import com.dxc.mycollector.utils.CalcUtils;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
@@ -162,10 +163,12 @@ public class CeliangManualOperation extends BaseActivity {
         }
 //        sl = String.valueOf(etshoulian.getText());
 //        if (!egaocheng.equals(td.getInitialValue())) {
-        new AlertDialog.Builder(context)
+//        Double f= CalcUtils.sub(Double.parseDouble(gc), Double.parseDouble(td.getInitialValue()));
+//        BigDecimal bd = new BigDecimal(f).setScale(4,BigDecimal.ROUND_HALF_UP);
+       new AlertDialog.Builder(context)
                 .setTitle("系统提示")
                 .setIcon(R.drawable.warn_small)
-                .setMessage("本次测量： " + gc + "   " + "\n初始值： " + td.getInitialValue() + "\n" + "本次测量与初始值差：" + String.valueOf(CalcUtils.sub(Double.parseDouble(gc), Double.parseDouble(td.getInitialValue()))))
+                .setMessage("本次测量： " + gc + "   " + "\n初始值： " + td.getInitialValue() + "\n" + "本次测量与初始值差：" +CalcUtils.sub(Double.parseDouble(gc), Double.parseDouble(td.getInitialValue())))
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
