@@ -90,15 +90,18 @@
         android:id="@+id/logout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="85dp">
+        android:layout_below="@+id/item_lin"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/exitbtn"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
             android:background="@color/button_exit"
             android:text="退出"
             android:textColor="@color/white" />
     </LinearLayout>
+
 </RelativeLayout>
