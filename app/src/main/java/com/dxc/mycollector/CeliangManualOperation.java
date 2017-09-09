@@ -126,7 +126,7 @@ public class CeliangManualOperation extends BaseActivity {
         new AlertDialog.Builder(context)
                 .setTitle("系统提示")
                 .setIcon(R.drawable.warn_small)
-                .setMessage("本次测量： " + gc + "   " + "\n初始值： " + td.getInitialValue() + "\n" + "本次测量与初始值差：" + String.valueOf(CalcUtils.sub(Double.parseDouble(gc), Double.parseDouble(td.getInitialValue()))))
+                .setMessage("本次测量： " + gc + "   " + "\n初始值： " + td.getInitialValue() + "\n" + "本次测量与初始值差：" +CalcUtils.sub(Double.parseDouble(gc), Double.parseDouble(td.getInitialValue())))
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
