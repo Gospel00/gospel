@@ -139,8 +139,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + "mileageId VARCHAR,"
                 + "pointLabel VARCHAR,"
                 + "pointId VARCHAR,"
-                + "initialValue VARCHAR"
-                + ")";
+                + "initialValue VARCHAR,"
+                + "status VARCHAR)";
         try {
             db.execSQL(downloadsql);
         } catch (Exception e) {
