@@ -17,9 +17,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -108,7 +110,7 @@ public class BaseActivity extends AppCompatActivity {
                 TextView name = (TextView) layout.findViewById(R.id.menu_name);
                 TextView num = (TextView) layout.findViewById(R.id.num);
                 LinearLayout logout = (LinearLayout) layout.findViewById(R.id.logout);
-
+                LinearLayout mm=(LinearLayout) layout.findViewById(R.id.tests);
                 if (position > 0) {
                     imgv.setVisibility(View.GONE);
                     name1.setVisibility(View.GONE);
@@ -142,6 +144,9 @@ public class BaseActivity extends AppCompatActivity {
 
                     }
                 });
+
+
+
                 //admin
                 if (DLApplication.userName != null && !DLApplication.userName.equals(DLApplication.amdin)) {
                     if (position != 6) {
@@ -160,11 +165,15 @@ public class BaseActivity extends AppCompatActivity {
                 if (position != 6) {
                     logout.setVisibility(View.GONE);
                     btnexitall.setVisibility(View.GONE);
+                    mm.setVisibility(View.GONE);
                     layout.setVisibility(View.VISIBLE);
                     layout.invalidate();
                 }
+                android.view.ViewGroup.LayoutParams lp =mm.getLayoutParams();
+                lp.height=ScreenHieght();
                 return layout;
             }
+
 
 
             @Override
@@ -186,6 +195,15 @@ public class BaseActivity extends AppCompatActivity {
 //        drawerList.setAdapter(new ArrayAdapter<>(BaseActivity.this,
 //                R.layout.menu_list_item, planetTitles));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
+    }
+
+    public int ScreenHieght()
+    {
+        WindowManager windowManager = getWindowManager ();
+        Display defaultDisplay = windowManager.getDefaultDisplay ();
+       // int de= defaultDisplay.getHeight ()-1100;
+        int de= defaultDisplay.getHeight ()*180/1280;
+        return  de;
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
