@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -35,6 +36,8 @@ public class PersonAcitvity extends BaseActivity {
     private Dialog mWeiboDialog;
     private Button btn_show_weibo_loading;
     private Button btn_show_thrid_loading;
+    //退出时的时间
+    private long mExitTime;
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             super.handleMessage(msg);
@@ -125,5 +128,32 @@ public class PersonAcitvity extends BaseActivity {
             getSupportActionBar().setElevation(0);
         }
     }
+//按返回键到最后一个activity推出侧滑菜单
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+            if ((System.currentTimeMillis() - mExitTime) > 2000) {
+
+                Object mHelperUtils;
+                mExitTime = System.currentTimeMillis();
+                drawerLayout.openDrawer(Gravity.LEFT);//侧滑菜单栏
+                isOpen = true;//设置为打开状态
+
+            } else {
+
+                finish();
+
+            }
+
+            return true;
+
+        }
+
+        return super.onKeyDown(keyCode, event);
+
+    }
+
 }
 
