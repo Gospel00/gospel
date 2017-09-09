@@ -87,10 +87,18 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/tests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_lin"
+        android:orientation="horizontal"></LinearLayout>
+
+    <LinearLayout
         android:id="@+id/logout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/item_lin"
+        android:layout_below="@+id/tests"
+
         android:orientation="horizontal">
 
         <Button
