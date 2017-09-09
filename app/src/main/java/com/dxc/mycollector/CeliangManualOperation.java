@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -204,12 +205,8 @@ public class CeliangManualOperation extends BaseActivity {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent();
-                                intent.setClass(CeliangManualOperation.this, ShowTaskInfo.class);
-                                intent.putExtra("State", true);
-                                intent.putExtra("potid", td.getPointId());
-                                startActivity(intent);
-                                finish();
+                                //更新任务状态
+                                uhandler.sendEmptyMessage(1);
                             }
                         })
                         .show();
@@ -230,6 +227,27 @@ public class CeliangManualOperation extends BaseActivity {
             Toast.makeText(CeliangManualOperation.this, "高程,收敛不能为空", Toast.LENGTH_LONG).show();
         }
     }
+
+    private Handler uhandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case 1:
+                    //上传成功，更新本地数据上传状态
+                    int result = SqliteUtils.getInstance(context).updateTaskStatus(td.getPointId());
+                    if (result > 0) {
+                        Intent intent = new Intent();
+                        intent.setClass(CeliangManualOperation.this, ShowTaskInfo.class);
+                        intent.putExtra("State", true);
+                        intent.putExtra("potid", td.getPointId());
+                        startActivity(intent);
+                        finish();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 }
 
 

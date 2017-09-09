@@ -108,6 +108,19 @@ public class BaseActivity extends AppCompatActivity {
                 TextView name = (TextView) layout.findViewById(R.id.menu_name);
                 TextView num = (TextView) layout.findViewById(R.id.num);
                 LinearLayout logout = (LinearLayout) layout.findViewById(R.id.logout);
+
+                if (position > 0) {
+                    imgv.setVisibility(View.GONE);
+                    name1.setVisibility(View.GONE);
+                    layout.setVisibility(View.VISIBLE);
+                    layout.invalidate();
+                }
+                //是否显示任务数
+                if (position != 1 && position != 2 && position != 3) {
+                    num.setVisibility(View.GONE);
+                    layout.setVisibility(View.VISIBLE);
+                    layout.invalidate();
+                }
                 Button btnexitall = (Button) layout.findViewById(R.id.exitbtn);
                 btnexitall.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -129,21 +142,6 @@ public class BaseActivity extends AppCompatActivity {
 
                     }
                 });
-
-
-                if (position > 0) {
-                    imgv.setVisibility(View.GONE);
-                    name1.setVisibility(View.GONE);
-                    layout.setVisibility(View.VISIBLE);
-                    layout.invalidate();
-                }
-                //是否显示任务数
-                if (position != 1 && position != 2 && position != 3) {
-                    num.setVisibility(View.GONE);
-                    layout.setVisibility(View.VISIBLE);
-                    layout.invalidate();
-                }
-
                 //admin
                 if (DLApplication.userName != null && !DLApplication.userName.equals(DLApplication.amdin)) {
                     if (position != 6) {

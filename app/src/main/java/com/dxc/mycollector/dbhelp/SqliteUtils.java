@@ -231,7 +231,7 @@ public class SqliteUtils {
                 downLoadData.setMeasureType(cursor.getString(cursor.getColumnIndex("measureType")));
                 downLoadData.setStartTime(cursor.getString(cursor.getColumnIndex("startTime")));
                 downLoadData.setEndTime(cursor.getString(cursor.getColumnIndex("endTime")));
-
+                downLoadData.setStatus(cursor.getString(cursor.getColumnIndex("status")));
                 //任务详情
                 TaskDetails td = new TaskDetails();
                 td.setProName(cursor.getString(cursor.getColumnIndex("proName")));
@@ -312,4 +312,26 @@ public class SqliteUtils {
             return 0;
         }
     }
+
+    /**
+     * 更新任务处理状态
+     *
+     * @param pointId
+     * @return
+     */
+    public int updateTaskStatus(String pointId) {
+        if (pointId != null) {
+            try {
+                db.execSQL("update tbl_task set status =? where pointId=?",
+                        new String[]{"0", pointId});
+                return 1;
+            } catch (Exception e) {
+                Logger.e("更新任务处理状态失败：", e.getMessage().toString());
+                return 0;
+            }
+        } else {
+            return 0;
+        }
+    }
+
 }
