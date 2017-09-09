@@ -36,75 +36,51 @@ public class CeLiangActivity extends BaseActivity {
     private Button button;//连接设备
     private Button datalist;//获取蓝牙数据
     private Button buttonmaual;//连接设备
-    //    private String userName = "";//用户名
     TaskDetails detailDatas;
     Intent intent;
-    /**
-     * 自定义的打开 Bluetooth 的请求码，与 onActivityResult 中返回的 requestCode 匹配。
-     */
-    private static final int REQUEST_CODE_BLUETOOTH_ON = 1313;
+    public static CeLiangActivity ceLiangActivityinstance;
 
-    /**
-     * Bluetooth 设备可见时间，单位：秒。
-     */
-    private static final int BLUETOOTH_DISCOVERABLE_DURATION = 250;
     private static final int REQUEST_CONNECT_DEVICE = 1;
-    private StringBuffer mOutStringBuffer;
-    private BluetoothDevice device;
     public static String message;
-
-    public static BluetoothSocket btSocket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ce_liang_detail);
+
+        ceLiangActivityinstance = this;
+
         button = (Button) findViewById(R.id.getbluedata);
-        //ZRW datalist = (Button) findViewById(R.id.getbluedatalist);
         etcllc = (TextView) findViewById(R.id.cllc);
         etcld = (TextView) findViewById(R.id.cld);
         etclr = (TextView) findViewById(R.id.clr);
         etclsj = (TextView) findViewById(R.id.clsj);
         etgc = (TextView) findViewById(R.id.gc);
-//        etsl = (TextView) findViewById(R.id.sl);
+        //手动录入
         buttonmaual = (Button) findViewById(R.id.turntomanual);
-        intent = getIntent();
-        try {
-//            MeasureData measureData = (MeasureData) intent.getSerializableExtra("measureData");
-//            if (measureData == null) {
-            detailDatas = (TaskDetails) intent.getSerializableExtra("detailDatas");
-            etcllc.setText(detailDatas.getMileageLabel());
-            etcld.setText(detailDatas.getPointLabel());
-            etclr.setText(detailDatas.getSection());
-//            UserName = DLApplication.userName == null ? "" : DLApplication.userName;
-            etclsj.setText(detailDatas.getDateTime());
-            etgc.setText(detailDatas.getInitialValue());
-//            etsl.setText(detailDatas.getInitialValue());
-//            } else {
-//                etcllc.setText(measureData.getCllicheng());
-//                etcld.setText(measureData.getCldian());
-//                etclr.setText(measureData.getClren());
-//                UserName = measureData.getClren();
-//                etclsj.setText(measureData.getCltime());
-//                etgc.setText(measureData.getGaocheng());
-//                etsl.setText(measureData.getShoulian());
-//            }
-        } catch (Exception d) {
-            Logger.e(TAG, String.valueOf(d));
-        }
 
+        intent = getIntent();
+
+        //接收任务信息
+        detailDatas = (TaskDetails) intent.getSerializableExtra("detailDatas");
+
+        etcllc.setText(detailDatas.getMileageLabel());
+        etcld.setText(detailDatas.getPointLabel());
+        etclr.setText(DLApplication.userName != null ? DLApplication.userName : android.os.Build.MODEL);
+        etclsj.setText(detailDatas.getDateTime());
+        etgc.setText(detailDatas.getInitialValue());
+
+        //手动录入测量数据
         buttonmaual.setOnClickListener(new View.OnClickListener() {//手动跳转
             @Override
             public void onClick(View v) {
                 String taskId = (String) intent.getStringExtra("taskId");
                 String typeNum = (String) intent.getStringExtra("tasktypes");
                 String returnStr = String.valueOf(detailDatas.getPointLabel());
-//                returnStr = returnStr.substring(returnStr.lastIndexOf("("));//截取收敛或者高程
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("taskpass", detailDatas);
                 bundle.putSerializable("taskId_operation", taskId);
-                bundle.putSerializable("task_user", DLApplication.userName == null ? "" : DLApplication.userName);
-//                bundle.putSerializable("choose_one", returnStr);
+                bundle.putSerializable("task_user", DLApplication.userName != null ? DLApplication.userName : android.os.Build.MODEL);
                 bundle.putSerializable("tasktypes", typeNum);
                 Intent intents = new Intent(CeLiangActivity.this, CeliangManualOperation.class);
                 intents.putExtras(bundle);
@@ -113,6 +89,7 @@ public class CeLiangActivity extends BaseActivity {
             }
         });
 
+        //蓝牙读取测量数据
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -16,11 +16,11 @@ public class MeasureData implements Serializable {
     private String cldianId;
     private String sources;
     private String clren;
-    private String cltime;
-    private String gaocheng;
-    private String shoulian;
-    private String createTime;
-    private String updateTime;
+    private String cltime;//测量时间-
+    private String gaocheng;//高程值
+    private String shoulian;//收敛值
+    private String createTime;//创建时间
+    private String updateTime;//更新时间
     private String dataType;//0是手动录入，1是蓝牙录入
     private String status;//0是已经上传成功，1否
     public String downloadId;

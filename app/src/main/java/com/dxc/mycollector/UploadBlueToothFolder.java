@@ -2,6 +2,7 @@ package com.dxc.mycollector;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -42,6 +43,7 @@ public class UploadBlueToothFolder extends BaseActivity {
     private TextView text;//上传按钮
     Context context;
     List<MeasureData> listtasks;
+    private Dialog mWeiboDialog;//对话框
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,25 @@ public class UploadBlueToothFolder extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //定义加载等待页面方法
+    public void waitingDialog1() {
+        mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, "正在上传...");//加载对话框
+    }
+
+    //消息处理线程
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    if (context != null && mWeiboDialog != null) {
+                        WeiboDialogUtils.closeDialog(mWeiboDialog);
+                    }
+                    break;
+            }
+        }
+    };
 
     /**
      * the one get date not in database
@@ -133,7 +154,7 @@ public class UploadBlueToothFolder extends BaseActivity {
             }
             MeasureData taskInfo = listtasks.get(position);
             holder.fileName.setText(taskInfo.getTaskId() + "-" + taskInfo.getCldian() + "-" + taskInfo.getCllicheng());
-            holder.fileTime.setText(taskInfo.getCltime());
+            holder.fileTime.setText(taskInfo.getCltime() + "-" + (taskInfo.getDataType().equals("0") ? "手动录入" : "蓝牙读取"));
             return convertView;
         }
 
@@ -167,6 +188,7 @@ public class UploadBlueToothFolder extends BaseActivity {
             switch (msg.what) {
                 case 1:
                     if (uptrue) {
+                        mHandler.sendEmptyMessageDelayed(1, 500);//处理消息
                         Toast.makeText(getApplicationContext(), "上传成功!", Toast.LENGTH_SHORT).show();
                         //上传成功，更新本地数据上传状态
                         int result = SqliteUtils.getInstance(context).updateUpLoadStatus(tid);
@@ -192,6 +214,7 @@ public class UploadBlueToothFolder extends BaseActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 //            Toast.makeText(context, "开始上传", Toast.LENGTH_SHORT).show();
+            waitingDialog1();
             final MeasureData taskInfo = listtasks.get(position);
             DownLoadManager downLoadManager = new DownLoadManager(UploadBlueToothFolder.this);
             downLoadManager.uploadMeasure(taskInfo);

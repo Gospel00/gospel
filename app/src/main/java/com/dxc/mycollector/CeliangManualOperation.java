@@ -24,6 +24,7 @@ import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.model.TaskDetails;
 import com.dxc.mycollector.model.TaskInfo;
 import com.dxc.mycollector.utils.CalcUtils;
+import com.dxc.mycollector.utils.DateConver;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -61,21 +62,6 @@ public class CeliangManualOperation extends BaseActivity {
 
         getAndSetDate();
 
-//        EditText ds = null;
-
-//        if (taskType.equals("T0101")) {
-//            ds = (EditText) findViewById(R.id.gcmanual);
-//        } else {
-//            ds = (EditText) findViewById(R.id.slmanual);
-//        }
-//        ds.setFilters(new InputFilter[]{
-//                new InputFilter() {
-//                    public CharSequence filter(CharSequence source, int start,
-//                                               int end, Spanned dest, int dstart, int dend) {
-//                        return source.length() < 1 ? dest.subSequence(dstart, dend) : "";
-//                    }
-//                }
-//        });
         btn.setOnClickListener(new View.OnClickListener() {//手动跳转
             @Override
             public void onClick(View v) {
@@ -110,22 +96,6 @@ public class CeliangManualOperation extends BaseActivity {
     public void getAndSetDate() {
         btn = (Button) findViewById(R.id.getbluedatamanuals);
         egaocheng = (EditText) findViewById(R.id.gcmanual);
-//        etshoulian = (EditText) findViewById(R.id.slmanual);
-//        LinearLayout gcl = (LinearLayout) findViewById(R.id.gc_layout);
-//        LinearLayout sll = (LinearLayout) findViewById(R.id.sl_layout);
-//        LinearLayout gcsl = (LinearLayout) findViewById(R.id.gc_sl_layout);
-//        LinearLayout manualcustom = (LinearLayout) findViewById(R.id.manualcustom);
-//        if (taskType.equals("T0101")) {
-//            gcl.setVisibility(View.GONE);
-//            egaocheng.setVisibility(View.GONE);
-////            gcsl.invalidate();
-//            manualcustom.invalidate();
-//        } else {
-////            sll.setVisibility(View.GONE);
-////            etshoulian.setVisibility(View.GONE);
-////            gcsl.invalidate();
-//            manualcustom.invalidate();
-//        }
         twcllc = (TextView) findViewById(R.id.cllcmanual);
         twetcld = (TextView) findViewById(R.id.cldmanual);
         twetclr = (TextView) findViewById(R.id.clrmanual);
@@ -135,14 +105,7 @@ public class CeliangManualOperation extends BaseActivity {
         twcllc.setText(td.getMileageLabel());
         twetcld.setText(td.getPointLabel());
         twetclr.setText(taskname);
-        twetclsj.setText(getSystemTime());
-    }
-
-    public String getSystemTime() {
-        Date nowTime = new Date(System.currentTimeMillis());
-        SimpleDateFormat sdFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String retStrFormatNowDate = sdFormatter.format(nowTime);
-        return retStrFormatNowDate;
+        twetclsj.setText(DateConver.getStringDate());
     }
 
     public void insertToDB(final String taskId, final TaskDetails td, final String taskname, final String time) {
@@ -160,8 +123,6 @@ public class CeliangManualOperation extends BaseActivity {
                     .show();
             return;
         }
-//        sl = String.valueOf(etshoulian.getText());
-//        if (!egaocheng.equals(td.getInitialValue())) {
         new AlertDialog.Builder(context)
                 .setTitle("系统提示")
                 .setIcon(R.drawable.warn_small)
@@ -170,27 +131,10 @@ public class CeliangManualOperation extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         insertDB(taskId, td, taskname, time);
-                        //startActivity(new Intent(BaseActivity.this, MainActivity.class));
                     }
                 })
                 .setNegativeButton("取消", null)
                 .show();
-//        }
-//        else if (!sl.equals(td.getInitialValue())) {
-//            new AlertDialog.Builder(context)
-//                    .setTitle("系统提示")
-//                    .setIcon(R.drawable.warn_small)
-//                    .setMessage( "收敛 新：" +gc +" " + "旧："+td.getInitialValue()+"\r\n" + "本次测量值与初始值相差："+String.valueOf(Double.parseDouble(sl)-Double.parseDouble(td.getInitialValue())))
-//                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            insertDB(taskId, td, taskname, time);
-//                            //startActivity(new Intent(BaseActivity.this, MainActivity.class));
-//                        }
-//                    })
-//                    .setNegativeButton("取消", null)
-//                    .show();
-//        }
     }
 
     //只管gc这个字段，因为每次测量保存只有一个测量值，现在都用gc这个字段存储
@@ -235,12 +179,24 @@ public class CeliangManualOperation extends BaseActivity {
                     //上传成功，更新本地数据上传状态
                     int result = SqliteUtils.getInstance(context).updateTaskStatus(td.getPointId());
                     if (result > 0) {
-                        Intent intent = new Intent();
-                        intent.setClass(CeliangManualOperation.this, ShowTaskInfo.class);
-                        intent.putExtra("State", true);
-                        intent.putExtra("potid", td.getPointId());
-                        startActivity(intent);
-                        finish();
+                        new AlertDialog.Builder(context)
+                                .setTitle("系统提示")
+                                .setIcon(R.drawable.success_small)
+                                .setMessage("恭喜您完成本次测量任务，请在数据管理查看并上传测量结果。")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        if (!ShowTaskInfo.instance.isFinishing())
+                                            ShowTaskInfo.instance.finish();
+                                        Intent intent = new Intent();
+                                        intent.setClass(CeliangManualOperation.this, ShowTaskInfo.class);
+                                        intent.putExtra("State", true);
+                                        intent.putExtra("potid", td.getPointId());
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                })
+                                .show();
                     }
                     break;
                 default:

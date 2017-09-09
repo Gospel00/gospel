@@ -208,6 +208,40 @@ public class BlueToothFolder extends BaseActivity {
         }
     }
 
+    private Handler uhandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case 1:
+                    //上传成功，更新本地数据上传状态
+                    int result = SqliteUtils.getInstance(context).updateTaskStatus(td.getPointId());
+                    if (result > 0) {
+                        new AlertDialog.Builder(context)
+                                .setTitle("系统提示")
+                                .setCancelable(false)//按返回键不关闭窗口
+                                .setIcon(R.drawable.success_small)
+                                .setMessage("恭喜您完成本次测量任务，请在数据管理查看并上传测量结果。")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        if (!ShowTaskInfo.instance.isFinishing())
+                                            ShowTaskInfo.instance.finish();
+                                        if (!CeLiangActivity.ceLiangActivityinstance.isFinishing())
+                                            CeLiangActivity.ceLiangActivityinstance.finish();
+                                        Intent intent = new Intent();
+                                        intent.setClass(BlueToothFolder.this, ShowTaskInfo.class);
+                                        intent.putExtra("State", true);
+                                        intent.putExtra("potid", td.getPointId());
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                }).show();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     /**
      * @param filePath Memory card Bluetooth path address
@@ -251,7 +285,8 @@ public class BlueToothFolder extends BaseActivity {
                                                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int which) {
-
+                                                            //更新任务状态
+                                                            uhandler.sendEmptyMessage(1);
                                                         }
                                                     })
                                                     .show();
@@ -279,6 +314,7 @@ public class BlueToothFolder extends BaseActivity {
             return 1;
         }
     }
+
 
     /**
      * From html change to json and  show dialog
@@ -371,7 +407,7 @@ public class BlueToothFolder extends BaseActivity {
         measureData.setStatus("1");
         measureData.setDataType("1");
         measureData.setCltime(dateChange());
-        measureData.setClren(DLApplication.userName == null ? "" : DLApplication.userName);
+        measureData.setClren(DLApplication.userName != null ? DLApplication.userName : android.os.Build.MODEL);
         measureData.setUpdateTime("");
         measureData.setCreateTime(DateConver.getStringDate());
         SqliteUtils sdb = new SqliteUtils(this);

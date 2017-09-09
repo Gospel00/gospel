@@ -8,6 +8,7 @@ package com.dxc.mycollector;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ public class ShowTaskInfo extends BaseActivity {
     Context context;
     List<TaskInfo> listtasks = null;
     String potid = "";
+    public static ShowTaskInfo instance = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,7 @@ public class ShowTaskInfo extends BaseActivity {
         waitingDialog();//加载等待页面对话框方法
 
         context = this;
-
+        instance = this;
         //获取任务完成标识
         potid = this.getIntent().getStringExtra("potid");
 
@@ -88,7 +90,6 @@ public class ShowTaskInfo extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO Auto-generated method stub
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
@@ -122,26 +123,31 @@ public class ShowTaskInfo extends BaseActivity {
                     ImageView imageViews = (ImageView) convertView.findViewById(R.id.imageView);
                     holder.tasknamepoint = (TextView) convertView.findViewById(R.id.show_task_name_point);
                     holder.taskname = (TextView) convertView.findViewById(R.id.show_task_name);
-                    convertView.setTag(holder);
+
                     // 如果potid不为空说明是完成任务后跳转过来的，在列表中能找到该任务，将其状态改为已完成
-                    if (potid != null && potid.equals(taskInfo.getTaskDetail().getPointId())) {
+                    if (taskInfo != null && taskInfo.getStatus().equals("0")) {
                         imageViews.setVisibility(View.GONE);
+                        imageViews1.setVisibility(View.VISIBLE);
                         convertView.invalidate();
                     } else {
                         imageViews1.setVisibility(View.GONE);
+                        imageViews.setVisibility(View.VISIBLE);
                         convertView.invalidate();
                     }
+                    convertView.setTag(holder);
                 } else {
                     //已完成任务
                     ImageView imageViews1 = (ImageView) convertView.findViewById(R.id.imageView1);
                     //待完成任务
                     ImageView imageViews = (ImageView) convertView.findViewById(R.id.imageView);
                     //如果potid不为空说明是完成任务后跳转过来的，在列表中能找到该任务，将其状态改为已完成
-                    if (potid != null && potid.equals(taskInfo.getTaskDetail().getPointId())) {
+                    if (taskInfo != null && taskInfo.getStatus().equals("0")) {
                         imageViews.setVisibility(View.GONE);
+                        imageViews1.setVisibility(View.VISIBLE);
                         convertView.invalidate();
                     } else {
                         imageViews1.setVisibility(View.GONE);
+                        imageViews.setVisibility(View.VISIBLE);
                         convertView.invalidate();
                     }
                     holder = (Holder) convertView.getTag();
@@ -206,79 +212,40 @@ public class ShowTaskInfo extends BaseActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //            Toast.makeText(context, "开始测量", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(ShowTaskInfo.this, CeLiangActivity.class);
             TaskInfo taskInfo = listtasks.get(position);
-            TaskDetails detailDatas = taskInfo.getTaskDetail();
-            detailDatas.setDateTime(taskInfo.getStartTime().substring(0, 10));
-            intent.putExtra("detailDatas", detailDatas);
-            intent.putExtra("taskId", taskInfo.getTaskId());
-            intent.putExtra("tasktypes", taskInfo.getTaskType());
-            startActivity(intent);
+            if (taskInfo != null && taskInfo.getStatus().equals("0")) {
+                new AlertDialog.Builder(context)
+                        .setTitle("系统提示")
+                        .setIcon(R.drawable.success_small)
+                        .setMessage("该任务已经测量完成了！，请在数据管理查看并上传测量结果。")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
+            } else {
+                Intent intent = new Intent(ShowTaskInfo.this, CeLiangActivity.class);
+                TaskDetails detailDatas = taskInfo.getTaskDetail();
+                detailDatas.setDateTime(taskInfo.getStartTime());
+                intent.putExtra("detailDatas", detailDatas);
+                intent.putExtra("taskId", taskInfo.getTaskId());
+                intent.putExtra("tasktypes", taskInfo.getTaskType());
+                startActivity(intent);
+            }
         }
     }
 
-//    protected void actionAlertDialog() {
-////        ArrayList<Person> list = initData();
-//        AlertDialog.Builder builder;
-//        AlertDialog alertDialog;
-////        Context context = getApplicationContext();
-//        LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-////        LayoutInflater.from(context).inflate(R.layout.task_download_list_item_layout, null);
-////        View layout = inflater.inflate(R.layout.task_download_main_layout, (ViewGroup) findViewById(R.id.mylistview));
-////        ListView myListView = (ListView) layout.findViewById(R.id.mylistview);
-////        MyAdapter adapter = new MyAdapter(context, list);
-////        myListView.setAdapter(adapter);
-//        builder = new AlertDialog.Builder(context);
-//        builder.setView(layout);
-//        alertDialog = builder.create();
-//        alertDialog.show();
-//
-//    }
-
-
 //    /**
-//     * 选择行
+//     * 广播接收器，用于销毁Activity
+//     * @author honest
 //     *
-//     * @param position
 //     */
-//    private void selectItem(int position) {
-////        Toast.makeText(this, planetTitles[position], Toast.LENGTH_SHORT).show();
-//        TaskInfo taskInfo = listtasks.get(position);
-//        TaskDetails detailDatas = taskInfo.getTaskDetail();
-//        String[] strarr = new String[1];
-////        int i = 0;
-////        for (TaskDetails detailData : detailDatas) {
-//        strarr[0] = detailDatas.getProName() + "-" + detailDatas.getMileageLabel() + "-" + detailDatas.getPointLabel();
-////        }
-//        new AlertDialog.Builder(this)
-//                .setTitle("测量仪器列表")
-//                .setItems(strarr, null)
-//                .setNegativeButton("确定", null)
-//                .show();
-//    }
+//    private class MyReceiver extends BroadcastReceiver {
 //
-//    /**
-//     * 嵌套ListView
-//     *
-//     * @param listView
-//     */
-//    public void setListViewHeightBasedOnChildren(ListView listView) {
-//        // 获取ListView对应的Adapter
-//        ListAdapter listAdapter = listView.getAdapter();
-//        if (listAdapter == null) {
-//            return;
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            Parent.this.finish();
 //        }
-//        int totalHeight = 0;
-//        for (int i = 0, len = listAdapter.getCount(); i < len; i++) {
-//            // listAdapter.getCount()返回数据项的数目
-//            View listItem = listAdapter.getView(i, null, listView);
-//            // 计算子项View 的宽高
-//            listItem.measure(0, 0);
-//            // 统计所有子项的总高度
-//            totalHeight += listItem.getMeasuredHeight();
-//        }
-//        ViewGroup.LayoutParams params = listView.getLayoutParams();
-//        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-//        listView.setLayoutParams(params);
 //    }
 }

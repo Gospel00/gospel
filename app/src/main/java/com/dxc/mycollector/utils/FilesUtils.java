@@ -79,7 +79,10 @@ public class FilesUtils {
             for (File file : filearr) {
                 String fn = file.getName();
                 Logger.i("FilesUtils", "filename:" + fn);
-                files.add(file);
+                if (fn != null && (fn.indexOf(".htm") > -1 || fn.indexOf(".html") > -1))
+                    files.add(file);
+                else
+                    Logger.i("FilesUtils", "不是正确的全站仪导出数据.");
             }
             return files;
         } else {
