@@ -106,8 +106,8 @@ public class PersonAcitvity extends BaseActivity {
         ((TextView) findViewById(R.id.title_name)).setText("我的信息");
 
 
-        mv = (ImageView) findViewById(R.id.left_imbt);
-        mv.setOnClickListener(new View.OnClickListener() {
+//        mv = (ImageView) findViewById(R.id.left_imbt);
+        findViewById(R.id.title_personal).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 if (isOpen) {
