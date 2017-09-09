@@ -67,12 +67,11 @@ public class MainActivity extends Activity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.login_layout);
         if (DLApplication.userName != null && DLApplication.userName.length() > 0) {
             startActivity(new Intent(getApplicationContext(), PersonAcitvity.class));
             finish();
         }
-        setContentView(R.layout.login_layout);
         context = this;
         button = (Button) findViewById(R.id.login);
         registerBtn = (Button) findViewById(R.id.register);
