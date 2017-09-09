@@ -153,7 +153,6 @@
                 android:gravity="center"
                 android:inputType="number"
                 android:digits="0123456789."
-                android:hint="请输入数字！"
                 android:text=""
                 android:textStyle="bold" />
         </LinearLayout>
