@@ -29,11 +29,11 @@
 
     <LinearLayout
         android:id="@+id/item_tltle"
-        android:layout_below="@+id/item_tltle1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_below="@+id/item_tltle1"
         android:layout_marginTop="15dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
@@ -83,16 +83,16 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal">
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/menu_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="20dp"
                     android:layout_weight="1"
-                    android:text="TextView"
+                    android:gravity="center"
+                    android:text=""
                     android:textColor="@color/common_white"
                     android:textSize="@dimen/personal_text_view" />
             </LinearLayout>
