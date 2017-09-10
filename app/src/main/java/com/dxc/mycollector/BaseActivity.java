@@ -18,20 +18,21 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
+import com.dxc.mycollector.model.MeasureData;
+import com.dxc.mycollector.model.TaskInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +91,7 @@ public class BaseActivity extends AppCompatActivity {
         // 将传入的layout加载到activity_base的content_frame里面
         getLayoutInflater().inflate(layoutResID, frameLayout, true);
         super.setContentView(drawerLayout);
+        drawerList = (ListView) findViewById(R.id.left_drawer);
         setUpNavigation();
     }
 
@@ -98,7 +100,6 @@ public class BaseActivity extends AppCompatActivity {
      */
     private void setUpNavigation() {
         planetTitles = getResources().getStringArray(R.array.planets_array);
-        drawerList = (ListView) findViewById(R.id.left_drawer);
         BaseAdapter adapter = new BaseAdapter() {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -106,25 +107,13 @@ public class BaseActivity extends AppCompatActivity {
                 ImageView imgv = (ImageView) layout.findViewById(R.id.lgface);
                 TextView name1 = (TextView) layout.findViewById(R.id.name1);
                 LinearLayout lin = (LinearLayout) layout.findViewById(R.id.item_lin_1);
+                LinearLayout lin1 = (LinearLayout) layout.findViewById(R.id.item_lin_1_1);
                 ImageView face = (ImageView) layout.findViewById(R.id.lgicon);
                 TextView name = (TextView) layout.findViewById(R.id.menu_name);
                 TextView num = (TextView) layout.findViewById(R.id.num);
-                LinearLayout logout = (LinearLayout) layout.findViewById(R.id.logout);
-                LinearLayout mm=(LinearLayout) layout.findViewById(R.id.tests);
-                if (position > 0) {
-                    imgv.setVisibility(View.GONE);
-                    name1.setVisibility(View.GONE);
-                    layout.setVisibility(View.VISIBLE);
-                    layout.invalidate();
-                }
-                //是否显示任务数
-                if (position != 1 && position != 2 && position != 3) {
-                    num.setVisibility(View.GONE);
-                    layout.setVisibility(View.VISIBLE);
-                    layout.invalidate();
-                }
-                Button btnexitall = (Button) layout.findViewById(R.id.exitbtn);
-                btnexitall.setOnClickListener(new View.OnClickListener() {
+                LinearLayout logout = (LinearLayout) layout.findViewById(R.id.item_tltle1);
+                ImageView mm = (ImageView) layout.findViewById(R.id.lgface1);
+                mm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         new AlertDialog.Builder(context)
@@ -144,8 +133,38 @@ public class BaseActivity extends AppCompatActivity {
 
                     }
                 });
-
-
+                if (position > 0) {
+                    imgv.setVisibility(View.GONE);
+                    name1.setVisibility(View.GONE);
+                    logout.setVisibility(View.GONE);
+                    mm.setVisibility(View.GONE);
+                    layout.setVisibility(View.VISIBLE);
+                    layout.invalidate();
+                }
+                //是否显示任务数
+                if (position != 1 && position != 2) {
+                    lin1.setVisibility(View.GONE);
+                    num.setVisibility(View.GONE);
+                    layout.setVisibility(View.VISIBLE);
+                    layout.invalidate();
+                } else {
+                    //任务数
+                    if (position == 1) {
+                        {
+                            long alltask = SqliteUtils.getInstance(context).loadTasksCount();
+                            num.setVisibility(View.VISIBLE);
+                            num.setText(String.valueOf(alltask));
+                        }
+                    }
+                    //待上传的测量数
+                    if (position == 2) {
+                        {
+                            long alltask = SqliteUtils.getInstance(context).queryMeasureCount();
+                            num.setVisibility(View.VISIBLE);
+                            num.setText(String.valueOf(alltask));
+                        }
+                    }
+                }
 
                 //admin
                 if (DLApplication.userName != null && !DLApplication.userName.equals(DLApplication.amdin)) {
@@ -163,17 +182,17 @@ public class BaseActivity extends AppCompatActivity {
                 }
 
                 if (position != 6) {
-                    logout.setVisibility(View.GONE);
-                    btnexitall.setVisibility(View.GONE);
-                    mm.setVisibility(View.GONE);
+//                    logout.setVisibility(View.GONE);
+//                    btnexitall.setVisibility(View.GONE);
+//                    mm.setVisibility(View.GONE);
                     layout.setVisibility(View.VISIBLE);
                     layout.invalidate();
                 }
-                android.view.ViewGroup.LayoutParams lp =mm.getLayoutParams();
-                lp.height=ScreenHieght();
+//                android.view.ViewGroup.LayoutParams lp =mm.getLayoutParams();
+//                lp.height=ScreenHieght();
+
                 return layout;
             }
-
 
 
             @Override
@@ -197,13 +216,12 @@ public class BaseActivity extends AppCompatActivity {
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
-    public int ScreenHieght()
-    {
-        WindowManager windowManager = getWindowManager ();
-        Display defaultDisplay = windowManager.getDefaultDisplay ();
-       // int de= defaultDisplay.getHeight ()-1100;
-        int de= defaultDisplay.getHeight ()*180/1280;
-        return  de;
+    public int ScreenHieght() {
+        WindowManager windowManager = getWindowManager();
+        Display defaultDisplay = windowManager.getDefaultDisplay();
+        // int de= defaultDisplay.getHeight ()-1100;
+        int de = defaultDisplay.getHeight() * 180 / 1280;
+        return de;
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -399,25 +417,6 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK) {
-////            this.finish();
-//            // 创建退出对话框
-//            AlertDialog isExit = new AlertDialog.Builder(this).create();
-//            // 设置对话框标题
-//            isExit.setTitle("系统提示");
-//            // 设置对话框消息
-//            isExit.setMessage("确定要退出吗");
-//            // 添加选择按钮并注册监听
-//            isExit.setButton("确定", listener);
-//            isExit.setButton2("取消", listener);
-//            // 显示对话框
-//            isExit.show();
-////            return true;
-//        }
-        return super.onKeyDown(keyCode, event);
-    }
 
     /**
      * 监听对话框里面的button点击事件

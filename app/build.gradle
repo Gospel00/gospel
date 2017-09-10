@@ -21,6 +21,10 @@ android {
     android {
         useLibrary 'org.apache.http.legacy'
     }
+    aaptOptions{
+        cruncherEnabled = false
+        useNewCruncher = false
+    }
 }
 
 dependencies {

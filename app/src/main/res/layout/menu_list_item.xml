@@ -5,25 +5,44 @@
     android:layout_height="match_parent"
     android:divider="@android:color/transparent"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingBottom="12dp">
-    <!--android:padding="10dp">-->
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/item_tltle"
+        android:id="@+id/item_tltle1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="5dp"
+        android:layout_marginBottom="15dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingRight="10dp">
+
+        <ImageView
+            android:id="@+id/lgface1"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="right"
+            android:src="@drawable/lgout" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/item_tltle"
+        android:layout_below="@+id/item_tltle1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
+
         <ImageView
             android:id="@+id/lgface"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:src="@mipmap/toux" />
 
         <TextView
@@ -52,8 +71,7 @@
             android:id="@+id/item_lin_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:gravity="center_vertical">
 
             <ImageView
                 android:id="@+id/lgicon"
@@ -62,54 +80,42 @@
                 android:layout_marginLeft="20dp"
                 android:src="@drawable/more" />
 
-            <TextView
-                android:id="@+id/menu_name"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1"
-                android:text="TextView"
-                android:textColor="@color/common_white"
-                android:textSize="@dimen/personal_text_view" />
+                android:gravity="center_horizontal">
 
-            <TextView
-                android:id="@+id/num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
+                <TextView
+                    android:id="@+id/menu_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textColor="@color/common_white"
+                    android:textSize="@dimen/personal_text_view" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/item_lin_1_1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="100dp"
                 android:background="@drawable/textviewstyle"
-                android:padding="5dp"
-                android:text="20"
-                android:textColor="@color/common_white"
-                android:textSize="@dimen/personal_text_view2" />
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="10"
+                    android:textColor="@color/common_white"
+                    android:textSize="@dimen/personal_text_view3" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/tests"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/item_lin"
-        android:orientation="horizontal"></LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/logout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tests"
-
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/exitbtn"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:background="@color/button_exit"
-            android:text="退出"
-            android:textColor="@color/white" />
     </LinearLayout>
 
 </RelativeLayout>

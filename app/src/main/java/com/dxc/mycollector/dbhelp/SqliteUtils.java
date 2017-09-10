@@ -188,6 +188,22 @@ public class SqliteUtils {
     }
 
     /**
+     * 查询未上传的测量数据条数
+     */
+    public long queryMeasureCount() {
+        try {
+            Cursor cursor = db.rawQuery("select count(*) from tbl_measure where status =?", new String[]{"1"});
+            cursor.moveToFirst();
+            long count = cursor.getLong(0);
+            cursor.close();
+            return count;
+        } catch (Exception e) {
+            Logger.e("查询未上传的测量数据异常：", e.getMessage().toString());
+            return 0;
+        }
+    }
+
+    /**
      * 将DownloadTask存储到数据库。
      */
     public int saveTaskInfo(TaskInfo downLoadData, TaskDetails taskDetails) {
@@ -248,6 +264,22 @@ public class SqliteUtils {
             } while (cursor.moveToNext());
         }
         return list;
+    }
+
+    /**
+     * 从数据库读取任务总条数。
+     */
+    public long loadTasksCount() {
+        try {
+            Cursor cursor = db.rawQuery("select count(*) from tbl_task where status =?", new String[]{"1"});
+            cursor.moveToFirst();
+            long count = cursor.getLong(0);
+            cursor.close();
+            return count;
+        } catch (Exception e) {
+            Logger.e(TAG, "查询任务总数异常" + e.getMessage());
+            return 0;
+        }
     }
 
     /**
