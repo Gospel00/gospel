@@ -54,7 +54,6 @@ public class ShowTaskInfo extends BaseActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.task_download_main_layout);
         waitingDialog();//加载等待页面对话框方法
-
         context = this;
         instance = this;
         //获取任务完成标识
@@ -71,19 +70,30 @@ public class ShowTaskInfo extends BaseActivity {
         actionBar.setDisplayShowCustomEnabled(true); //自定义界面是否可显示
         // 使用setText的方法对textview动态赋值
         ((TextView) findViewById(R.id.title_name)).setText("我的任务列表");
+        //以下代码用于去除阴影
+        if (Build.VERSION.SDK_INT >= 21) {
+            getSupportActionBar().setElevation(0);
+        }
 
-//下拉刷新
+        //下拉刷新
         ((PullToRefreshLayout) findViewById(R.id.refresh_view1))
                 .setOnRefreshListener(new MyListener());
+        context = this;
+        //初始化listview对象
         listview = (ListView) findViewById(R.id.task_listView);
-
         //获取已经下载的任务信息
         getAllTasks();
         //初始化ListView
         initDrawerList();
-        //以下代码用于去除阴影
-        if (Build.VERSION.SDK_INT >= 21) {
-            getSupportActionBar().setElevation(0);
+        //
+        TextView txvEmpty = (TextView) findViewById(R.id.empty);//获取textview对象
+        /**
+         * 判断listview是是否为空，如果为空时显示提示信息，如果不为空时设置为gone
+         */
+        if (listtasks != null && listtasks.size() > 0) {
+            txvEmpty.setVisibility(View.GONE);
+        } else {
+            txvEmpty.setVisibility(View.VISIBLE);
         }
     }
 
