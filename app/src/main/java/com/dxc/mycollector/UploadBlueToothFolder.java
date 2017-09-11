@@ -201,6 +201,15 @@ public class UploadBlueToothFolder extends BaseActivity {
                             //更新上传列表
                             listtasks.remove(poist);
                             adapter.notifyDataSetChanged();
+                            TextView txvEmpty = (TextView) findViewById(R.id.empty);//获取textview对象
+                            /**
+                             * 判断listview是是否为空，如果为空时显示提示信息，如果不为空时设置为gone
+                             */
+                            if (listtasks != null && listtasks.size() > 0) {
+                                txvEmpty.setVisibility(View.GONE);
+                            } else {
+                                txvEmpty.setVisibility(View.VISIBLE);
+                            }
                         }
                     } else {
                         if (msgstr != null && msgstr.length() > 0) {
