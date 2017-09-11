@@ -80,14 +80,38 @@ public class MainActivity extends Activity implements
 
     //定义加载等待页面方法
     public void waitingDialog() {
-        mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, "加载中...");//加载对话框
+        mWeiboDialog = WeiboDialogUtils.createLoadingDialog(context, "正在登录...");//加载对话框
         mHandler.sendEmptyMessageDelayed(1, 500);//处理消息
     }
+
+    /**
+     * 需要进行检测的权限数组
+     */
+    protected String[] needPermissions = {
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS
+    };
+
+    private static final int PERMISSON_REQUESTCODE = 0;
+
+    /**
+     * 判断是否需要检测，防止不停的弹框
+     */
+    private boolean isNeedCheck = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
+        checkPermissions(needPermissions);
+        //初始化文件夹
+        initFolder();
         if (DLApplication.userName != null && DLApplication.userName.length() > 0) {
             startActivity(new Intent(getApplicationContext(), PersonAcitvity.class));
             finish();
@@ -97,6 +121,8 @@ public class MainActivity extends Activity implements
         registerBtn = (Button) findViewById(R.id.register);
         username = (EditText) findViewById(R.id.username);
         lgpwd = (EditText) findViewById(R.id.lgpwd);
+        username.setText("gospel");
+        lgpwd.setText("gospel5200");
         Drawable username_drawable = getResources().getDrawable(R.drawable.login);
         Drawable password_drawable = getResources().getDrawable(R.drawable.lock);
         //四个参数分别是设置图片的左、上、右、下的尺寸
@@ -115,14 +141,12 @@ public class MainActivity extends Activity implements
             public void onClick(View v) {
                 waitingDialog();//加载等待页面对话框方法
                 if (username != null && username.length() > 0) {
-                    //初始化文件夹
-                    initFolder();
                     int isTure = SqliteUtils.getInstance(getApplicationContext()).Quer(lgpwd.getText().toString(), username.getText().toString());
                     if (isTure == 1) {
 //                        Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                         DLApplication.userName = username.getText().toString();
                         Logger.i(TAG, DLApplication.userName + " login success.");
-                        context.startService(new Intent(context, DownLoadService.class));
+//                        context.startService(new Intent(context, DownLoadService.class));
                         startActivity(new Intent(context, PersonAcitvity.class));
                         finish();
                     } else if (isTure == 0) {
@@ -209,17 +233,14 @@ public class MainActivity extends Activity implements
     LocationListener locationListener = new LocationListener() {
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-            // TODO Auto-generated method stub
         }
 
         @Override
         public void onProviderEnabled(String provider) {
-            // TODO Auto-generated method stub
         }
 
         @Override
         public void onProviderDisabled(String provider) {
-            // TODO Auto-generated method stub
         }
 
         @Override
@@ -340,26 +361,6 @@ public class MainActivity extends Activity implements
             Logger.i(TAG, "蓝牙存放目录已创建：" + dbPath);
         }
     }
-
-    /**
-     * 需要进行检测的权限数组
-     */
-    protected String[] needPermissions = {
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS
-    };
-
-    private static final int PERMISSON_REQUESTCODE = 0;
-
-    /**
-     * 判断是否需要检测，防止不停的弹框
-     */
-    private boolean isNeedCheck = true;
 
     @Override
     protected void onResume() {

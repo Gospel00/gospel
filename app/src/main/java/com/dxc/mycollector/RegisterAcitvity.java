@@ -1,8 +1,10 @@
 package com.dxc.mycollector;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.User;
+import com.dxc.mycollector.taskDownload.DownLoadManager;
 
 /**
  * Created by gospel on 2017/8/18.
@@ -119,15 +122,24 @@ public class RegisterAcitvity extends AppCompatActivity {
 //                boolean isTure = userServices.register(user);
                     int isTure = SqliteUtils.getInstance(context).saveUser(newUser);
                     if (isTure == 1) {
-                        Toast.makeText(RegisterAcitvity.this, "注册成功", Toast.LENGTH_LONG).show();
                         try {
                             Thread.sleep(500);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        Logger.i(TAG, username.getText().toString() + " register success.");
-                        startActivity(new Intent(RegisterAcitvity.this, MainActivity.class));
-                        finish();
+                        new AlertDialog.Builder(context)
+                                .setTitle("系统提示")
+                                .setIcon(R.drawable.success_small)
+                                .setMessage("恭喜您注册成功!")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Logger.i(TAG, username.getText().toString() + " register success.");
+                                        startActivity(new Intent(RegisterAcitvity.this, MainActivity.class));
+                                        finish();
+                                    }
+                                })
+                                .show();
                     } else if (isTure == -1) {
                         Toast.makeText(RegisterAcitvity.this, "该用户已存在", Toast.LENGTH_SHORT).show();
                         Logger.i(TAG, username.getText().toString() + " user name exist.register failed.");

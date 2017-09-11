@@ -1,20 +1,16 @@
 package com.dxc.mycollector;
 
-import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Settings;
 import android.support.annotation.LayoutRes;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
@@ -28,13 +24,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
-import com.dxc.mycollector.model.MeasureData;
-import com.dxc.mycollector.model.TaskInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,6 +46,10 @@ public class BaseActivity extends AppCompatActivity {
             R.drawable.data, R.drawable.measure, R.drawable.update, R.drawable.system, R.drawable.safe};
     Context context;
     private Dialog mWeiboDialog;//对话框
+    private ActionBarDrawerToggle toggle;
+
+    long alltask = 0;//任务数
+    long uploadtask = 0;//上传
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +91,32 @@ public class BaseActivity extends AppCompatActivity {
         super.setContentView(drawerLayout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
         setUpNavigation();
+//        View layout = View.inflate(context, R.layout.menu_list_item, null);
+//        LinearLayout lin1 = (LinearLayout) layout.findViewById(R.id.item_lin_1_1);
+//        final TextView num = (TextView) layout.findViewById(R.id.num);
+//        toggle = new ActionBarDrawerToggle(this, drawerLayout,
+//                R.drawable.more_wirte,
+//                R.string.open,
+//                R.string.close) {
+//
+//            @Override
+//            public void onDrawerClosed(View drawerView) {
+//                super.onDrawerClosed(drawerView);
+////                Toast.makeText(context, "open", Toast.LENGTH_SHORT).show();
+//                alltask = SqliteUtils.getInstance(context).loadTasksCount();
+//                num.setText(String.valueOf(alltask));
+//            }
+//
+//            @Override
+//            public void onDrawerOpened(View drawerView) {
+//                super.onDrawerOpened(drawerView);
+////                Toast.makeText(context, "close", Toast.LENGTH_SHORT).show();
+//                uploadtask = SqliteUtils.getInstance(context).queryMeasureCount();
+//                num.setText(String.valueOf(uploadtask));
+//            }
+//
+//        };
+//        drawerLayout.setDrawerListener(toggle);
     }
 
     /**
@@ -101,9 +125,10 @@ public class BaseActivity extends AppCompatActivity {
     private void setUpNavigation() {
         planetTitles = getResources().getStringArray(R.array.planets_array);
         BaseAdapter adapter = new BaseAdapter() {
+            @SuppressLint("NewApi")
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                View layout = View.inflate(getApplicationContext(), R.layout.menu_list_item, null);
+                View layout = View.inflate(context, R.layout.menu_list_item, null);
                 ImageView imgv = (ImageView) layout.findViewById(R.id.lgface);
                 TextView name1 = (TextView) layout.findViewById(R.id.name1);
                 LinearLayout lin = (LinearLayout) layout.findViewById(R.id.item_lin_1);
@@ -151,17 +176,19 @@ public class BaseActivity extends AppCompatActivity {
                     //任务数
                     if (position == 1) {
                         {
-                            long alltask = SqliteUtils.getInstance(context).loadTasksCount();
                             num.setVisibility(View.VISIBLE);
+                            alltask = SqliteUtils.getInstance(context).loadTasksCount();
                             num.setText(String.valueOf(alltask));
+                            lin1.setBackground(getResources().getDrawable(R.drawable.textviewstyle));
                         }
                     }
                     //待上传的测量数
                     if (position == 2) {
                         {
-                            long alltask = SqliteUtils.getInstance(context).queryMeasureCount();
                             num.setVisibility(View.VISIBLE);
-                            num.setText(String.valueOf(alltask));
+                            uploadtask = SqliteUtils.getInstance(context).queryMeasureCount();
+                            num.setText(String.valueOf(uploadtask));
+                            lin1.setBackground(getResources().getDrawable(R.drawable.textviewstyle3));
                         }
                     }
                 }
@@ -280,160 +307,4 @@ public class BaseActivity extends AppCompatActivity {
                 .show();
     }
 
-    /**
-     * 需要进行检测的权限数组
-     */
-    protected String[] needPermissions = {
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.BLUETOOTH,
-            Manifest.permission.BLUETOOTH_ADMIN
-    };
-
-    private static final int PERMISSON_REQUESTCODE = 0;
-
-    /**
-     * 判断是否需要检测，防止不停的弹框
-     */
-    private boolean isNeedCheck = true;
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (isNeedCheck) {
-            checkPermissions(needPermissions);
-        }
-    }
-
-    /**
-     * requestPermissions方法是请求某一权限，
-     */
-    private void checkPermissions(String... permissions) {
-        List<String> needRequestPermissonList = findDeniedPermissions(permissions);
-        if (null != needRequestPermissonList
-                && needRequestPermissonList.size() > 0) {
-            ActivityCompat.requestPermissions(this,
-                    needRequestPermissonList.toArray(
-                            new String[needRequestPermissonList.size()]),
-                    PERMISSON_REQUESTCODE);
-        }
-    }
-
-    /**
-     * 获取权限集中需要申请权限的列表
-     *
-     * @param permissions
-     * @return checkSelfPermission方法是在用来判断是否app已经获取到某一个权限
-     * shouldShowRequestPermissionRationale方法用来判断是否
-     * 显示申请权限对话框，如果同意了或者不在询问则返回false
-     */
-    private List<String> findDeniedPermissions(String[] permissions) {
-        List<String> needRequestPermissonList = new ArrayList<String>();
-        for (String perm : permissions) {
-            if (ContextCompat.checkSelfPermission(this,
-                    perm) != PackageManager.PERMISSION_GRANTED) {
-                needRequestPermissonList.add(perm);
-            } else {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(
-                        this, perm)) {
-                    needRequestPermissonList.add(perm);
-                }
-            }
-        }
-        return needRequestPermissonList;
-    }
-
-    /**
-     * 检测是否所有的权限都已经授权
-     *
-     * @param grantResults
-     * @return
-     */
-    private boolean verifyPermissions(int[] grantResults) {
-        for (int result : grantResults) {
-            if (result != PackageManager.PERMISSION_GRANTED) {
-                return false;
-            } else {
-                Logger.i(TAG, " PERMISSION request success.");
-            }
-        }
-        return true;
-    }
-
-    /**
-     * 申请权限结果的回调方法
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] paramArrayOfInt) {
-        if (requestCode == PERMISSON_REQUESTCODE) {
-            if (!verifyPermissions(paramArrayOfInt)) {
-                //showMissingPermissionDialog();
-                isNeedCheck = false;
-            }
-        }
-    }
-
-    /**
-     * 显示提示信息
-     */
-    private void showMissingPermissionDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("提示");
-        builder.setMessage("当前应用缺少必要权限。请点击\"设置\"-\"权限\"-打开所需权限。");
-
-        // 拒绝, 退出应用
-        builder.setNegativeButton("取消",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
-
-        builder.setPositiveButton("设置",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startAppSettings();
-                    }
-                });
-
-        builder.setCancelable(false);
-
-        builder.show();
-    }
-
-    /**
-     * 启动应用的设置
-     */
-    private void startAppSettings() {
-        Intent intent = new Intent(
-                Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        intent.setData(Uri.parse("package:" + getPackageName()));
-        startActivity(intent);
-    }
-
-
-    /**
-     * 监听对话框里面的button点击事件
-     */
-    DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int which) {
-            switch (which) {
-                case AlertDialog.BUTTON_POSITIVE:// "确认"按钮退出程序
-                    finish();
-//                    System.exit(0);
-                    startActivity(new Intent(getApplication(), MainActivity.class));
-                    break;
-                case AlertDialog.BUTTON_NEGATIVE:// "取消"第二个按钮取消对话框
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
 }

@@ -18,8 +18,8 @@
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
-        android:required="true"
         android:configChanges="keyboardHidden|orientation"
+        android:required="true"
 
         />
 
@@ -28,32 +28,67 @@
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
+        android:persistent="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="label">
-        <activity android:name=".MainActivity"   android:screenOrientation="portrait">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BaseActivity"  android:screenOrientation="portrait"></activity>
-        <activity android:name=".CeliangManualOperation"   android:screenOrientation="portrait"></activity>
-        <activity android:name=".RegisterAcitvity"  android:screenOrientation="portrait"></activity>
-        <activity android:name=".PersonAcitvity"  android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".BaseActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".CeliangManualOperation"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".RegisterAcitvity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".PersonAcitvity"
+            android:screenOrientation="portrait"></activity>
         <!--<activity android:name=".TaskDownloadActivity"></activity>-->
-        <activity android:name=".BlueToothFolder"  android:screenOrientation="portrait"></activity>
-        <activity android:name=".ShowExamineRecord" android:screenOrientation="portrait"></activity>
-        <activity android:name=".AddExamineRecord" android:screenOrientation="portrait"></activity>
-        <activity android:name=".UserListAcitvity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".ShowTaskInfo" android:screenOrientation="portrait"></activity>
-        <activity android:name=".CeLiangActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".DeviceSettingActivity" android:screenOrientation="portrait" />
-        <activity android:name=".AboutSystemActivity" android:screenOrientation="portrait" />
-        <activity android:name=".UpdateSystemActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".UploadBlueToothFolder" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bluetooth.BlueToothListActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bluetooth.BlueToothTestActivity" android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".BlueToothFolder"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ShowExamineRecord"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".AddExamineRecord"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".UserListAcitvity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ShowTaskInfo"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".CeLiangActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".DeviceSettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AboutSystemActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UpdateSystemActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".UploadBlueToothFolder"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".bluetooth.BlueToothListActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".bluetooth.BlueToothTestActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".bluetooth.DeviceListActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -61,7 +96,9 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.Dialog"></activity>
 
-        <service android:name="com.dxc.mycollector.taskDownload.DownLoadService" />
+        <service
+            android:name="com.dxc.mycollector.taskDownload.DownLoadService"
+            android:persistent="true" />
         <service android:name="com.dxc.mycollector.bluetooth.BluetoothClientService" />
     </application>
 

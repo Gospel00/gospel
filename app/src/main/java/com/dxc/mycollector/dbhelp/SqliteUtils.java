@@ -137,10 +137,10 @@ public class SqliteUtils {
                 if (cursor.getCount() <= 0) {
                     db.execSQL("insert into tbl_measure(cllicheng,cldian,clren,cltime,gaocheng," +
                                     "shoulian,status,datatype,sources,taskId,cllichengId,cldianId," +
-                                    "createtime,updatetime) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?) ",
+                                    "createtime,updatetime,chushizhi,chazhi) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ",
                             new String[]{measure.getCllicheng(), measure.getCldian(), measure.getClren(), measure.getCltime(), measure.getGaocheng(),
                                     measure.getShoulian(), measure.getStatus(), measure.getDataType(), measure.getSources(), measure.getTaskId(),
-                                    measure.getCllichengId(), measure.getCldianId(), measure.getCreateTime(), ""});
+                                    measure.getCllichengId(), measure.getCldianId(), measure.getCreateTime(), "", measure.getChushizhi(), measure.getChazhi()});
                     return 1;
                 }
                 if (cursor.getCount() > 0) {
@@ -177,6 +177,8 @@ public class SqliteUtils {
                     downLoadData.setShoulian(cursor.getString(cursor.getColumnIndex("shoulian")));
                     downLoadData.setDataType(cursor.getString(cursor.getColumnIndex("datatype")));
                     downLoadData.setSources(cursor.getString(cursor.getColumnIndex("sources")));
+                    downLoadData.setChushizhi(cursor.getString(cursor.getColumnIndex("chushizhi")));
+                    downLoadData.setChazhi(cursor.getString(cursor.getColumnIndex("chazhi")));
                     list.add(downLoadData);
                 } while (cursor.moveToNext());
             }
@@ -213,14 +215,16 @@ public class SqliteUtils {
                 if (cursor.getCount() <= 0) {
                     db.execSQL("insert into tbl_task(taskId,userId,taskType,measureType," +
                                     "startTime,endTime,proName,section,mileageLabel,mileageId," +
-                                    "pointLabel,pointId,initialValue,status) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?) ",
+                                    "pointLabel,pointId,initialValue,status,sjz,cz) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ",
                             new String[]{downLoadData.getTaskId(), downLoadData.getUserId(), downLoadData.getTaskType(),
                                     downLoadData.getMeasureType(), downLoadData.getStartTime(), downLoadData.getEndTime(),
                                     taskDetails.getProName(), taskDetails.getSection(),
                                     taskDetails.getMileageLabel(), taskDetails.getMileageId(),
                                     taskDetails.getPointLabel(), taskDetails.getPointId()
-                                    , taskDetails.getInitialValue(), "1"});
+                                    , taskDetails.getInitialValue(), "1", "", ""});
                     return 1;
+                } else {
+                    return 2;
                 }
             } catch (Exception e) {
                 Logger.i(TAG, "保存任务信息异常：" + e.getMessage().toString());
@@ -248,6 +252,8 @@ public class SqliteUtils {
                 downLoadData.setStartTime(cursor.getString(cursor.getColumnIndex("startTime")));
                 downLoadData.setEndTime(cursor.getString(cursor.getColumnIndex("endTime")));
                 downLoadData.setStatus(cursor.getString(cursor.getColumnIndex("status")));
+                downLoadData.setSjz(cursor.getString(cursor.getColumnIndex("sjz")));
+                downLoadData.setCz(cursor.getString(cursor.getColumnIndex("cz")));
                 //任务详情
                 TaskDetails td = new TaskDetails();
                 td.setProName(cursor.getString(cursor.getColumnIndex("proName")));
@@ -293,17 +299,17 @@ public class SqliteUtils {
      * @param sl
      * @return
      */
-    public int saveCustomMeasure(String taskIdS, TaskDetails td, String taskname, String nowtime, String gc, String sl) {
+    public int saveCustomMeasure(String taskIdS, TaskDetails td, String taskname, String nowtime, String gc, String sl, String csz, String cz) {
         if (td != null) {
             try {
                 Cursor cursor = db.rawQuery("select * from tbl_measure where cldianId=?", new String[]{td.getPointId()});
                 if (cursor.getCount() <= 0) {
                     db.execSQL("insert into tbl_measure(cllicheng,cldian,cllichengId,cldianId,clren,cltime,gaocheng," +
                                     "shoulian,status,datatype,sources,taskId," +
-                                    "createtime,updatetime) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?) ",
+                                    "createtime,updatetime,chushizhi,chazhi) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ",
                             new String[]{td.getMileageLabel(), td.getPointLabel(), td.getMileageId(), td.getPointId(),
                                     taskname, nowtime, gc.trim(), sl.trim(), "1", "0",
-                                    "", taskIdS, nowtime, ""});
+                                    "", taskIdS, nowtime, "", csz, cz});
                     return 1;
                 }
                 if (cursor.getCount() > 0) {
@@ -351,11 +357,11 @@ public class SqliteUtils {
      * @param pointId
      * @return
      */
-    public int updateTaskStatus(String pointId) {
+    public int updateTaskStatus(String sjz, String cz, String pointId) {
         if (pointId != null) {
             try {
-                db.execSQL("update tbl_task set status =? where pointId=?",
-                        new String[]{"0", pointId});
+                db.execSQL("update tbl_task set status =?,sjz=?,cz=? where pointId=?",
+                        new String[]{"0", sjz, cz, pointId});
                 return 1;
             } catch (Exception e) {
                 Logger.e("更新任务处理状态失败：", e.getMessage().toString());

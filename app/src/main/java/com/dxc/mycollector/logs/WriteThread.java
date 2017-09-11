@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import android.annotation.SuppressLint;
 import android.os.Environment;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -43,6 +44,7 @@ public class WriteThread extends Thread {
                 file.renameTo(file1);
             }
         } else {
+            isWriteThreadLive = false;// 队列中的日志都写完了，关闭线程
             try {
                 boolean cYes = file.createNewFile();
                 if (cYes)
@@ -51,7 +53,8 @@ public class WriteThread extends Thread {
                     Logger.e(WriteThread.class.getSimpleName(), "创建日志文件失败.");
             } catch (IOException e) {
                 e.printStackTrace();
-                Logger.e(WriteThread.class.getSimpleName(), "创建日志文件失败." + e.getMessage());
+                isWriteThreadLive = false;// 队列中的日志都写完了，关闭线程
+                Log.e(WriteThread.class.getSimpleName(), "创建日志文件失败." + e.getMessage());
             }
         }
     }

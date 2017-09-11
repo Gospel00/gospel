@@ -108,7 +108,8 @@ public class DownLoadManager {
                         for (TaskDetails ti : ltd) {
                             //保存数据
                             int result = SqliteUtils.getInstance(mycontext).saveTaskInfo(maps.get(ti), ti);
-//                        Logger.i(TAG, "任务保存成功。测量详情：" + maps.get(ti).toString());
+                            if (result == 2)
+                                Logger.i(TAG, "存储任务失败，测量点重复");
                         }
                     }
                     break;
@@ -123,23 +124,23 @@ public class DownLoadManager {
         new Thread() {//创建子线程进行网络访问的操作
             public void run() {
                 try {
-                    while (i > 0 && i < 10) {
-                        resultJson = HttpUtils.getJSONObjectString(pKey, pUrl);// HttpUtils.doPost(null, textView.getText().toString());
-                        if (resultJson != null && !JsonUtils.isGoodJson(resultJson) && (resultJson.indexOf("FAIL") > -1)) {
-                            //上传FAIL,重新请求，10次后不在
-                            Logger.i(TAG, "平台任务接口返回失败，resultJson:" + resultJson);
-                            Logger.i(TAG, i + " 次请求...");
+//                    while (i > 0 && i < 10) {
+                    resultJson = HttpUtils.getJSONObjectString(pKey, pUrl);// HttpUtils.doPost(null, textView.getText().toString());
+                    if (resultJson != null && !JsonUtils.isGoodJson(resultJson) && (resultJson.indexOf("FAIL") > -1)) {
+                        //上传FAIL,重新请求，10次后不在
+                        Logger.i(TAG, "平台任务接口返回失败，resultJson:" + resultJson);
+                        Logger.i(TAG, i + " 次请求...");
 //                            handler.sendEmptyMessage(0);
-                            //每2秒从平台下载一次任务
-                            sleep(2000);
-                            i++;
-                        } else {
-                            i = 0;
-                            Logger.i(TAG, "平台任务接口返回成功，resultJson:" + resultJson);
-                            //处理任务
-                            handler.sendEmptyMessage(0);
-                        }
+                        //每2秒从平台下载一次任务
+//                        sleep(2000);
+                        i++;
+                    } else {
+                        i = 0;
+                        Logger.i(TAG, "平台任务接口返回成功，resultJson:" + resultJson);
+                        //处理任务
+                        handler.sendEmptyMessage(0);
                     }
+//                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

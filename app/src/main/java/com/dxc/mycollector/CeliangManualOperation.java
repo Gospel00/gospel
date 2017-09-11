@@ -126,11 +126,11 @@ public class CeliangManualOperation extends BaseActivity {
         new AlertDialog.Builder(context)
                 .setTitle("系统提示")
                 .setIcon(R.drawable.warn_small)
-                .setMessage("本次测量： " + gc + "   " + "\n初始值： " + td.getInitialValue() + "\n" + "本次测量与初始值差：" +CalcUtils.sub(Double.parseDouble(gc), Double.parseDouble(td.getInitialValue())))
+                .setMessage("本次测量： " + gc + "   " + "\n初始值： " + td.getInitialValue() + "\n" + "本次测量与初始值差：" + CalcUtils.sub(Double.parseDouble(gc), Double.parseDouble(td.getInitialValue())))
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        insertDB(taskId, td, taskname, time);
+                        insertDB(taskId, td, taskname, time, td.getInitialValue(), CalcUtils.sub(Double.parseDouble(gc), Double.parseDouble(td.getInitialValue())));
                     }
                 })
                 .setNegativeButton("取消", null)
@@ -138,10 +138,10 @@ public class CeliangManualOperation extends BaseActivity {
     }
 
     //只管gc这个字段，因为每次测量保存只有一个测量值，现在都用gc这个字段存储
-    public void insertDB(String taskId, final TaskDetails td, String taskname, String time) {
+    public void insertDB(String taskId, final TaskDetails td, String taskname, String time, String csz, String cz) {
         final SqliteUtils su = new SqliteUtils(this);
         if (taskId != null && gc != null) {
-            if (su.saveCustomMeasure(taskId, td, taskname, time, gc, "0") == 1) {
+            if (su.saveCustomMeasure(taskId, td, taskname, time, gc, "0", csz, cz) == 1) {
                 new AlertDialog.Builder(context)
                         .setTitle("系统提示")
                         .setIcon(R.drawable.success_small)
@@ -177,7 +177,7 @@ public class CeliangManualOperation extends BaseActivity {
             switch (msg.what) {
                 case 1:
                     //上传成功，更新本地数据上传状态
-                    int result = SqliteUtils.getInstance(context).updateTaskStatus(td.getPointId());
+                    int result = SqliteUtils.getInstance(context).updateTaskStatus(gc, CalcUtils.sub(Double.parseDouble(gc), Double.parseDouble(td.getInitialValue())), td.getPointId());
                     if (result > 0) {
                         new AlertDialog.Builder(context)
                                 .setTitle("系统提示")
