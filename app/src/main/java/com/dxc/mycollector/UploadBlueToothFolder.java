@@ -66,7 +66,7 @@ public class UploadBlueToothFolder extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//??????
         actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP);  //根据字面意思是显示类型为显示自定义
         actionBar.setDisplayShowCustomEnabled(true); //自定义界面是否可显示
-        ((TextView) findViewById(R.id.title_name)).setText("测量数据列表");
+        ((TextView) findViewById(R.id.title_name)).setText("上传测量数据");
 
         //以下代码用于去除阴影
         if (Build.VERSION.SDK_INT >= 21) {
@@ -138,21 +138,7 @@ public class UploadBlueToothFolder extends BaseActivity {
                 convertView = LayoutInflater.from(context).inflate(R.layout.upload_bluetooth_list_item_layout, null);
                 holder.fileName = (TextView) convertView.findViewById(R.id.upload_bluetoothfile_file_name);
                 holder.fileTime = (TextView) convertView.findViewById(R.id.upload_bluetoothfile_file_time);
-                text = (TextView) convertView.findViewById(R.id.upload);
                 convertView.setTag(holder);
-                text.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        int i = 0;
-                        try {
-//                                readFile(pathFile);
-                        } catch (Exception e) {
-                            String dff = e.toString();
-                            e.printStackTrace();
-                        }
-                    }
-                });
 
             } else {
                 holder = (Holder) convertView.getTag();

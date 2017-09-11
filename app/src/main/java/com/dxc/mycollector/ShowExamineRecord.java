@@ -111,15 +111,15 @@ public class ShowExamineRecord extends BaseActivity {
                     holder = new Holder();
                     convertView = LayoutInflater.from(context).inflate(R.layout.show_examine_list_item_layout, null);
                     holder.fileName = (TextView) convertView.findViewById(R.id.show_examine_name);
-                    TextView upbtn = (TextView) convertView.findViewById(R.id.upload);
+//                    TextView upbtn = (TextView) convertView.findViewById(R.id.upload);
 //                    TextView text = (TextView) convertView.findViewById(R.id.jiexi);
                     convertView.setTag(holder);
-                    upbtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Toast.makeText(ShowExamineRecord.this, "接口正在开发中...", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+//                    upbtn.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            Toast.makeText(ShowExamineRecord.this, "接口正在开发中...", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
 
                 } else {
                     holder = (Holder) convertView.getTag();
