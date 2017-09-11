@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,15 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dxc.mycollector.dbhelp.SqliteUtils;
-import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.MeasureData;
-import com.dxc.mycollector.model.TaskDetails;
-import com.dxc.mycollector.model.TaskInfo;
 import com.dxc.mycollector.pullableview.MyListener;
 import com.dxc.mycollector.pullableview.PullToRefreshLayout;
 import com.dxc.mycollector.taskDownload.DownLoadManager;
-import com.dxc.mycollector.utils.CalcUtils;
-import com.dxc.mycollector.utils.HttpUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +71,15 @@ public class UploadBlueToothFolder extends BaseActivity {
         //以下代码用于去除阴影
         if (Build.VERSION.SDK_INT >= 21) {
             getSupportActionBar().setElevation(0);
+        }
+        TextView txvEmpty = (TextView) findViewById(R.id.empty);//获取textview对象
+        /**
+         * 判断listview是是否为空，如果为空时显示提示信息，如果不为空时设置为gone
+         */
+        if (listtasks != null && listtasks.size() > 0) {
+            txvEmpty.setVisibility(View.GONE);
+        } else {
+            txvEmpty.setVisibility(View.VISIBLE);
         }
 
     }
