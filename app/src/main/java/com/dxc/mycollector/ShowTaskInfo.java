@@ -5,6 +5,7 @@
 
 package com.dxc.mycollector;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -20,7 +21,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -107,6 +107,7 @@ public class ShowTaskInfo extends BaseActivity {
 
     private void initDrawerList() {
         BaseAdapter adapter = new BaseAdapter() {
+            @SuppressLint("NewApi")
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
                 TaskInfo taskInfo = listtasks.get(position);
@@ -122,6 +123,7 @@ public class ShowTaskInfo extends BaseActivity {
                     //待完成任务
                     ImageView imageViews = (ImageView) convertView.findViewById(R.id.imageView);
                     holder.tasknamepoint = (TextView) convertView.findViewById(R.id.show_task_name_point);
+                    holder.tasknamepoint1 = (TextView) convertView.findViewById(R.id.show_task_name_point1);
                     holder.taskname = (TextView) convertView.findViewById(R.id.show_task_name);
 
                     // 如果potid不为空说明是完成任务后跳转过来的，在列表中能找到该任务，将其状态改为已完成
@@ -158,9 +160,14 @@ public class ShowTaskInfo extends BaseActivity {
                     starttime = taskInfo.getStartTime().substring(0, 10);
                 else
                     starttime = taskInfo.getStartTime();
-                String showstr = taskInfo.getTaskId() + "-" + (taskInfo.getTaskType().equals("T0101") ? "拱顶沉降" : "水平收敛");
+                String showstr1 = (taskInfo.getTaskType().equals("T0101") ? "沉降" : "收敛");
                 // "(" + getMeasureType(taskInfo.getMeasureType()) + ")" +
-                showstr += taskInfo.getTaskDetail().getMileageLabel() + "-" + taskInfo.getTaskDetail().getPointLabel();
+                String showstr = taskInfo.getTaskId() + "-" + taskInfo.getTaskDetail().getMileageLabel() + "-" + taskInfo.getTaskDetail().getPointLabel();
+                holder.tasknamepoint1.setText(showstr1);
+                if (taskInfo.getTaskType().equals("T0101"))
+                    holder.tasknamepoint1.setBackground(getResources().getDrawable(R.drawable.textviewstyle2));
+                else
+                    holder.tasknamepoint1.setBackground(getResources().getDrawable(R.drawable.textviewstyle1));
                 holder.tasknamepoint.setText(showstr);
                 holder.taskname.setText(taskInfo.getTaskDetail().getProName() + "-" + taskInfo.getTaskDetail().getSection() + "-" + starttime);// + "-" + taskInfo.getEndTime().substring(0, 10)
 
@@ -205,6 +212,7 @@ public class ShowTaskInfo extends BaseActivity {
 
     static class Holder {
         TextView tasknamepoint = null;
+        TextView tasknamepoint1 = null;
         TextView taskname = null;
     }
 
@@ -217,7 +225,8 @@ public class ShowTaskInfo extends BaseActivity {
                 new AlertDialog.Builder(context)
                         .setTitle("系统提示")
                         .setIcon(R.drawable.success_small)
-                        .setMessage("该任务已经测量完成了！，请在数据管理查看并上传测量结果。")
+                        .setMessage("本次测量： " + taskInfo.getSjz() + "   " + "\n初始值： " + taskInfo.getTaskDetail().getInitialValue() +
+                                "\n" + "本次测量与初始值差：" + taskInfo.getCz() + "\n该任务已经测量完成了！请在数据管理查看并上传测量结果。")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

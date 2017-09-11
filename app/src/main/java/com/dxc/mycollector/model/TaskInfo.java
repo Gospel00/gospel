@@ -17,6 +17,9 @@ public class TaskInfo {
     private TaskDetails taskDetail;//存放单条
     private String status;//0已完成，1处理中。所有下载下来的任务都是处理中状态
 
+    private String sjz;//实际测量值
+    private String cz;//差值
+
     public int getId() {
         return id;
     }
@@ -95,6 +98,22 @@ public class TaskInfo {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getSjz() {
+        return sjz;
+    }
+
+    public void setSjz(String sjz) {
+        this.sjz = sjz;
+    }
+
+    public String getCz() {
+        return cz;
+    }
+
+    public void setCz(String cz) {
+        this.cz = cz;
     }
 
     @Override

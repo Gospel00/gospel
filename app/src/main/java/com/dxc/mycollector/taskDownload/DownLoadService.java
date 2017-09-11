@@ -2,10 +2,11 @@ package com.dxc.mycollector.taskDownload;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
-import android.util.Log;
+import android.os.Message;
 
-import com.dxc.mycollector.dbhelp.DatabaseHelper;
+import com.dxc.mycollector.WeiboDialogUtils;
 import com.dxc.mycollector.logs.Logger;
 
 /**
@@ -25,10 +26,24 @@ public class DownLoadService extends Service {
         return downLoadManager;
     }
 
+    //消息处理线程
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    downLoadManager = new DownLoadManager(DownLoadService.this);
+                    mHandler.sendEmptyMessageDelayed(1, 10000);//处理消息
+                    break;
+            }
+        }
+    };
+
     @Override
     public void onCreate() {
         super.onCreate();
-        downLoadManager = new DownLoadManager(DownLoadService.this);
+        mHandler.sendEmptyMessageDelayed(1, 10000);//处理消息
         Logger.i("DownLoadService", "DownLoadService init .");
     }
 

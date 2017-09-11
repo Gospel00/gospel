@@ -213,7 +213,7 @@ public class BlueToothFolder extends BaseActivity {
             switch (msg.what) {
                 case 1:
                     //上传成功，更新本地数据上传状态
-                    int result = SqliteUtils.getInstance(context).updateTaskStatus(td.getPointId());
+                    int result = SqliteUtils.getInstance(context).updateTaskStatus(hightProcess, CalcUtils.sub(Double.parseDouble(hightProcess), Double.parseDouble(td.getInitialValue())), td.getPointId());
                     if (result > 0) {
                         new AlertDialog.Builder(context)
                                 .setTitle("系统提示")
@@ -269,7 +269,7 @@ public class BlueToothFolder extends BaseActivity {
                         new AlertDialog.Builder(context)
                                 .setTitle("系统提示")
                                 .setIcon(R.drawable.warn_small)
-                                .setMessage("本次测量： " + hightProcess + "   " + "\n初始值： " + td.getInitialValue() + "\n" + "本次测量与初始值差：" + String.valueOf(CalcUtils.sub(Double.parseDouble(hightProcess), Double.parseDouble(td.getInitialValue()))))
+                                .setMessage("本次测量： " + hightProcess + "   " + "\n初始值： " + td.getInitialValue() + "\n" + "本次测量与初始值差：" + CalcUtils.sub(Double.parseDouble(hightProcess), Double.parseDouble(td.getInitialValue())))
                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -410,6 +410,8 @@ public class BlueToothFolder extends BaseActivity {
         measureData.setClren(DLApplication.userName != null ? DLApplication.userName : android.os.Build.MODEL);
         measureData.setUpdateTime("");
         measureData.setCreateTime(DateConver.getStringDate());
+        measureData.setChushizhi(td.getInitialValue());
+        measureData.setChazhi(CalcUtils.sub(Double.parseDouble(hightProcess), Double.parseDouble(td.getInitialValue())));
         SqliteUtils sdb = new SqliteUtils(this);
 //        Logger.i(TAG, sdb.saveMeasure(measureData) + "插入结果");
         if (sdb.saveMeasure(measureData) == 1) {

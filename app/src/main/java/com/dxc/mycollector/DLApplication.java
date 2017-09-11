@@ -7,12 +7,8 @@ package com.dxc.mycollector;
 
 import android.app.Application;
 import android.content.Intent;
-import android.os.Environment;
 
-import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.taskDownload.DownLoadService;
-
-import java.io.File;
 
 /**
  * Created by gospel on 2017/8/18.
@@ -26,7 +22,7 @@ public class DLApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        this.startService(new Intent(this, DownLoadService.class));
+        this.startService(new Intent(this, DownLoadService.class));
 //        Logger.i(TAG, "Appliction init. ");
     }
 }

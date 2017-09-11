@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ copyright (c)2018-8-15
+  ~ DXC technology
+  -->
+
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape xmlns:android="http://schemas.android.com/apk/res/android"
@@ -6,7 +11,7 @@
             <solid
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:color="#F08D3C" />
+                android:color="#FC6F75" />
             <corners android:radius="360dip" />
             <!--<stroke
                 android:width="0.5dp"

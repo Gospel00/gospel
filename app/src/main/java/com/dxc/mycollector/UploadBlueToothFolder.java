@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import com.dxc.mycollector.model.TaskInfo;
 import com.dxc.mycollector.pullableview.MyListener;
 import com.dxc.mycollector.pullableview.PullToRefreshLayout;
 import com.dxc.mycollector.taskDownload.DownLoadManager;
+import com.dxc.mycollector.utils.CalcUtils;
 import com.dxc.mycollector.utils.HttpUtils;
 
 import java.util.ArrayList;
@@ -214,20 +216,31 @@ public class UploadBlueToothFolder extends BaseActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 //            Toast.makeText(context, "开始上传", Toast.LENGTH_SHORT).show();
-            waitingDialog1();
             final MeasureData taskInfo = listtasks.get(position);
-            DownLoadManager downLoadManager = new DownLoadManager(UploadBlueToothFolder.this);
-            downLoadManager.uploadMeasure(taskInfo);
-            downLoadManager.setUploadCallback(new DownLoadManager.UploadCallback() {
-                @Override
-                public void callback(boolean statu, String msg) {
-                    poist = position;
-                    uptrue = statu;
-                    msgstr = msg;
-                    tid = taskInfo.getCldianId();
-                    uhandler.sendEmptyMessage(1);
-                }
-            });
+            new AlertDialog.Builder(context)
+                    .setTitle("系统提示")
+                    .setIcon(R.drawable.warn_small)
+                    .setMessage("本次测量： " + taskInfo.getGaocheng() + "   " + "\n初始值： " + taskInfo.getChushizhi() + "\n" + "本次测量与初始值差：" + taskInfo.getChazhi())
+                    .setPositiveButton("确定上传", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            waitingDialog1();
+                            DownLoadManager downLoadManager = new DownLoadManager(UploadBlueToothFolder.this);
+                            downLoadManager.uploadMeasure(taskInfo);
+                            downLoadManager.setUploadCallback(new DownLoadManager.UploadCallback() {
+                                @Override
+                                public void callback(boolean statu, String msg) {
+                                    poist = position;
+                                    uptrue = statu;
+                                    msgstr = msg;
+                                    tid = taskInfo.getCldianId();
+                                    uhandler.sendEmptyMessage(1);
+                                }
+                            });
+                        }
+                    })
+                    .setNegativeButton("取消", null)
+                    .show();
         }
     }
 

@@ -24,6 +24,8 @@ public class MeasureData implements Serializable {
     private String dataType;//0是手动录入，1是蓝牙录入
     private String status;//0是已经上传成功，1否
     public String downloadId;
+    private String chushizhi;//初始值
+    private String chazhi;//差值
 
     public String getCllicheng() {
         return cllicheng;
@@ -151,6 +153,22 @@ public class MeasureData implements Serializable {
 
     public void setCldianId(String cldianId) {
         this.cldianId = cldianId;
+    }
+
+    public String getChushizhi() {
+        return chushizhi;
+    }
+
+    public void setChushizhi(String chushizhi) {
+        this.chushizhi = chushizhi;
+    }
+
+    public String getChazhi() {
+        return chazhi;
+    }
+
+    public void setChazhi(String chazhi) {
+        this.chazhi = chazhi;
     }
 
     @Override
