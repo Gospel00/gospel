@@ -171,7 +171,7 @@ public class BlueToothFolder extends BaseActivity {
             File files = listf.get(position);
             Date datef = new Date(files.lastModified());
             String fName = files.getName();
-            Logger.i(TAG, "filen:" + fName);
+//            Logger.i(TAG, "filen:" + fName);
             holder.fileName.setText(fName + " " + (lyaddress == null ? "" : "(" + lyaddress + ")"));
             holder.fileTime.setText(DateConver.ConverToStringNYRSFM(datef));
             return convertView;

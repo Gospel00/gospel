@@ -212,14 +212,14 @@ public class MainActivity extends Activity implements
             // 没有可用的位置提供器
             Toast.makeText(MainActivity.this, "没有位置提供器可供使用", Toast.LENGTH_LONG)
                     .show();
-            Logger.i("DeviceInfo", "没有位置提供器可供使用");
+//            Logger.i("DeviceInfo", "没有位置提供器可供使用");
             return;
         }
 
         Location location = locationManager.getLastKnownLocation(provider);
         if (location != null) {
-            // 显示当前设备的位置信息
-            Logger.i("DeviceInfo", "第一次请求位置信息");
+//             显示当前设备的位置信息
+//            Logger.i("DeviceInfo", "第一次请求位置信息");
             showLocation(location, "");
         } else {
             Logger.i("DeviceInfo", "无法获得当前位置");

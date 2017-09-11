@@ -55,7 +55,7 @@ public class PersonAcitvity extends BaseActivity {
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Logger.i(TAG, "已经提醒用户连接网络");
+//                            Logger.i(TAG, "已经提醒用户连接网络");
                         }
                     }).show();
         }

@@ -41,6 +41,7 @@ public class CeliangManualOperation extends BaseActivity {
     TextView twetcld;//测量点
     TextView twetclr;//测量人
     TextView twetclsj;//测量时间
+    TextView beformanual;//上次测量结果
     Button btn;
     TaskDetails td;
     String taskId;
@@ -100,12 +101,14 @@ public class CeliangManualOperation extends BaseActivity {
         twetcld = (TextView) findViewById(R.id.cldmanual);
         twetclr = (TextView) findViewById(R.id.clrmanual);
         twetclsj = (TextView) findViewById(R.id.clsjmanual);
+        beformanual = (TextView) findViewById(R.id.beformanual);
 
         // 用intent1.getStringExtra()来得到activity1发过来的字符串。
         twcllc.setText(td.getMileageLabel());
         twetcld.setText(td.getPointLabel());
         twetclr.setText(taskname);
         twetclsj.setText(DateConver.getStringDate());
+        beformanual.setText(td.getInitialValue());
     }
 
     public void insertToDB(final String taskId, final TaskDetails td, final String taskname, final String time) {

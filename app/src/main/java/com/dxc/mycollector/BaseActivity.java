@@ -266,12 +266,12 @@ public class BaseActivity extends AppCompatActivity {
                 break;
             case 1:
                 startActivity(new Intent(this, ShowTaskInfo.class));
-                Logger.i(TAG, "click task download.");
+//                Logger.i(TAG, "click task download.");
                 break;
             case 2:
                 //startActivity(new Intent(this, BlueToothFolder.class));
                 startActivity(new Intent(this, UploadBlueToothFolder.class));
-                Logger.i(TAG, "click bluetooth folder  search.");
+//                Logger.i(TAG, "click bluetooth folder  search.");
                 break;
 //            case 3:
 //                startActivity(new Intent(this, ShowExamineRecord.class));
@@ -279,19 +279,19 @@ public class BaseActivity extends AppCompatActivity {
 //                break;
             case 3:
                 startActivity(new Intent(this, DeviceSettingActivity.class));
-                Logger.i(TAG, "click devices setting.");
+//                Logger.i(TAG, "click devices setting.");
                 break;
             case 4:
                 startActivity(new Intent(this, UpdateSystemActivity.class));
-                Logger.i(TAG, "click update system.");
+//                Logger.i(TAG, "click update system.");
                 break;
             case 5:
                 startActivity(new Intent(this, AboutSystemActivity.class));
-                Logger.i(TAG, "click about system.");
+//                Logger.i(TAG, "click about system.");
                 break;
             case 6:
                 startActivity(new Intent(this, UserListAcitvity.class));
-                Logger.i(TAG, "click user list.This operation belongs to the administrator.");
+//                Logger.i(TAG, "click user list.This operation belongs to the administrator.");
                 break;
         }
     }

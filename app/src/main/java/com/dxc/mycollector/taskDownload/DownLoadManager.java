@@ -3,6 +3,7 @@ package com.dxc.mycollector.taskDownload;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 import com.dxc.mycollector.UploadBlueToothFolder;
 import com.dxc.mycollector.dbhelp.SqliteUtils;
@@ -80,8 +81,8 @@ public class DownLoadManager {
                     if (JsonUtils.isGoodJson(resultJson)) {
                         JsonArray jsonDatas = new JsonParser().parse(resultJson).getAsJsonObject().getAsJsonArray("data");
                         TaskInfo[] tempt = new TaskInfo[jsonDatas.size()];
-                        Logger.i(TAG, "jsonDatas:" + jsonDatas.toString());
-                        Logger.i(TAG, "master TaskInfo num:任务数:" + (jsonDatas.size()));
+//                        Logger.i(TAG, "jsonDatas:" + jsonDatas.toString());
+//                        Logger.i(TAG, "master TaskInfo num:任务数:" + (jsonDatas.size()));
                         Map<TaskDetails, TaskInfo> maps = new HashMap<TaskDetails, TaskInfo>();
                         List<TaskDetails> ltd = new ArrayList<TaskDetails>();
                         int i1 = 0;
@@ -102,14 +103,20 @@ public class DownLoadManager {
                             }
                             taskInfo.setDetail(temp);
                         }
-                        Logger.i(TAG, "maps:::" + maps.toString());
-                        Logger.i(TAG, "task Details info num:任务数:" + (i + 1));
+//                        Logger.i(TAG, "maps:::" + maps.toString());
+//                        Logger.i(TAG, "task Details info num:任务数:" + (i + 1));
                         //根据测量点保存测量任务信息
                         for (TaskDetails ti : ltd) {
                             //保存数据
                             int result = SqliteUtils.getInstance(mycontext).saveTaskInfo(maps.get(ti), ti);
-                            if (result == 2)
-                                Logger.i(TAG, "存储任务失败，测量点重复");
+                            if (result == 2) {
+                                int i = 0;
+                                if (i == 0)
+                                    Logger.i(TAG, "存储任务失败，测量点重复");
+                                else
+                                    Log.i(TAG, "存储任务失败，测量点重复");
+                                i++;
+                            }
                         }
                     }
                     break;
@@ -179,7 +186,7 @@ public class DownLoadManager {
                     if (resultJsonupload != null && !JsonUtils.isGoodJson(resultJsonupload) && (resultJsonupload.indexOf("FAIL") > -1)) {
                         //下载任务接口返回FAIL,重新请求，3次后不在
                         Logger.i(TAG, "平台测量数据上传接口请求失败，resultJsonupload:" + resultJsonupload);
-                        Logger.i(TAG, ui + " 次上传请求...");
+//                        Logger.i(TAG, ui + " 次上传请求...");
                         uploadCallback.callback(false, resultJsonupload);
                         //每2秒从平台下载一次任务
 //                        sleep(2000);

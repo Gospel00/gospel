@@ -145,7 +145,7 @@ public class CeLiangActivity extends BaseActivity {
 //                        button.setText("蓝牙连接读数\n" + address);
                     if (restr != null) {
                         Toast.makeText(context, restr, Toast.LENGTH_LONG).show();
-                        Logger.i(TAG, restr);
+//                        Logger.i(TAG, restr);
                     }
                     if (address != null) {
                         button.setText("蓝牙连接读数\n" + address);

@@ -79,7 +79,7 @@ public class ExamineRecord extends BaseActivity {
             public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 //position为当前省级选中的值的序号
                 Toast.makeText(getApplicationContext(), item[position], Toast.LENGTH_LONG);
-                Logger.i(TAG, "select " + item[position] + " examine table.");
+//                Logger.i(TAG, "select " + item[position] + " examine table.");
             }
 
             @Override
