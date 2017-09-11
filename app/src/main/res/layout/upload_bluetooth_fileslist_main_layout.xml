@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:padding="5dp"
-    tools:context=".UploadBlueToothFolder">
+    tools:context=".BlueToothFolder">
 
     <com.dxc.mycollector.pullableview.PullToRefreshLayout
         android:id="@+id/refresh_view2"
@@ -17,7 +17,6 @@
             android:id="@+id/showuploadbluetoothfilelistView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:descendantFocusability="blocksDescendants"
             android:divider="@color/gray"
             android:dividerHeight="1dp" />
 

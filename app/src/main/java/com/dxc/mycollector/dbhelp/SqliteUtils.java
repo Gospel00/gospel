@@ -211,7 +211,7 @@ public class SqliteUtils {
     public int saveTaskInfo(TaskInfo downLoadData, TaskDetails taskDetails) {
         if (downLoadData != null) {
             try {
-                Cursor cursor = db.rawQuery("select * from tbl_task where pointId=?", new String[]{taskDetails.getPointId().toString()});
+                Cursor cursor = db.rawQuery("select * from tbl_task where pointId=?", new String[]{taskDetails.getPointId()});
                 if (cursor.getCount() <= 0) {
                     db.execSQL("insert into tbl_task(taskId,userId,taskType,measureType," +
                                     "startTime,endTime,proName,section,mileageLabel,mileageId," +
@@ -227,6 +227,7 @@ public class SqliteUtils {
                     return 2;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 Logger.i(TAG, "保存任务信息异常：" + e.getMessage().toString());
             }
         }
@@ -244,7 +245,7 @@ public class SqliteUtils {
         if (cursor.moveToFirst()) {
             do {
                 TaskInfo downLoadData = new TaskInfo();
-                downLoadData.setId(cursor.getInt(cursor.getColumnIndex("id")));
+//                downLoadData.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 downLoadData.setTaskId(cursor.getString(cursor.getColumnIndex("taskId")));
                 downLoadData.setUserId(cursor.getString(cursor.getColumnIndex("userId")));
                 downLoadData.setTaskType(cursor.getString(cursor.getColumnIndex("taskType")));

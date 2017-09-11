@@ -1,12 +1,13 @@
 package com.dxc.mycollector.model;
 
+import java.io.Serializable;
+
 /**
  * Created by gospel on 2017/8/30.
  * 下载测量任务-详细信息
  */
 
-public class TaskInfo {
-    private int id;
+public class TaskInfo implements Serializable {
     private String taskId;//任务ID
     private String userId;//用户名称
     private String taskType;//任务类型
@@ -19,14 +20,6 @@ public class TaskInfo {
 
     private String sjz;//实际测量值
     private String cz;//差值
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getTaskId() {
         return taskId;
