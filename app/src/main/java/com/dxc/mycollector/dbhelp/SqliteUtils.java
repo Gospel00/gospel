@@ -133,7 +133,7 @@ public class SqliteUtils {
     public int saveMeasure(MeasureData measure) {
         if (measure != null) {
             try {
-                Cursor cursor = db.rawQuery("select * from tbl_measure where cldian=?", new String[]{measure.getCldian().toString()});
+                Cursor cursor = db.rawQuery("select * from tbl_measure where cldian=? and taskId=?", new String[]{measure.getCldian().toString(), measure.getTaskId()});
                 if (cursor.getCount() <= 0) {
                     db.execSQL("insert into tbl_measure(cllicheng,cldian,clren,cltime,gaocheng," +
                                     "shoulian,status,datatype,sources,taskId,cllichengId,cldianId," +
@@ -211,7 +211,7 @@ public class SqliteUtils {
     public int saveTaskInfo(TaskInfo downLoadData, TaskDetails taskDetails) {
         if (downLoadData != null) {
             try {
-                Cursor cursor = db.rawQuery("select * from tbl_task where pointId=?", new String[]{taskDetails.getPointId()});
+                Cursor cursor = db.rawQuery("select * from tbl_task where pointId=? and taskId=?", new String[]{taskDetails.getPointId(), downLoadData.getTaskId()});
                 if (cursor.getCount() <= 0) {
                     db.execSQL("insert into tbl_task(taskId,userId,taskType,measureType," +
                                     "startTime,endTime,proName,section,mileageLabel,mileageId," +
@@ -240,8 +240,9 @@ public class SqliteUtils {
     public List<TaskInfo> loadTasks() {
         List<TaskInfo> list = new ArrayList<TaskInfo>();
         List<TaskDetails> listd = new ArrayList<TaskDetails>();
-        Cursor cursor = db
-                .query("tbl_task", null, null, null, null, null, null);
+//        Cursor cursor = db
+//                .query("tbl_task", null, null, null, null, null, null);
+        Cursor cursor = db.rawQuery("select * from tbl_task order by startTime desc", null);
         if (cursor.moveToFirst()) {
             do {
                 TaskInfo downLoadData = new TaskInfo();
@@ -303,7 +304,7 @@ public class SqliteUtils {
     public int saveCustomMeasure(String taskIdS, TaskDetails td, String taskname, String nowtime, String gc, String sl, String csz, String cz) {
         if (td != null) {
             try {
-                Cursor cursor = db.rawQuery("select * from tbl_measure where cldianId=?", new String[]{td.getPointId()});
+                Cursor cursor = db.rawQuery("select * from tbl_measure where cldianId=? and taskId=? ", new String[]{td.getPointId(), taskIdS});
                 if (cursor.getCount() <= 0) {
                     db.execSQL("insert into tbl_measure(cllicheng,cldian,cllichengId,cldianId,clren,cltime,gaocheng," +
                                     "shoulian,status,datatype,sources,taskId," +
@@ -332,24 +333,37 @@ public class SqliteUtils {
      * @param pointId
      * @return
      */
-    public int updateUpLoadStatus(String pointId) {
+    public int updateUpLoadStatus(String taskId, String pointId, boolean isOK) {
         if (pointId != null) {
             try {
 //                Cursor cursor = db.rawQuery("select * from tbl_measure where taskId=?", new String[]{taskId});
 //                if (cursor.getCount() <= 0) {
-                db.execSQL("update tbl_measure set status =?,updatetime =? where cldianId=?",
-                        new String[]{"0", DateConver.getStringDate(), pointId});
-                return 1;
+                if (!isOK) {
+                    db.execSQL("update tbl_measure set status =?,updatetime =? where cldianId=? and taskId =? ",
+                            new String[]{"0", DateConver.getStringDate(), pointId, taskId});
+                    return 1;
+                } else {//平台找不到这个任务，先以这种方式处理，不在上传列表显示-----没执行
+                    db.execSQL("update tbl_measure set status =?,updatetime =? where cldianId=? and taskId =? ",
+                            new String[]{"2", DateConver.getStringDate(), pointId, taskId});
+                    return 1;
+                }
+
 //                } else {
 //                    return 0;
 //                }
-            } catch (Exception e) {
+            } catch (
+                    Exception e)
+
+            {
                 Logger.e("上传成功，更新上传状态失败：", e.getMessage().toString());
                 return 0;
             }
-        } else {
+        } else
+
+        {
             return 0;
         }
+
     }
 
     /**
@@ -358,11 +372,11 @@ public class SqliteUtils {
      * @param pointId
      * @return
      */
-    public int updateTaskStatus(String sjz, String cz, String pointId) {
+    public int updateTaskStatus(String taskId, String sjz, String cz, String pointId) {
         if (pointId != null) {
             try {
-                db.execSQL("update tbl_task set status =?,sjz=?,cz=? where pointId=?",
-                        new String[]{"0", sjz, cz, pointId});
+                db.execSQL("update tbl_task set status =?,sjz=?,cz=? where pointId=? and taskId =?",
+                        new String[]{"0", sjz, cz, pointId, taskId});
                 return 1;
             } catch (Exception e) {
                 Logger.e("更新任务处理状态失败：", e.getMessage().toString());

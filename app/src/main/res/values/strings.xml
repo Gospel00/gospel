@@ -3,6 +3,9 @@
     <string name="wellcome">Welcome</string>
     <string name="open">open</string>
     <string name="close">close</string>
+    <string name="item_1">close</string>
+    <string name="item_2">close</string>
+    <string name="item_3">close</string>
 
     <string name="select_device">select a device to connect</string>
     <string name="title_paired_devices">Paired Devices</string>

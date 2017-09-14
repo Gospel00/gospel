@@ -77,7 +77,7 @@ public class CeliangManualOperation extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//??????
         actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP);  //根据字面意思是显示类型为显示自定义
         actionBar.setDisplayShowCustomEnabled(true); //自定义界面是否可显示
-        ((TextView) findViewById(R.id.title_name)).setText("录入测量数据");
+        ((TextView) findViewById(R.id.title_name)).setText("录入量测结果");
         //以下代码用于去除阴影
         if (Build.VERSION.SDK_INT >= 21) {
             getSupportActionBar().setElevation(0);
@@ -180,7 +180,7 @@ public class CeliangManualOperation extends BaseActivity {
             switch (msg.what) {
                 case 1:
                     //上传成功，更新本地数据上传状态
-                    int result = SqliteUtils.getInstance(context).updateTaskStatus(gc, CalcUtils.sub(Double.parseDouble(gc), Double.parseDouble(td.getInitialValue())), td.getPointId());
+                    int result = SqliteUtils.getInstance(context).updateTaskStatus(taskId, gc, CalcUtils.sub(Double.parseDouble(gc), Double.parseDouble(td.getInitialValue())), td.getPointId());
                     if (result > 0) {
                         new AlertDialog.Builder(context)
                                 .setTitle("系统提示")

@@ -13,10 +13,15 @@ import android.support.annotation.LayoutRes;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ActionMode;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
@@ -119,6 +124,12 @@ public class BaseActivity extends AppCompatActivity {
 //        drawerLayout.setDrawerListener(toggle);
     }
 
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater menuInflater = new MenuInflater(getApplication());
+//        menuInflater.inflate(R.menu.chapter11_menu, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+
     /**
      * 初始化侧滑菜单
      */
@@ -131,6 +142,7 @@ public class BaseActivity extends AppCompatActivity {
                 View layout = View.inflate(context, R.layout.menu_list_item, null);
                 ImageView imgv = (ImageView) layout.findViewById(R.id.lgface);
                 TextView name1 = (TextView) layout.findViewById(R.id.name1);
+                name1.setText("量测员 | " + (DLApplication.userName != null ? DLApplication.userName : android.os.Build.MODEL));
                 LinearLayout lin = (LinearLayout) layout.findViewById(R.id.item_lin_1);
                 LinearLayout lin1 = (LinearLayout) layout.findViewById(R.id.item_lin_1_1);
                 ImageView face = (ImageView) layout.findViewById(R.id.lgicon);

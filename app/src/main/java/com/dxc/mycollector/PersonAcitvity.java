@@ -13,9 +13,12 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,11 +41,14 @@ public class PersonAcitvity extends BaseActivity {
     //退出时的时间
     private long mExitTime;
 
+    WebView webView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.person_homepage_layout);
-
+        TextView t = (TextView) findViewById(R.id.showlogname);
+        t.setText("量测员        |        " + (DLApplication.userName != null ? DLApplication.userName : android.os.Build.MODEL));
         context = this;
 
         if (!DeviceUtil.isNetworkConnected(context)) {
@@ -117,7 +123,16 @@ public class PersonAcitvity extends BaseActivity {
             getSupportActionBar().setElevation(0);
         }
 
+
+//        webView = (WebView) findViewById(R.id.wv_web);
+//        webView.loadUrl("file:///android_res/raw/test.html");
+//        webView.setVerticalScrollBarEnabled(false);
+//        webView.setHorizontalScrollBarEnabled(false);
+//        webView.getSettings().setJavaScriptEnabled(true); //加上这句话才能使用javascript方法;
+//        webView.addJavascriptInterface(new PayJavaScriptInterface(), "demo");
+
     }
+
     //按返回键到最后一个activity推出侧滑菜单
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -133,8 +148,44 @@ public class PersonAcitvity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
-
     }
+//    class HelloMessage extends React.Component {
+//        render() {
+//            return React.createElement(
+//                    "div",
+//                    null,
+//                    "Hello ",
+//                    this.props.name
+//            );
+//        }
+//    }
 
+
+    /**
+     * @desc Created by Gospel on 2017/9/12 12:28
+     * DXC technology
+     */
+
+    final class PayJavaScriptInterface {
+        PayJavaScriptInterface() {
+        }
+
+        @JavascriptInterface
+        public String getUserinfo() {
+            return "getUserinfo";
+        }
+
+
+        @JavascriptInterface
+        public boolean needLogin() {
+            return true;
+        }
+
+        @JavascriptInterface
+        public void haha() {
+            Toast.makeText(context, "hahaa", Toast.LENGTH_SHORT).show();
+            Log.e("sssssssssssssssssssssss", "sdfddddddddd");
+        }
+    }
 }
 

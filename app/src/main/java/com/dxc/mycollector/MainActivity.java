@@ -121,6 +121,8 @@ public class MainActivity extends Activity implements
         registerBtn = (Button) findViewById(R.id.register);
         username = (EditText) findViewById(R.id.username);
         lgpwd = (EditText) findViewById(R.id.lgpwd);
+        username.setText("gospel");
+        lgpwd.setText("gospel5200");
         Drawable username_drawable = getResources().getDrawable(R.drawable.login);
         Drawable password_drawable = getResources().getDrawable(R.drawable.lock);
         //四个参数分别是设置图片的左、上、右、下的尺寸

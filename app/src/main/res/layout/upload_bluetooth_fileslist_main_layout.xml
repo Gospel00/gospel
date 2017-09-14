@@ -4,28 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:padding="5dp"
-    tools:context=".BlueToothFolder">
-
-    <com.dxc.mycollector.pullableview.PullToRefreshLayout
-        android:id="@+id/refresh_view2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <include layout="@layout/refresh_head" />
-
-        <com.dxc.mycollector.pullableview.PullableListView
-            android:id="@+id/showuploadbluetoothfilelistView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="true"
-            android:divider="@color/gray"
-            android:dividerHeight="1dp" />
-
-        <include layout="@layout/load_more" />
-
-    </com.dxc.mycollector.pullableview.PullToRefreshLayout>
-
-    <!-- Here is the view to show if the list is emtpy -->
+    tools:context=".UploadBlueToothFolder">
 
     <TextView
         android:id="@+id/empty"
@@ -34,4 +13,63 @@
         android:gravity="center"
         android:text="没有要上传的测量数据" />
 
+    <LinearLayout
+        android:id="@+id/upload_titile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/upload_tool">
+
+        <com.dxc.mycollector.pullableview.PullToRefreshLayout
+            android:id="@+id/refresh_view2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/refresh_head" />
+
+            <com.dxc.mycollector.pullableview.PullableListView
+                android:id="@+id/showuploadbluetoothfilelistView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/gray"
+                android:dividerHeight="1dp" />
+
+            <include layout="@layout/load_more" />
+
+        </com.dxc.mycollector.pullableview.PullToRefreshLayout>
+    </LinearLayout>
+    <!-- Here is the view to show if the list is emtpy -->
+
+
+    <LinearLayout
+        android:id="@+id/upload_tool"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <Button
+            android:id="@+id/allor_choose"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_load_style"
+            android:text="全选/反选"
+            android:textColor="@drawable/btn_load_txtcol"
+            android:textSize="@dimen/all_btn" />
+
+        <Button
+            android:id="@+id/all_upload"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_load_style"
+            android:text="批量上传"
+            android:textColor="@drawable/btn_load_txtcol"
+            android:textSize="@dimen/all_btn" />
+    </LinearLayout>
 </RelativeLayout>
