@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="测量"
+                android:text="量测"
                 android:textColor="#4e5f71"
                 android:textSize="@dimen/personal_text_view2" />
         </com.dxc.mycollector.ShuiBoWenView>

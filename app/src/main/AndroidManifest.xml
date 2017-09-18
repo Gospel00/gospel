@@ -72,6 +72,9 @@
             android:name=".ShowTaskInfo"
             android:screenOrientation="portrait"></activity>
         <activity
+            android:name=".MyMeasureList"
+            android:screenOrientation="portrait"></activity>
+        <activity
             android:name=".CeLiangActivity"
             android:screenOrientation="portrait"></activity>
         <activity

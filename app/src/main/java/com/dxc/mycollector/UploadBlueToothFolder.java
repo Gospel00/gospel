@@ -10,21 +10,19 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.ActionMode;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.CheckBox;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dxc.mycollector.adapter.MyListViewAdapter;
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.model.MeasureData;
 import com.dxc.mycollector.pullableview.MyListener;
@@ -46,6 +44,7 @@ public class UploadBlueToothFolder extends BaseActivity {
     Context context;
     List<MeasureData> listtasks;
     private Dialog mWeiboDialog;//对话框
+    private MyListViewAdapter myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,12 +84,62 @@ public class UploadBlueToothFolder extends BaseActivity {
          */
         if (listtasks != null && listtasks.size() > 0) {
             txvEmpty.setVisibility(View.GONE);
-            linearLayout.setVisibility(View.GONE);
+            linearLayout.setVisibility(View.VISIBLE);
         } else {
             txvEmpty.setVisibility(View.VISIBLE);
             linearLayout.setVisibility(View.GONE);
         }
 
+        //全选和反选的控制
+        final Button button = (Button) findViewById(R.id.allor_choose);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myAdapter.flage = !myAdapter.flage;
+//                if (myAdapter.flage) {
+//                    button.setText("反选");
+//                } else {
+//                    button.setText("全选");
+//                }
+                for (int i = 0; i < listtasks.size(); i++) {
+                    if (listtasks.get(i).isCheck) {
+                        listtasks.get(i).isCheck = false;
+                    } else {
+                        listtasks.get(i).isCheck = true;
+                    }
+                }
+                myAdapter.notifyDataSetChanged();
+            }
+        });
+        final Button allupload = (Button) findViewById(R.id.all_upload);
+        allupload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (myAdapter.flage) {
+                    waitingDialog1();
+                    DownLoadManager downLoadManager = new DownLoadManager(UploadBlueToothFolder.this);
+                    for (int i = 0; i < listtasks.size(); i++) {
+                        final MeasureData taskInfo = listtasks.get(i);
+                        if (listtasks.get(i).isCheck) {
+                            downLoadManager.uploadMeasure(listtasks.get(i));
+                            final int finalI = i;
+                            downLoadManager.setUploadCallback(new DownLoadManager.UploadCallback() {
+                                @Override
+                                public void callback(boolean statu, String msg) {
+                                    poist = finalI;
+                                    uptrue = statu;
+                                    msgstr = msg;
+                                    did = taskInfo.getCldianId();
+                                    taskId = taskInfo.getTaskId();
+                                    uhandler.sendEmptyMessage(2);
+                                }
+                            });
+                        }
+                    }
+                    mHandler.sendEmptyMessageDelayed(1, 500);//关闭等待框的handle处理消息
+                }
+            }
+        });
     }
 
     @Override
@@ -133,8 +182,10 @@ public class UploadBlueToothFolder extends BaseActivity {
         }
     }
 
+
     private void searchDrawerList() {
-        uploadfileList.setAdapter(adapter);
+        myAdapter = new MyListViewAdapter(this, listtasks);
+        uploadfileList.setAdapter(myAdapter);
         uploadfileList.setOnItemClickListener(new DrawerItemClickListener());
         uploadfileList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         uploadfileList.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
@@ -167,111 +218,77 @@ public class UploadBlueToothFolder extends BaseActivity {
         });
     }
 
-    BaseAdapter adapter = new BaseAdapter() {
-        public boolean flage = false;
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            Holder holder = null;
-            if (convertView == null) {
-                holder = new Holder();
-                convertView = LayoutInflater.from(context).inflate(R.layout.upload_bluetooth_list_item_layout, null);
-                holder.fileName = (TextView) convertView.findViewById(R.id.upload_bluetoothfile_file_name);
-                holder.fileTime = (TextView) convertView.findViewById(R.id.upload_bluetoothfile_file_time);
-                holder.checkboxOperateData = (CheckBox) convertView.findViewById(R.id.checkbox_operate_data);
-                convertView.setTag(holder);
-            } else {
-                holder = (Holder) convertView.getTag();
-            }
-            final MeasureData taskInfo = listtasks.get(position);
-            if (taskInfo != null) {
-                holder.fileName.setText(taskInfo.getTaskId() + "-" + taskInfo.getCldian() + "-" + taskInfo.getCllicheng());
-                holder.fileTime.setText(taskInfo.getCltime() + "-" + (taskInfo.getDataType().equals("0") ? "手动录入" : "蓝牙读取"));
-                // 根据isSelected来设置checkbox的显示状况
-                if (flage) {
-                    holder.checkboxOperateData.setVisibility(View.VISIBLE);
-                } else {
-                    holder.checkboxOperateData.setVisibility(View.GONE);
-                }
-                holder.checkboxOperateData.setChecked(taskInfo.isCheck);
-                //注意这里设置的不是onCheckedChangListener，还是值得思考一下的
-                holder.checkboxOperateData.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (taskInfo.isCheck) {
-                            taskInfo.isCheck = false;
-                        } else {
-                            taskInfo.isCheck = true;
-                        }
-                    }
-                });
-            }
-            return convertView;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return listtasks.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return listtasks.size();
-        }
-    };
-
-    static class Holder {
-        TextView fileName = null;
-        TextView fileTime = null;
-        CheckBox checkboxOperateData;
-    }
 
     boolean uptrue = false;
     String msgstr = "";
     String taskId = "";
     String did = "";
     int poist = -1;
+    //上传成功处理
     private Handler uhandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case 1:
                     if (uptrue) {
-                        mHandler.sendEmptyMessageDelayed(1, 500);//处理消息
+                        mHandler.sendEmptyMessageDelayed(1, 500);//关闭等待框的handle处理消息
                         Toast.makeText(getApplicationContext(), "上传成功!", Toast.LENGTH_SHORT).show();
                         //上传成功，更新本地数据上传状态
                         int result = SqliteUtils.getInstance(context).updateUpLoadStatus(taskId, did, false);
                         if (result > 0) {
                             //更新上传列表
                             listtasks.remove(poist);
-                            adapter.notifyDataSetChanged();
-                            TextView txvEmpty = (TextView) findViewById(R.id.empty);//获取textview对象
-                            /**
-                             * 判断listview是是否为空，如果为空时显示提示信息，如果不为空时设置为gone
-                             */
-                            if (listtasks != null && listtasks.size() > 0) {
-                                txvEmpty.setVisibility(View.GONE);
-                            } else {
-                                txvEmpty.setVisibility(View.VISIBLE);
-                            }
+                            myAdapter.notifyDataSetChanged();
                         }
                     } else {
-                        mHandler.sendEmptyMessageDelayed(1, 500);//处理消息
+                        mHandler.sendEmptyMessageDelayed(1, 500);//关闭等待框的handle处理消息
                         if (msgstr != null && msgstr.length() > 0) {
                             msgstr = msgstr.substring(msgstr.indexOf("msg"), msgstr.length() - 1);
                         }
                         Toast.makeText(getApplicationContext(), "上传失败!\n" + msgstr, Toast.LENGTH_LONG).show();
                         //如果服务器以及关闭或者删除这个任务，手机会暂存这个测量结果，状态设置为
-//                        listtasks.remove(poist);
-//                        adapter.notifyDataSetChanged();
-//                        SqliteUtils.getInstance(context).updateUpLoadStatus(taskId, did, true);
+                        listtasks.remove(poist);
+                        myAdapter.notifyDataSetChanged();
+                        SqliteUtils.getInstance(context).updateUpLoadStatus(taskId, did, true);
+                    }
+                    break;
+                case 2:
+                    if (uptrue) {
+//                        mHandler.sendEmptyMessageDelayed(1, 500);//关闭等待框的handle处理消息
+                        Toast.makeText(getApplicationContext(), "上传成功!", Toast.LENGTH_SHORT).show();
+                        //上传成功，更新本地数据上传状态
+                        int result = SqliteUtils.getInstance(context).updateUpLoadStatus(taskId, did, false);
+                        if (result > 0) {
+                            //更新上传列表
+                            if (poist <= listtasks.size()) {
+                                listtasks.remove(poist);
+                                myAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    } else {
+//                        mHandler.sendEmptyMessageDelayed(1, 500);//关闭等待框的handle处理消息
+                        if (msgstr != null && msgstr.length() > 0) {
+                            msgstr = msgstr.substring(msgstr.indexOf("msg"), msgstr.length() - 1);
+                        }
+                        Toast.makeText(getApplicationContext(), "上传失败!\n" + msgstr, Toast.LENGTH_LONG).show();
+                        //如果服务器以及关闭或者删除这个任务，手机会暂存这个测量结果，状态设置为
+                        listtasks.remove(poist);
+                        myAdapter.notifyDataSetChanged();
+                        SqliteUtils.getInstance(context).updateUpLoadStatus(taskId, did, true);
                     }
                     break;
                 default:
+                    TextView txvEmpty = (TextView) findViewById(R.id.empty);//获取textview对象
+                    LinearLayout linearLayout = (LinearLayout) findViewById(R.id.upload_tool);//获取textview对象
+                    /**
+                     * 判断listview是是否为空，如果为空时显示提示信息，如果不为空时设置为gone
+                     */
+                    if (listtasks != null && listtasks.size() > 0) {
+                        txvEmpty.setVisibility(View.GONE);
+                        linearLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        txvEmpty.setVisibility(View.VISIBLE);
+                        linearLayout.setVisibility(View.GONE);
+                    }
                     break;
             }
         }
