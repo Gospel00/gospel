@@ -66,6 +66,9 @@
             android:name=".UserListAcitvity"
             android:screenOrientation="portrait"></activity>
         <activity
+            android:name=".UserDetailActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
             android:name=".ShowTaskInfo"
             android:screenOrientation="portrait"></activity>
         <activity
@@ -95,6 +98,7 @@
             android:label="@string/select_device"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.Dialog"></activity>
+
 
         <service
             android:name="com.dxc.mycollector.taskDownload.DownLoadService"

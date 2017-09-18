@@ -15,18 +15,14 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.User;
-import com.dxc.mycollector.taskDownload.DownLoadManager;
 
 /**
  * Created by gospel on 2017/8/18.
@@ -36,13 +32,13 @@ public class RegisterAcitvity extends AppCompatActivity {
     String TAG = RegisterAcitvity.class.getSimpleName();
     Context context;
     private Button button;
-    private Spinner provinceSpinner = null;  //省级（省、直辖市）
+   /* private Spinner provinceSpinner = null;  //省级（省、直辖市）
     private Spinner citySpinner = null;     //地级市
     private Spinner countySpinner = null;    //县级（区、县、县级市）
     ArrayAdapter<String> provinceAdapter = null;  //省级适配器
     ArrayAdapter<String> cityAdapter = null;    //地级适配器
     ArrayAdapter<String> countyAdapter = null;    //县级适配器
-    static int provincePosition = 3;
+    static int provincePosition = 3;*/
     private EditText username;
     private EditText password;
     private EditText repassword;
@@ -55,6 +51,7 @@ public class RegisterAcitvity extends AppCompatActivity {
      private RadioButton male;
      private RadioButton female;*/
     private Dialog mWeiboDialog;//对话框
+/*
 
     //省级选项值
     private String[] province = new String[]{"省份", "北京", "上海", "天津", "广东"};//,"重庆","黑龙江","江苏","山东","浙江","香港","澳门"};
@@ -92,12 +89,13 @@ public class RegisterAcitvity extends AppCompatActivity {
                             {"武江区", "浈江区", "曲江区", "乐昌市", "南雄市", "始兴县", "仁化县", "翁源县", "新丰县", "乳源县"}  //韶关
                     }
             };
+*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_layout);
-        setSpinner();
+       // setSpinner();
         context = this;
         button = (Button) findViewById(R.id.register);
         username = (EditText) findViewById(R.id.siguername);
@@ -251,7 +249,7 @@ public class RegisterAcitvity extends AppCompatActivity {
         return false;
     }
 
-    private void setSpinner() {
+   /* private void setSpinner() {
         provinceSpinner = (Spinner) findViewById(R.id.spin_province);
         citySpinner = (Spinner) findViewById(R.id.spin_city);
         countySpinner = (Spinner) findViewById(R.id.spin_county);
@@ -287,7 +285,6 @@ public class RegisterAcitvity extends AppCompatActivity {
                 citySpinner.setAdapter(cityAdapter);
                 provincePosition = position;    //记录当前省级序号，留给下面修改县级适配器时用
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
 
@@ -311,5 +308,5 @@ public class RegisterAcitvity extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
 }
