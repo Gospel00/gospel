@@ -44,7 +44,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edittext"
-                android:hint="请输入确认密码"
+                android:hint="请输入密码"
                 android:inputType="textPassword"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"

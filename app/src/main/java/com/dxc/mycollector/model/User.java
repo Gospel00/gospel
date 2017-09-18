@@ -1,11 +1,13 @@
 package com.dxc.mycollector.model;
 
+import java.io.Serializable;
+
 /**
  * Created by gospel on 2017/8/18.
  * About User infomation
  */
 
-public class User {
+public class User  implements Serializable {
     private int id;
     private String uName;
     private String uPwd;

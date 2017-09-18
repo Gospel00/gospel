@@ -4,9 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
-import android.util.Log;
 
-import com.dxc.mycollector.ExamineRecord;
 import com.dxc.mycollector.logs.Logger;
 
 import java.io.File;
@@ -103,17 +101,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void createUser(SQLiteDatabase db) {
 
         //创建用户信息表
+
         String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME1 +
                 " (id integer primary key autoincrement," +
                 "username varchar(20)," +
                 "password varchar(20)," +
-                "age integer," +
-                "sex varchar(2)," +
+               " repassword varchar(20),"+
                 "phone varchar(20)," +
-                "address varchar(200))";
+                " realname varchar(20),"+
+                " idcard varchar(20),"+
+                "address varchar(200))"+
+                " gongdian varchar(20)," ;
         try {
             db.execSQL(sql);
-            db.execSQL("insert into tbl_users(username,password) values(?,?) ", new String[]{"gospel", "gospel5200"});
+            db.execSQL("insert into tbl_users(username,password,repassword,phone,realname,idcard, address,gongdian) values(?,?,?,?,?,?,?,?) ",
+                    new String[]{"gospel", "gospel5200","gospel5200","11","gospel","1111","beijing","1"});
         } catch (Exception e) {
             Logger.e(TAG, "tbl_users create failed." + e.getMessage());
         }
