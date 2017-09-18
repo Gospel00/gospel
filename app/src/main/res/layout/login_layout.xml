@@ -10,6 +10,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.dxc.mycollector.MainActivity"
     android:theme="@style/ButtonTheme">
+   <!-- <include
+        android:id="@+id/layout_test"
+        layout="@layout/layout"/>-->
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
