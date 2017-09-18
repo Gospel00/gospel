@@ -3,8 +3,8 @@ package com.dxc.mycollector.taskDownload;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
-import com.dxc.mycollector.UploadBlueToothFolder;
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.MeasureData;
@@ -79,37 +79,59 @@ public class DownLoadManager {
                     Gson gson = new Gson();
                     if (JsonUtils.isGoodJson(resultJson)) {
                         JsonArray jsonDatas = new JsonParser().parse(resultJson).getAsJsonObject().getAsJsonArray("data");
-                        TaskInfo[] tempt = new TaskInfo[jsonDatas.size()];
-                        Logger.i(TAG, "jsonDatas:" + jsonDatas.toString());
-                        Logger.i(TAG, "master TaskInfo num:任务数:" + (jsonDatas.size()));
+//                        TaskInfo[] tempt = new TaskInfo[jsonDatas.size()];
+//                        Logger.i(TAG, "jsonDatas:" + jsonDatas.toString());
+//                        Logger.i(TAG, "master TaskInfo num:任务数:" + (jsonDatas.size()));
                         Map<TaskDetails, TaskInfo> maps = new HashMap<TaskDetails, TaskInfo>();
                         List<TaskDetails> ltd = new ArrayList<TaskDetails>();
-                        int i1 = 0;
+//                        int i1 = 0;
+//                         = new TaskInfo1();
                         for (JsonElement element : jsonDatas) {
+//                            Log.i(TAG, "element:" + element.toString());
                             taskInfo = gson.fromJson(element, TaskInfo.class);
-                            tempt[i1] = taskInfo;
-                            i1++;
+//                            Log.i(TAG, "taskInfo:" + taskInfo);
+//                            tempt[i1] = taskInfo;
+//                            i1++;
                             //遍历子任务
                             JsonArray jsonElements = new JsonParser().parse(element.toString()).getAsJsonObject().getAsJsonArray("detail");
+//                            Log.i(TAG, "jsonElements:" + jsonElements.size() + "===" + jsonElements.toString());
                             TaskDetails[] temp = new TaskDetails[jsonElements.size()];
                             int i = 0;
                             for (JsonElement elementd : jsonElements) {
+//                                Log.i(TAG, "elementd:" + elementd.toString());
                                 detailData = gson.fromJson(elementd, TaskDetails.class);
                                 temp[i] = detailData;
                                 i++;
                                 maps.put(detailData, taskInfo);
                                 ltd.add(detailData);
+//                                Log.i(TAG, "TASDDETAIL:" + detailData + "=-==" + ltd.size());
                             }
                             taskInfo.setDetail(temp);
                         }
-                        Logger.i(TAG, "maps:::" + maps.toString());
-                        Logger.i(TAG, "task Details info num:任务数:" + (i + 1));
-                        //根据测量点保存测量任务信息
-                        for (TaskDetails ti : ltd) {
-                            //保存数据
-                            int result = SqliteUtils.getInstance(mycontext).saveTaskInfo(maps.get(ti), ti);
-                            if (result == 2)
-                                Logger.i(TAG, "存储任务失败，测量点重复");
+//                        Logger.i(TAG, "maps:::" + maps.toString());
+//                        Logger.i(TAG, "task Details info num:任务数:" + (i + 1));
+                        if (taskInfo == null || taskInfo.getTaskId() == null) {
+                            Logger.e(TAG, "存储任务失败，任务ID为空。");
+                        } else {
+                            //根据测量点保存测量任务信息
+//                            int i = 0;
+                            for (TaskDetails ti : ltd) {
+//                            Log.i(TAG, "TASDDETAIL:" + ti);
+                                if (ti != null && ti.getInitialValue() != null && ti.getPointId() != null) {
+                                    //保存数据
+                                    int result = SqliteUtils.getInstance(mycontext).saveTaskInfo(maps.get(ti), ti);
+                                    if (result == 2) {
+//                                    if (i == 0)
+//                                        Logger.i(TAG, "存储任务失败，测量点重复");
+//                                    else
+//                                        Log.i(TAG, "存储任务失败，测量点重复");
+                                    }
+                                } else {
+                                    if (i == 0)
+                                        Logger.i(TAG, "存储任务失败，测量里程，测量初始值为空。任务详细信息为空.");
+                                }
+//                                i++;
+                            }
                         }
                     }
                     break;
@@ -179,7 +201,7 @@ public class DownLoadManager {
                     if (resultJsonupload != null && !JsonUtils.isGoodJson(resultJsonupload) && (resultJsonupload.indexOf("FAIL") > -1)) {
                         //下载任务接口返回FAIL,重新请求，3次后不在
                         Logger.i(TAG, "平台测量数据上传接口请求失败，resultJsonupload:" + resultJsonupload);
-                        Logger.i(TAG, ui + " 次上传请求...");
+//                        Logger.i(TAG, ui + " 次上传请求...");
                         uploadCallback.callback(false, resultJsonupload);
                         //每2秒从平台下载一次任务
 //                        sleep(2000);

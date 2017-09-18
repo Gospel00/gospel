@@ -22,10 +22,11 @@ public class MeasureData implements Serializable {
     private String createTime;//创建时间
     private String updateTime;//更新时间
     private String dataType;//0是手动录入，1是蓝牙录入
-    private String status;//0是已经上传成功，1否
+    private String status;//0是已经上传成功，1否，2为taskId不存在
     public String downloadId;
     private String chushizhi;//初始值
     private String chazhi;//差值
+    public boolean isCheck;//是否选择
 
     public String getCllicheng() {
         return cllicheng;

@@ -197,7 +197,7 @@ public class HttpUtils {
             Gson gson = new Gson();
             String content = ClientKey.toString(); //gson.toJson(t1);//String.valueOf(gson.toJson(taskd));
 //            content = "{\"taskId\":\"595\",\"doTime\":\"2017-09-01 14:45:12\",\"userId\":\"administrator\",\"mileageLabel\":\"测量里程显示名称1\",\"mileageId\":\"test_89\",\"pointLabel\":\"测量点显示名称\",\"pointId\":\"test_cl1\",\"pointValue\":\"134.161\"}";
-            Logger.i(TAG, "postjsondata：" + content);
+//            Logger.i(TAG, "postjsondata：" + content);
             Logger.i("DownLoadManager", "postjsondata：" + content);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5000);

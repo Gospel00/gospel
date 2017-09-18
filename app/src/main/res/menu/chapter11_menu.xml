@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ copyright (c)2018-8-15
+  ~ DXC technology
+  -->
+
+<!-- Menu对应一个Menu的格式 -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 我们分三种情况进行设置 -->
+    <!-- Part 1 ：普通情况，我们增加三个MenuItem，item对应MenuItem的格式。item中的android:id直接就是item的ID，即我们menu.add()中的第二个参数。 -->
+    <!-- title为显示的文字，即menu.add()中的第三个参数的第四个参数，可采用＠string/xxx -->
+    <!-- orderInCategory表明摆放的顺序，不一定从0还是计算，但必须大于等于0，数值小的位于前，如果数值一样，在我们这个例子中3又两个值，则安顺序摆放，此相当于menu.add()中的第三个参数order。当然我们建议从0，1，2，3....这样依次给出，并且与XML行文的顺序一致。 -->
+    <!-- icon设置图标，不言自喻 -->
+    <item
+        android:id="@+id/c11_close"
+        android:icon="@drawable/success_small"
+        android:orderInCategory="3"
+        android:title="全选" />
+</menu>

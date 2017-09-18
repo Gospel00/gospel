@@ -170,11 +170,11 @@ public class ShowTaskInfo extends BaseActivity {
                     starttime = taskInfo.getStartTime().substring(0, 10);
                 else
                     starttime = taskInfo.getStartTime();
-                String showstr1 = (taskInfo.getTaskType().equals("T0101") ? "沉降" : "收敛");
+                String showstr1 = ((taskInfo.getTaskType() != null && taskInfo.getTaskType().equals("T0101")) ? "沉降" : "收敛");
                 // "(" + getMeasureType(taskInfo.getMeasureType()) + ")" +
                 String showstr = taskInfo.getTaskId() + "-" + taskInfo.getTaskDetail().getMileageLabel() + "-" + taskInfo.getTaskDetail().getPointLabel();
                 holder.tasknamepoint1.setText(showstr1);
-                if (taskInfo.getTaskType().equals("T0101"))
+                if (taskInfo.getTaskType() != null && taskInfo.getTaskType().equals("T0101"))
                     holder.tasknamepoint1.setBackground(getResources().getDrawable(R.drawable.textviewstyle2));
                 else
                     holder.tasknamepoint1.setBackground(getResources().getDrawable(R.drawable.textviewstyle1));

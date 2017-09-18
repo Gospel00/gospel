@@ -13,10 +13,15 @@ import android.support.annotation.LayoutRes;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ActionMode;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
@@ -119,6 +124,12 @@ public class BaseActivity extends AppCompatActivity {
 //        drawerLayout.setDrawerListener(toggle);
     }
 
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater menuInflater = new MenuInflater(getApplication());
+//        menuInflater.inflate(R.menu.chapter11_menu, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+
     /**
      * 初始化侧滑菜单
      */
@@ -131,6 +142,7 @@ public class BaseActivity extends AppCompatActivity {
                 View layout = View.inflate(context, R.layout.menu_list_item, null);
                 ImageView imgv = (ImageView) layout.findViewById(R.id.lgface);
                 TextView name1 = (TextView) layout.findViewById(R.id.name1);
+                name1.setText("量测员 | " + (DLApplication.userName != null ? DLApplication.userName : android.os.Build.MODEL));
                 LinearLayout lin = (LinearLayout) layout.findViewById(R.id.item_lin_1);
                 LinearLayout lin1 = (LinearLayout) layout.findViewById(R.id.item_lin_1_1);
                 ImageView face = (ImageView) layout.findViewById(R.id.lgicon);
@@ -266,12 +278,12 @@ public class BaseActivity extends AppCompatActivity {
                 break;
             case 1:
                 startActivity(new Intent(this, ShowTaskInfo.class));
-                Logger.i(TAG, "click task download.");
+//                Logger.i(TAG, "click task download.");
                 break;
             case 2:
                 //startActivity(new Intent(this, BlueToothFolder.class));
                 startActivity(new Intent(this, UploadBlueToothFolder.class));
-                Logger.i(TAG, "click bluetooth folder  search.");
+//                Logger.i(TAG, "click bluetooth folder  search.");
                 break;
 //            case 3:
 //                startActivity(new Intent(this, ShowExamineRecord.class));
@@ -279,19 +291,19 @@ public class BaseActivity extends AppCompatActivity {
 //                break;
             case 3:
                 startActivity(new Intent(this, DeviceSettingActivity.class));
-                Logger.i(TAG, "click devices setting.");
+//                Logger.i(TAG, "click devices setting.");
                 break;
             case 4:
                 startActivity(new Intent(this, UpdateSystemActivity.class));
-                Logger.i(TAG, "click update system.");
+//                Logger.i(TAG, "click update system.");
                 break;
             case 5:
                 startActivity(new Intent(this, AboutSystemActivity.class));
-                Logger.i(TAG, "click about system.");
+//                Logger.i(TAG, "click about system.");
                 break;
             case 6:
                 startActivity(new Intent(this, UserListAcitvity.class));
-                Logger.i(TAG, "click user list.This operation belongs to the administrator.");
+//                Logger.i(TAG, "click user list.This operation belongs to the administrator.");
                 break;
         }
     }

@@ -171,7 +171,7 @@ public class BlueToothFolder extends BaseActivity {
             File files = listf.get(position);
             Date datef = new Date(files.lastModified());
             String fName = files.getName();
-            Logger.i(TAG, "filen:" + fName);
+//            Logger.i(TAG, "filen:" + fName);
             holder.fileName.setText(fName + " " + (lyaddress == null ? "" : "(" + lyaddress + ")"));
             holder.fileTime.setText(DateConver.ConverToStringNYRSFM(datef));
             return convertView;
@@ -213,7 +213,7 @@ public class BlueToothFolder extends BaseActivity {
             switch (msg.what) {
                 case 1:
                     //上传成功，更新本地数据上传状态
-                    int result = SqliteUtils.getInstance(context).updateTaskStatus(hightProcess, CalcUtils.sub(Double.parseDouble(hightProcess), Double.parseDouble(td.getInitialValue())), td.getPointId());
+                    int result = SqliteUtils.getInstance(context).updateTaskStatus(tId,hightProcess, CalcUtils.sub(Double.parseDouble(hightProcess), Double.parseDouble(td.getInitialValue())), td.getPointId());
                     if (result > 0) {
                         new AlertDialog.Builder(context)
                                 .setTitle("系统提示")

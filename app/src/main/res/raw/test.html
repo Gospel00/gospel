@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<!--
+  ~ copyright (c)2018-8-15
+  ~ DXC technology
+  -->
+
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>交互Demo</title>
+
+    <meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"
+          name="viewport">
+
+</head>
+
+
+<body>
+
+getUserinfo:
+
+<div id="userinfo"></div>
+
+<input value="立即报名" type="button" onClick="baoming();"/><br>
+
+
+<script>
+
+/*var rs=window.om.getUserinfo();
+
+document.getElementById('userinfo').innerHTML=rs;*/
+
+var rs=window.demo.getUserinfo();
+
+var obj = eval ("(" + rs + ")");
+
+if(obj.status){
+
+document.getElementById('userinfo').innerHTML=obj.data.nickname;
+
+}
+
+function baoming(){
+
+if(window.demo.needLogin()){
+
+location.href='test1.html';
+
+}
+
+}
+
+
+</script>
+
+</body>
+
+</html>

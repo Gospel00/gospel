@@ -24,7 +24,7 @@ public class JsonUtils {
         try {
             new JsonParser().parse(json);
             if (json.indexOf("data") > -1) {
-                Logger.i("JsonUtils", "JSON 是否合法验证: 合法的JSON字符串。【" + json + "】");
+//                Logger.i("JsonUtils", "JSON 是否合法验证: 合法的JSON字符串。【" + json + "】");
                 return true;
             } else {
                 Logger.e("JsonUtils", "JSON 是否合法验证: 非法的JSON字符串。" + json);

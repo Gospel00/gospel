@@ -85,9 +85,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DELETE FROM tbl_users");
             Logger.i(TAG, "tbl_users format success.");
             db.execSQL("DELETE FROM tbl_task");
-            Logger.i(TAG, "tbl_users format success.");
+            Logger.i(TAG, "tbl_task format success.");
             db.execSQL("DELETE FROM tbl_measure");
-            Logger.i(TAG, "tbl_users format success.");
+            Logger.i(TAG, "tbl_measure format success.");
         } catch (Exception e) {
             Logger.e(TAG, "format table failed." + e.getMessage());
         }
