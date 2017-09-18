@@ -29,20 +29,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.dxc.mycollector.base.DLApplication;
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
-import com.dxc.mycollector.taskDownload.DownLoadService;
 import com.dxc.mycollector.utils.DateConver;
 import com.dxc.mycollector.utils.DeviceUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -121,6 +119,8 @@ public class MainActivity extends Activity implements
         registerBtn = (Button) findViewById(R.id.register);
         username = (EditText) findViewById(R.id.username);
         lgpwd = (EditText) findViewById(R.id.lgpwd);
+        username.setText("gospel");
+        lgpwd.setText("gospel5200");
         Drawable username_drawable = getResources().getDrawable(R.drawable.login);
         Drawable password_drawable = getResources().getDrawable(R.drawable.lock);
         //四个参数分别是设置图片的左、上、右、下的尺寸
@@ -337,7 +337,7 @@ public class MainActivity extends Activity implements
     }
 
     public void initFolder() {
-        String dbPath = Environment.getExternalStorageDirectory().getPath() + "/Tunnel/log";
+        String dbPath = Environment.getExternalStorageDirectory().getPath() + "/Tunnel/log/";
         //创建日志存放目录
         File dbp = new File(dbPath);
         if (!dbp.exists()) {
@@ -350,6 +350,13 @@ public class MainActivity extends Activity implements
         if (!dbp.exists()) {
             dbp.mkdirs();
             Logger.i(TAG, "数据库存放目录已创建：" + dbPath);
+        }
+        //创建CAD图纸存放目录
+        dbPath = Environment.getExternalStorageDirectory().getPath() + "/Tunnel/cad/";
+        dbp = new File(dbPath);
+        if (!dbp.exists()) {
+            dbp.mkdirs();
+            Logger.i(TAG, "CAD图纸目录已创建：" + dbPath);
         }
         //创建蓝牙存放目录
         dbPath = Environment.getExternalStorageDirectory().getPath() + "/bluetooth/";

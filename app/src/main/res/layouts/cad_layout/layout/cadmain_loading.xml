@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:layout_width="160sp"
+            android:layout_height="160sp"
+            android:layout_marginTop="4sp" >
+
+            <ProgressBar
+                android:layout_width="160sp"
+                android:layout_height="160sp"
+                android:layout_gravity="center"
+                android:indeterminateDrawable="@drawable/loadingprogress" />
+
+            <com.gstar.widget.GstarRoundProgressView
+                android:id="@+id/roundProgressBarView"
+                android:layout_width="120sp"
+                android:layout_height="120sp"
+                android:layout_gravity="center"
+                android:background="@drawable/cadviewscreen_progress"/>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <LinearLayout
+                    android:id="@+id/cadview_progress_layout"
+                    android:layout_width="70sp"
+                    android:layout_height="50sp"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal" >
+                    <ImageView
+                        android:id="@+id/main_prompt_progress0"
+                        android:layout_width="35sp"
+                        android:layout_height="50sp"
+                        android:visibility="gone"/>
+                    <ImageView
+                        android:id="@+id/main_prompt_progress1"
+                        android:layout_width="35sp"
+                        android:layout_height="50sp"
+                        android:background="@drawable/cadviewscreen_count_0" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="18sp"
+                    android:layout_height="18sp"
+                    android:layout_alignTop="@id/cadview_progress_layout"
+                    android:layout_toRightOf="@id/cadview_progress_layout"
+                    android:background="@drawable/cadviewscreen_percent_symbol" />
+            </RelativeLayout>
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/progressBarClose"
+            android:layout_width="98sp"
+            android:layout_height="30sp"
+            android:layout_marginBottom="10sp"
+            android:layout_marginTop="4sp"
+            android:background="@drawable/selector_cadviewscreen_cancel"
+            android:gravity="center"
+            android:text="@string/cad_cancel"
+            android:textColor="#ffffffff"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</LinearLayout>

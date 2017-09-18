@@ -1,18 +1,12 @@
 package com.dxc.mycollector;
 
-import android.Manifest;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -23,8 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dxc.mycollector.base.DLApplication;
+import com.dxc.mycollector.cadutils.LocalFilesActivity;
 import com.dxc.mycollector.logs.Logger;
-import com.dxc.mycollector.utils.DateConver;
 import com.dxc.mycollector.utils.DeviceUtil;
 
 /**
@@ -87,6 +82,13 @@ public class PersonAcitvity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(PersonAcitvity.this, "敬请期待......", Toast.LENGTH_LONG).show();
+            }
+        });
+        findViewById(R.id.cadtz_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PersonAcitvity.this, LocalFilesActivity.class));
+//                Toast.makeText(PersonAcitvity.this, "敬请期待......", Toast.LENGTH_LONG).show();
             }
         });
         findViewById(R.id.tjgl_layout).setOnClickListener(new View.OnClickListener() {

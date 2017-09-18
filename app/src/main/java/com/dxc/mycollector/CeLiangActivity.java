@@ -7,8 +7,6 @@ package com.dxc.mycollector;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,12 +16,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dxc.mycollector.base.DLApplication;
 import com.dxc.mycollector.bluetooth.BlueToothListActivity;
 import com.dxc.mycollector.bluetooth.DeviceListActivity;
-import com.dxc.mycollector.logs.Logger;
-import com.dxc.mycollector.model.MeasureData;
 import com.dxc.mycollector.model.TaskDetails;
-import com.dxc.mycollector.model.TaskInfo;
 
 public class CeLiangActivity extends BaseActivity {
     String TAG = CeLiangActivity.class.getSimpleName();

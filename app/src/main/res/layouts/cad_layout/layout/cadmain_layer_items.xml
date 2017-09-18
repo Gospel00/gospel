@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="40dp"
+    android:descendantFocusability="blocksDescendants" >
+
+    <FrameLayout
+        android:layout_width="20dp"
+        android:layout_height="40dp"
+        android:background="@drawable/color_mask"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false" >
+
+        <ImageButton
+            android:id="@+id/layerColor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:background="#ff0000"
+            android:clickable="false"
+            android:contentDescription="@string/app_name"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:scaleType="centerInside" />
+    </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/layerOn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/color_mask"
+        android:clickable="false"
+        android:contentDescription="@string/app_name"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:padding="5dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/layer_on" />
+
+    <ImageButton
+        android:id="@+id/layerLock"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/color_mask"
+        android:clickable="false"
+        android:contentDescription="@string/app_name"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:padding="5dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/layer_unlock" />
+
+    <TextView
+        android:id="@+id/layerName"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:clickable="false"
+        android:ellipsize="end"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#FFFFFFFF" />
+
+</LinearLayout>

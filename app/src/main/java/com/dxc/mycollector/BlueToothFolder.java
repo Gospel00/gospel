@@ -23,8 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dxc.mycollector.adapter.MyListViewAdapter;
-import com.dxc.mycollector.bluetooth.BlueToothTestActivity;
+import com.dxc.mycollector.base.DLApplication;
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.MeasureData;

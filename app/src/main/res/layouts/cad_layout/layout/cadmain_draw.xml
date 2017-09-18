@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:cacheColorHint="#00000000"
+    android:fadingEdge="none"
+    android:fillViewport="true"
+    android:scrollbars="none" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <Button
+            android:id="@+id/buttonCmd_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/cmd_line"
+            android:padding="5dp"
+            android:text="@string/linex"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <Button
+            android:id="@+id/buttonCmd_pline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/cmd_pline"
+            android:padding="5dp"
+            android:text="@string/ddx"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <Button
+            android:id="@+id/buttonCmd_circ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/cmd_circ"
+            android:padding="5dp"
+            android:text="@string/yuan"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <Button
+            android:id="@+id/buttonCmd_arc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/cmd_arc"
+            android:padding="5dp"
+            android:text="@string/yhx"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <Button
+            android:id="@+id/buttonCmd_rect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/cmd_rect"
+            android:padding="5dp"
+            android:text="@string/jxtu"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <Button
+            android:id="@+id/buttonCmd_cloud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/cmd_cloud"
+            android:padding="5dp"
+            android:text="@string/yxtu"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <Button
+            android:id="@+id/buttonCmd_sketch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/cmd_sketch"
+            android:padding="5dp"
+            android:text="@string/handlex"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <Button
+            android:id="@+id/buttonCmd_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/cmd_text"
+            android:padding="5dp"
+            android:text="@string/wztu"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <Button
+            android:id="@+id/buttonCmd_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/cmd_comment"
+            android:padding="5dp"
+            android:text="@string/pzhtu"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+    </LinearLayout>
+
+</HorizontalScrollView>

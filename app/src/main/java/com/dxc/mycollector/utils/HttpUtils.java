@@ -2,10 +2,9 @@ package com.dxc.mycollector.utils;
 
 import android.util.Log;
 
-import com.dxc.mycollector.DLApplication;
+import com.dxc.mycollector.base.DLApplication;
 import com.dxc.mycollector.logs.Logger;
 import com.dxc.mycollector.model.MeasureData;
-import com.dxc.mycollector.model.TaskDetails1;
 import com.google.gson.Gson;
 
 import org.apache.http.HttpEntity;
