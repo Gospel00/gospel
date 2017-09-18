@@ -69,7 +69,9 @@ public class SqliteUtils {
                 return -1;
             } else {
                 try {
-                    db.execSQL("insert into tbl_users(username,password) values(?,?) ", new String[]{user.getuName().toString(), user.getuPwd().toString()});
+                    db.execSQL("insert into tbl_users(username,password,repassword,phone,realname,idcard,address, gongdian)" +
+                            "values(?,?,?,?,?,?,?,?) ", new String[]{user.getuName().toString(), user.getuPwd().toString(),user.getuRePwd().toString(),
+                            user.getuPhone().toString(),user.geturealName().toString(),user.getidCard().toString(),user.getuAddress().toString(),user.getgongDian().toString(),});
                 } catch (Exception e) {
                     Log.d("保存用户信息错误", e.getMessage().toString());
                 }
@@ -95,14 +97,18 @@ public class SqliteUtils {
                         .getColumnIndex("username")));
                 user.setuPwd(cursor.getString(cursor
                         .getColumnIndex("password")));
-                user.setuAge(cursor.getString(cursor
-                        .getColumnIndex("age")));
+                user.setuRePwd(cursor.getString(cursor
+                        .getColumnIndex("repassword")));
                 user.setuPhone(cursor.getString(cursor
                         .getColumnIndex("phone")));
-                user.setuSex(cursor.getString(cursor
-                        .getColumnIndex("sex")));//0女1男
+                user.seturealName(cursor.getString(cursor
+                        .getColumnIndex("realname")));
+                user.setidCard(cursor.getString(cursor
+                        .getColumnIndex("idcard")));
                 user.setuAddress(cursor.getString(cursor
                         .getColumnIndex("address")));
+                user.setgongDian(cursor.getString(cursor
+                        .getColumnIndex("gongdian")));
                 list.add(user);
             } while (cursor.moveToNext());
         }
