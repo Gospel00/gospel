@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dxc.mycollector.adapter.MyListViewAdapter;
 import com.dxc.mycollector.bluetooth.BlueToothTestActivity;
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
@@ -213,7 +214,7 @@ public class BlueToothFolder extends BaseActivity {
             switch (msg.what) {
                 case 1:
                     //上传成功，更新本地数据上传状态
-                    int result = SqliteUtils.getInstance(context).updateTaskStatus(tId,hightProcess, CalcUtils.sub(Double.parseDouble(hightProcess), Double.parseDouble(td.getInitialValue())), td.getPointId());
+                    int result = SqliteUtils.getInstance(context).updateTaskStatus(tId, hightProcess, CalcUtils.sub(Double.parseDouble(hightProcess), Double.parseDouble(td.getInitialValue())), td.getPointId());
                     if (result > 0) {
                         new AlertDialog.Builder(context)
                                 .setTitle("系统提示")
@@ -223,12 +224,12 @@ public class BlueToothFolder extends BaseActivity {
                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        if (!ShowTaskInfo.instance.isFinishing())
-                                            ShowTaskInfo.instance.finish();
+                                        if (!MyMeasureList.instance.isFinishing())
+                                            MyMeasureList.instance.finish();
                                         if (!CeLiangActivity.ceLiangActivityinstance.isFinishing())
                                             CeLiangActivity.ceLiangActivityinstance.finish();
                                         Intent intent = new Intent();
-                                        intent.setClass(BlueToothFolder.this, ShowTaskInfo.class);
+                                        intent.setClass(BlueToothFolder.this, MyMeasureList.class);
                                         intent.putExtra("State", true);
                                         intent.putExtra("potid", td.getPointId());
                                         startActivity(intent);
@@ -278,18 +279,18 @@ public class BlueToothFolder extends BaseActivity {
                                         if (sr > 0) {
                                             listf.remove(position);
                                             adapter.notifyDataSetChanged();
-                                            new AlertDialog.Builder(context)
-                                                    .setTitle("系统提示")
-                                                    .setIcon(R.drawable.success_small)
-                                                    .setMessage("测量数据保存成功")
-                                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            //更新任务状态
-                                                            uhandler.sendEmptyMessage(1);
-                                                        }
-                                                    })
-                                                    .show();
+//                                            new AlertDialog.Builder(context)
+//                                                    .setTitle("系统提示")
+//                                                    .setIcon(R.drawable.success_small)
+//                                                    .setMessage("测量数据保存成功")
+//                                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                                                        @Override
+//                                                        public void onClick(DialogInterface dialog, int which) {
+                                            //更新任务状态
+                                            uhandler.sendEmptyMessage(1);
+//                                                        }
+//                                                    })
+//                                                    .show();
                                         }
                                         //startActivity(new Intent(BaseActivity.this, MainActivity.class));
                                     }

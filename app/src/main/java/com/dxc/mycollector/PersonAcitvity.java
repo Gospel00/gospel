@@ -68,7 +68,7 @@ public class PersonAcitvity extends BaseActivity {
         findViewById(R.id.clgl_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PersonAcitvity.this, ShowTaskInfo.class));
+                startActivity(new Intent(PersonAcitvity.this, MyMeasureList.class));
             }
         });
         findViewById(R.id.sjgl_layout).setOnClickListener(new View.OnClickListener() {

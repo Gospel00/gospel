@@ -145,18 +145,18 @@ public class CeliangManualOperation extends BaseActivity {
         final SqliteUtils su = new SqliteUtils(this);
         if (taskId != null && gc != null) {
             if (su.saveCustomMeasure(taskId, td, taskname, time, gc, "0", csz, cz) == 1) {
-                new AlertDialog.Builder(context)
-                        .setTitle("系统提示")
-                        .setIcon(R.drawable.success_small)
-                        .setMessage("测量数据保存成功")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+//                new AlertDialog.Builder(context)
+//                        .setTitle("系统提示")
+//                        .setIcon(R.drawable.success_small)
+//                        .setMessage("测量数据保存成功")
+//                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
                                 //更新任务状态
                                 uhandler.sendEmptyMessage(1);
-                            }
-                        })
-                        .show();
+//                            }
+//                        })
+//                        .show();
             } else {
                 new AlertDialog.Builder(context)
                         .setTitle("系统提示")
@@ -189,10 +189,10 @@ public class CeliangManualOperation extends BaseActivity {
                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        if (!ShowTaskInfo.instance.isFinishing())
-                                            ShowTaskInfo.instance.finish();
+                                        if (!MyMeasureList.instance.isFinishing())
+                                            MyMeasureList.instance.finish();
                                         Intent intent = new Intent();
-                                        intent.setClass(CeliangManualOperation.this, ShowTaskInfo.class);
+                                        intent.setClass(CeliangManualOperation.this, MyMeasureList.class);
                                         intent.putExtra("State", true);
                                         intent.putExtra("potid", td.getPointId());
                                         startActivity(intent);

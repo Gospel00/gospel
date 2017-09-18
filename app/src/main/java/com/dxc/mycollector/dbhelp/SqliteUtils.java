@@ -1,3 +1,8 @@
+/*
+ * copyright (c)2018-8-15
+ * DXC technology
+ */
+
 package com.dxc.mycollector.dbhelp;
 
 import android.content.Context;
@@ -5,11 +10,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-
 import com.dxc.mycollector.logs.Logger;
+import com.dxc.mycollector.model.MeasureData;
 import com.dxc.mycollector.model.TaskDetails;
 import com.dxc.mycollector.model.TaskInfo;
-import com.dxc.mycollector.model.MeasureData;
 import com.dxc.mycollector.model.User;
 import com.dxc.mycollector.utils.DateConver;
 
@@ -232,6 +236,46 @@ public class SqliteUtils {
             }
         }
         return 0;
+    }
+
+    /**
+     * 从数据库读取未完成任务信息。
+     */
+    public List<TaskInfo> loadMyMeasureList() {
+        List<TaskInfo> list = new ArrayList<TaskInfo>();
+        List<TaskDetails> listd = new ArrayList<TaskDetails>();
+//        Cursor cursor = db
+//                .query("tbl_task", null, null, null, null, null, null);
+        Cursor cursor = db.rawQuery("select * from tbl_task where status=1 order by startTime desc", null);
+        if (cursor.moveToFirst()) {
+            do {
+                TaskInfo downLoadData = new TaskInfo();
+//                downLoadData.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                downLoadData.setTaskId(cursor.getString(cursor.getColumnIndex("taskId")));
+                downLoadData.setUserId(cursor.getString(cursor.getColumnIndex("userId")));
+                downLoadData.setTaskType(cursor.getString(cursor.getColumnIndex("taskType")));
+                downLoadData.setMeasureType(cursor.getString(cursor.getColumnIndex("measureType")));
+                downLoadData.setStartTime(cursor.getString(cursor.getColumnIndex("startTime")));
+                downLoadData.setEndTime(cursor.getString(cursor.getColumnIndex("endTime")));
+                downLoadData.setStatus(cursor.getString(cursor.getColumnIndex("status")));
+                downLoadData.setSjz(cursor.getString(cursor.getColumnIndex("sjz")));
+                downLoadData.setCz(cursor.getString(cursor.getColumnIndex("cz")));
+                //任务详情
+                TaskDetails td = new TaskDetails();
+                td.setProName(cursor.getString(cursor.getColumnIndex("proName")));
+                td.setSection(cursor.getString(cursor.getColumnIndex("section")));
+                td.setMileageLabel(cursor.getString(cursor.getColumnIndex("mileageLabel")));
+                td.setMileageId(cursor.getString(cursor.getColumnIndex("mileageId")));
+                td.setPointLabel(cursor.getString(cursor.getColumnIndex("pointLabel")));
+                td.setPointId(cursor.getString(cursor.getColumnIndex("pointId")));
+                td.setInitialValue(cursor.getString(cursor.getColumnIndex("initialValue")));
+                listd.add(td);
+                //任务详情
+                downLoadData.setTaskDetail(td);
+                list.add(downLoadData);
+            } while (cursor.moveToNext());
+        }
+        return list;
     }
 
     /**
