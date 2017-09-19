@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <Button
+        android:id="@+id/buttonCmd_lenth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/transparent"
+        android:drawableTop="@drawable/cmd_lenth"
+        android:padding="5dp"
+        android:src="@drawable/selector_cmd"
+        android:text="@string/length"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="50dp"
+        android:layout_height="1dp"
+        android:background="@null" />
+
+    <Button
+        android:id="@+id/buttonCmd_area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/transparent"
+        android:drawableTop="@drawable/cmd_area"
+        android:padding="5dp"
+        android:src="@drawable/selector_cmd"
+        android:text="@string/area"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+</LinearLayout>

@@ -43,4 +43,83 @@
         <item>@mipmap/about_app</item>
     </string-array>
 
+
+    <!-- GstarSDK所需要的资源信息 -->
+    <string name="cad_cancel">取消</string>
+    <string name="cad_ok">确定</string>
+    <string name="cad_exit">退出</string>
+    <string name="cad_fonts_lost">缺失字体提示</string>
+    <string name="tipmessage_1">对象自交!</string>
+    <string name="tipmessage_2">直线</string>
+    <string name="tipmessage_3">弧</string>
+    <string name="tipmessage_4">测长度</string>
+    <string name="tipmessage_5">测面积</string>
+    <string name="tipmessage_6">单击以指定闭合多段线的起点</string>
+    <string name="tipmessage_7">单击或拖动以指定下一点 (绘制线)</string>
+    <string name="tipmessage_8">单击或拖动以指定下一点 (绘制弧)</string>
+    <string name="tipmessage_9">单击或拖动以指定第一点</string>
+    <string name="tipmessage_10">单击或拖动以指定下一点</string>
+    <string name="tipmessage_11">单击指定云线的起点</string>
+    <string name="tipmessage_12">拖动指定云线边界</string>
+    <string name="tipmessage_13">单击指定多段线起点</string>
+    <string name="tipmessage_14">单击或拖动指定下一点</string>
+    <string name="tipmessage_15">单击指定矩形的角点</string>
+    <string name="tipmessage_16">单击或拖动指定矩形的另一个角点</string>
+    <string name="tipmessage_17">单击指定第一点</string>
+    <string name="tipmessage_18">单击或拖动指定下一点</string>
+    <string name="tipmessage_19">单击确定文字的左下角点</string>
+    <string name="tipmessage_20">输入文字的内容</string>
+    <string name="tipmessage_21">单击指定第一点</string>
+    <string name="tipmessage_22">单击或拖动指定下一点</string>
+    <string name="tipmessage_23">单击指定中心点</string>
+    <string name="tipmessage_24">单击或拖动指定起始点</string>
+    <string name="tipmessage_25">单击或拖动指定终止点</string>
+    <string name="tipmessage_26">单击或拖动指定半径</string>
+    <string name="tipmessage_27">拖动绘制手绘线</string>
+    <string name="tipmessage_28">拖动绘制选择区域</string>
+    <string name="tipmessage_29">单击指定引线起点</string>
+    <string name="tipmessage_30">单击或拖动指定引线终点</string>
+    <string name="tipmessage_31">单击指定基点</string>
+    <string name="tipmessage_32">单击或拖动指定第二点</string>
+    <string name="tipmessage_33">单击或拖动指定旋转角度</string>
+    <string name="tipmessage_34">拖动指定比例因子</string>
+    <string name="tipmessage_35">结束</string>
+    <string name="tipmessage_36">闭合</string>
+    <string name="tipmessage_37">输入文字的内容</string>
+    <!-- 最新添加字段结束为位置 -->
+    <string name="hsanorecentopenfiles">无最近打开文档</string>
+    <string name="bjwz">编辑文字</string>
+    <string name="bjwzts">请输入文字内容</string>
+    <string name="clickagain">再按一次退出</string>
+    <string name="shanchub">删除</string>
+    <string name="fuzhib">复制</string>
+    <string name="yidongb">移动</string>
+    <string name="xuanzhuanb">旋转</string>
+    <string name="suofangb">缩放</string>
+    <string name="linex">直线</string>
+    <string name="line">直线</string>
+    <string name="arc">弧</string>
+    <string name="ddx">多段线</string>
+    <string name="yuan">圆</string>
+    <string name="yhx">圆弧</string>
+    <string name="jxtu">矩形</string>
+    <string name="yxtu">云线</string>
+    <string name="handlex">手绘线</string>
+    <string name="wztu">文字</string>
+    <string name="pzhtu">批注</string>
+    <string name="area">测量面积</string>
+    <string name="length">测量长度</string>
+    <string name="colorredT">红</string>
+    <string name="coloryellowT">黄</string>
+    <string name="colorgreenT">绿</string>
+    <string name="colorcyanT">青</string>
+    <string name="colorblueT">蓝</string>
+    <string name="colorpurpleT">紫</string>
+    <string name="colorwhiteT">白</string>
+    <string name="colorblackT">黑</string>
+    <string name="tudangbucunzai">您选择的图档不存在!</string>
+    <string name="cad_more">更多</string>
+    <string name="cad_openfile_error">打开图纸失败</string>
+    <string name="cad_filetype_error">文件格式不支持</string>
+    <string name="cad_modelchanage_error">布局模型不能切换到3D场景</string>
 </resources>

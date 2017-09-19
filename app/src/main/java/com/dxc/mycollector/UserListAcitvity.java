@@ -35,34 +35,7 @@ public class UserListAcitvity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.userlist_layout);
         usershow1 = (ListView) findViewById(R.id.usershow1);
-//        userList= (List<User>) new ListView(this);
-//        		userList = addJia();
-       /* userbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userList = SqliteUtils.getInstance(getApplicationContext()).loadUser();
-                String rr = "";
-                for (User user : userList) {
-                    rr += user.getuName() + "   --------------  " + user.getuPwd()+"    "+
-                            user.getuRePwd()+"  "+user.getuPhone()+"  "+user.geturealName()+" "+user.getidCard()+"  "
-                            +user.getuAddress()+"   "+user.getgongDian();
-                }
-                Log.i("UserListAcitvity", "onClick: c i--------------------- "+rr);
-                Log.i("UserListAcitvity", "onClick: c i "+userList.size());
-                adapter=new Adapter( getApplication(),userList);
-                usershow1.setAdapter(adapter);
-            }
-        });*/
-
         userList = SqliteUtils.getInstance(getApplicationContext()).loadUser();
-        String rr = "";
-        for (User user : userList) {
-            rr += user.getuName() + "   --------------  " + user.getuPwd() + "    " +
-                    user.getuRePwd() + "  " + user.getuPhone() + "  " + user.geturealName() + " " + user.getidCard() + "  "
-                    + user.getuAddress() + "   " + user.getgongDian();
-        }
-        Log.i("UserListAcitvity", "onClick: c i--------------------- " + rr);
-        Log.i("UserListAcitvity", "onClick: c i " + userList.size());
         adapter = new Adapter(getApplication(), userList);
         usershow1.setAdapter(adapter);
         usershow1.setOnItemClickListener(new AdapterView.OnItemClickListener() {

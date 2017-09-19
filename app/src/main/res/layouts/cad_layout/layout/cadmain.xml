@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- 中间加载图纸布局 -->
+
+    <LinearLayout
+        android:id="@+id/linearLayoutDrawings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:onClick="clickCanvas"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <!-- 所有操作按钮布局 -->
+
+    <LinearLayout
+        android:id="@+id/linearLayoutParentToolsBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <!-- 头部布局 -->
+
+        <LinearLayout
+            android:id="@+id/linearLayoutTopToolsBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/nav_title_bg"
+            android:baselineAligned="false"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <!-- 头部左侧布局 -->
+
+            <LinearLayout
+                android:id="@+id/linearLayoutTopToolsBarLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:gravity="left|center_vertical"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/buttonBack"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/selector_button_back" />
+            </LinearLayout>
+            <!-- 头部右侧布局 -->
+
+            <LinearLayout
+                android:id="@+id/linearLayoutTopToolsBarRight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_weight="1.5"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <!-- 将图纸居中显示在界面 -->
+
+                    <Button
+                        android:id="@+id/buttonFitScreen"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/selector_button_top_fitscreen" />
+                    <!-- 界面全屏显示 -->
+
+                    <Button
+                        android:id="@+id/buttonFullScreen"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/selector_button_top_fullscreen" />
+
+                    <!-- 动态添加按钮 -->
+
+                    <RadioGroup
+                        android:id="@+id/radioGroupCommand"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="gone" >
+
+                        <RadioButton
+                            android:id="@+id/radioButton0"
+                            android:layout_width="60dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="8dp"
+                            android:background="@drawable/selector_radio_button"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp" />
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 操作时页面提示说明 -->
+
+        <LinearLayout
+            android:id="@+id/linearLayoutTipsMessage"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textViewTipsMessageValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="#6a6a6a"
+                android:gravity="center"
+                android:padding="2dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/white"
+                android:visibility="gone" >
+            </TextView>
+        </LinearLayout>
+        <!-- 操作布局如下 -->
+
+        <LinearLayout
+            android:id="@+id/linearLayoutBottomToolsBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="center|center_horizontal|clip_horizontal"
+            android:orientation="vertical" >
+
+            <!-- 下面是隐藏的子操作布局放到总布局前面，目的是显示在上面 -->
+            <!-- 选中图层后显示出来，图纸的编辑 -->
+
+            <TableLayout
+                android:id="@+id/cmdTableEditItem"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" >
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/toolbarbg"
+                    android:gravity="bottom"
+                    android:visibility="visible" >
+
+                    <include
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        layout="@layout/cadmain_edit" />
+                </TableRow>
+            </TableLayout>
+            <!-- 图形选择 -->
+
+            <TableLayout
+                android:id="@+id/cmdTableDrawItem"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" >
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/toolbarbg"
+                    android:gravity="bottom"
+                    android:visibility="visible" >
+
+                    <include
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        layout="@layout/cadmain_draw" />
+                </TableRow>
+            </TableLayout>
+            <!-- 图层 -->
+
+            <TableLayout
+                android:id="@+id/cmdTableLayerItem"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/toolbarbg"
+                android:visibility="gone" >
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:visibility="visible" >
+
+                    <include
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        layout="@layout/cadmain_layer" />
+                </TableRow>
+            </TableLayout>
+            <!-- 测量 -->
+
+            <TableLayout
+                android:id="@+id/cmdTableMeasureItem"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" >
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/toolbarbg"
+                    android:gravity="bottom"
+                    android:visibility="visible" >
+
+                    <include
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        layout="@layout/cadmain_measure" />
+                </TableRow>
+            </TableLayout>
+            <!-- 颜色 -->
+
+            <TableLayout
+                android:id="@+id/cmdTableColorItem"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" >
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/toolbarbg"
+                    android:gravity="bottom"
+                    android:visibility="visible" >
+
+                    <include
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        layout="@layout/cadmain_color" />
+                </TableRow>
+            </TableLayout>
+            <!-- 布局 -->
+
+            <TableLayout
+                android:id="@+id/cmdTableLayoutItem"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/toolbarbg"
+                android:visibility="gone" >
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:visibility="visible" >
+
+                    <include
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        layout="@layout/cadmain_layout" />
+                </TableRow>
+            </TableLayout>
+
+            <!-- 总操作菜单 -->
+
+            <LinearLayout
+                android:id="@+id/cmdTableMainMenus"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/toolbar"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="bottom" >
+
+                <include
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    layout="@layout/cadmain_menus" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 头部右侧全屏时显示的布局布局 -->
+
+    <LinearLayout
+        android:id="@+id/linearLayoutTopToolsBarRightToFullScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="right"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <!-- 界面退出全屏显示 -->
+
+        <Button
+            android:id="@+id/buttonExitScreen"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/selector_button_top_exitfullscreen_white" />
+    </LinearLayout>
+
+    <!-- 极速看图模式 -->
+
+    <LinearLayout
+        android:id="@+id/layoutMenusNew"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/toolbar"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:id="@+id/viewNewBackgroundShow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <include
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                layout="@layout/cadmain_menus_color"
+                android:focusable="true" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#e2e5e7" />
+        </LinearLayout>
+
+        <include
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            layout="@layout/cadmain_menus_new"
+            android:focusable="true" />
+    </LinearLayout>
+
+</FrameLayout>

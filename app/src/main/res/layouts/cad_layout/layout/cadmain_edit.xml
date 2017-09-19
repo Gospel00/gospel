@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:cacheColorHint="#00000000"
+    android:fadingEdge="none"
+    android:fillViewport="true"
+    android:scrollbars="none" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <include layout="@layout/cadmain_padding_space_view" />
+        <!-- 删除 -->
+
+        <Button
+            android:id="@+id/buttonCmd_erase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/cmd_erase"
+            android:padding="5dp"
+            android:text="@string/shanchub"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+        <!-- 复制 -->
+
+        <Button
+            android:id="@+id/buttonCmd_copy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/cmd_copy"
+            android:padding="5dp"
+            android:text="@string/fuzhib"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+        <!-- 移动 -->
+
+        <Button
+            android:id="@+id/buttonCmd_move"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/cmd_move"
+            android:padding="5dp"
+            android:text="@string/yidongb"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+        <!-- 旋转 -->
+
+        <Button
+            android:id="@+id/buttonCmd_rotate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/cmd_rotate"
+            android:padding="5dp"
+            android:text="@string/xuanzhuanb"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+        <!-- 缩放 -->
+
+        <Button
+            android:id="@+id/buttonCmd_scale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/cmd_scale"
+            android:padding="5dp"
+            android:text="@string/suofangb"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+        <!-- 文字编辑 -->
+
+        <Button
+            android:id="@+id/buttonCmd_textedit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/cmd_textedit"
+            android:padding="5dp"
+            android:text="@string/bjwz"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include
+            android:id="@+id/buttonCmd_textedit_padding"
+            layout="@layout/cadmain_padding_space_view" />
+    </LinearLayout>
+
+</HorizontalScrollView>

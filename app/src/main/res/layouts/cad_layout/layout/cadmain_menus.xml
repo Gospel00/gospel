@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:cacheColorHint="#00000000"
+    android:fadingEdge="none"
+    android:fillViewport="true"
+    android:scrollbars="none" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <ImageButton
+            android:id="@+id/imageButtonCmd_draw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/selector_cmd_draw" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <ImageButton
+            android:id="@+id/imageButtonCmd_layer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/selector_cmd_layer" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <ImageButton
+            android:id="@+id/imageButtonCmd_measure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/selector_cmd_measure" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <ImageButton
+            android:id="@+id/imageButtonCmd_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/selector_cmd_color" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <ImageButton
+            android:id="@+id/imageButtonCmd_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/selector_cmd_layout" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <ImageButton
+            android:id="@+id/imageButtonCmd_undo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/selector_cmd_undo" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <ImageButton
+            android:id="@+id/imageButtonCmd_redo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/selector_cmd_redo" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+    </LinearLayout>
+
+</HorizontalScrollView>

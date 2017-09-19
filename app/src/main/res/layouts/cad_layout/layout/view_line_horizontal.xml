@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 此View是公共View，主要统一所有菜单按钮，均匀分布在列表上，动态调整间距宽度来实现适应所有屏幕宽度 -->
+<View xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="0.5dp"
+    android:background="#e2e5e7" >
+</View>

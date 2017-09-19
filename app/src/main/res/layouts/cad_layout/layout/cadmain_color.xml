@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:cacheColorHint="#00000000"
+    android:fadingEdge="none"
+    android:fillViewport="true"
+    android:scrollbars="none" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <Button
+            android:id="@+id/buttonColor_red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/color_red"
+            android:padding="5dp"
+            android:text="@string/colorredT"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <Button
+            android:id="@+id/buttonColor_yellow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/color_yellow"
+            android:padding="5dp"
+            android:text="@string/coloryellowT"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <Button
+            android:id="@+id/buttonColor_green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/color_green"
+            android:padding="5dp"
+            android:text="@string/colorgreenT"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <Button
+            android:id="@+id/buttonColor_cyan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/color_cyan"
+            android:padding="5dp"
+            android:text="@string/colorcyanT"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <Button
+            android:id="@+id/buttonColor_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/color_blue"
+            android:padding="5dp"
+            android:text="@string/colorblueT"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <Button
+            android:id="@+id/buttonColor_purple"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/color_purple"
+            android:padding="5dp"
+            android:text="@string/colorpurpleT"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include layout="@layout/cadmain_padding_space_view" />
+
+        <Button
+            android:id="@+id/buttonColor_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/color_white"
+            android:padding="5dp"
+            android:text="@string/colorwhiteT"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include
+            android:id="@+id/buttonColor_white_padding"
+            layout="@layout/cadmain_padding_space_view" />
+
+        <Button
+            android:id="@+id/buttonColor_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_cmd"
+            android:drawableTop="@drawable/color_black"
+            android:padding="5dp"
+            android:text="@string/colorblackT"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <include
+            android:id="@+id/buttonColor_black_padding"
+            layout="@layout/cadmain_padding_space_view" />
+    </LinearLayout>
+
+</HorizontalScrollView>
