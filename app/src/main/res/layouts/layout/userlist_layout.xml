@@ -7,11 +7,7 @@
    android:orientation="vertical"
     tools:context="com.dxc.mycollector.UserListAcitvity">
 
-   <!-- <Button
-                android:id="@+id/userbtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Show user list" />-->
+
 
     <ListView
         android:id="@+id/usershow1"

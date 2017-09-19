@@ -29,11 +29,11 @@ android:paddingRight="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
+            android:gravity="left"
             android:lineSpacingExtra="3dp"
             android:lineSpacingMultiplier="1.5"
             android:layout_marginTop="40dp"
-            android:textSize="@dimen/personal_text_view"
-            android:text="\t\t\t此APP是本公司出品的一站式隧道检测服务平台，为用户提供最佳的隧道检测服务，包括查看任务、下载任务、检查完成的任务列表等。并且还有上传图片的功能。" />
+            android:textSize="@dimen/personal_text_view2"
+            android:text="\t\t隧道通是中国交建信息化部建设的一站式隧道检测服务平台，为用户提供最佳的隧道检测服务，包括查看任务、下载任务、检查完成的任务列表、量测数据上传、有害气体检测、围岩测量、安全隐患排查、CAD隧道图纸查看等功能。" />
     </LinearLayout>
 </LinearLayout>

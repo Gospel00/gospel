@@ -103,15 +103,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //创建用户信息表
 
         String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME1 +
-                " (id integer primary key autoincrement," +
+                "(id integer primary key autoincrement," +
                 "username varchar(20)," +
                 "password varchar(20)," +
-               " repassword varchar(20),"+
+                "repassword varchar(20)," +
                 "phone varchar(20)," +
-                " realname varchar(20),"+
-                " idcard varchar(20),"+
-                "address varchar(200))"+
-                " gongdian varchar(20)," ;
+                "realname varchar(20)," +
+                "idcard varchar(20)," +
+                "address varchar(20)," +
+                "gongdian varchar(20))";
         try {
             db.execSQL(sql);
             db.execSQL("insert into tbl_users(username,password,repassword,phone,realname,idcard, address,gongdian) values(?,?,?,?,?,?,?,?) ",
