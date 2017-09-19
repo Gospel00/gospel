@@ -15,6 +15,7 @@
     <color name="Indigo_nav_color">#4675FF</color>
     <color name="btn_bg_color">#378DCC</color>
     <color name="btn_bg_color1">#3737FF</color>
+    <color name="userlist_item">#4e5f71</color>
     <color name="abc_input_method_navigation_guard">@android:color/black</color>
     <color name="abc_search_url_text_normal">#ff7fa87f</color>
     <color name="abc_search_url_text_pressed">@android:color/black</color>
