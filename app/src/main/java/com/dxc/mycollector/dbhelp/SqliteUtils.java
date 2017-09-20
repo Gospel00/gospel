@@ -136,6 +136,28 @@ public class SqliteUtils {
             return 0;
         }
     }
+    /**
+     * 修改用户信息
+     *
+     * @param user
+     * @return
+     */
+    public int updateUserInfo(User user) {
+        if (user != null) {
+            try {
+                db.execSQL("update tbl_users set phone=?,idcard=?,address=?,gongdian=? where id=?",
+                        new String[]{user.getuPhone(), user.getidCard(), user.getuAddress(), user.getgongDian()
+                                , String.valueOf(user.getId())});
+            } catch (Exception e) {
+                e.printStackTrace();
+                Logger.i(TAG, "保存任务信息异常：" + e.getMessage().toString());
+                return 0;
+            }
+        } else {
+            return 0;
+        }
+        return 1;
+    }
 
     /**
      * 将Measure存储到数据库。
