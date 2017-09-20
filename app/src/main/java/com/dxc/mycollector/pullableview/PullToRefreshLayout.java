@@ -318,10 +318,10 @@ public class PullToRefreshLayout extends RelativeLayout
 			pullView.clearAnimation();
 			pullView.setVisibility(View.VISIBLE);
 			// 上拉布局初始状态
-			loadStateImageView.setVisibility(View.GONE);
-			loadStateTextView.setText(R.string.pullup_to_load);
-			pullUpView.clearAnimation();
-			pullUpView.setVisibility(View.VISIBLE);
+//			loadStateImageView.setVisibility(View.GONE);
+//			loadStateTextView.setText(R.string.pullup_to_load);
+//			pullUpView.clearAnimation();
+//			pullUpView.setVisibility(View.VISIBLE);
 			break;
 		case RELEASE_TO_REFRESH:
 			// 释放刷新状态

@@ -34,6 +34,18 @@
 # 混合时不使用大小写混合，混合后的类名为小写
 -dontusemixedcaseclassnames
 
+# 指定第三方jar或者so不被混淆
+#-libraryjars libs/arm64-v8a/libgstarcadmc.so
+#-libraryjars libs/armeabi-v7a/libgstarcadmc.so
+#-libraryjars libs/GstarSDK.jar
+#-keep class com.** { *; } #实体类不参与混淆
+#-keep class com.enumcmd.cn.** { *; } #实体类不参与混淆
+#-keep class com.gstar.android.** { *; } #实体类不参与混淆
+#-keep class com.gstar.sharedpreferences.** { *; } #实体类不参与混淆
+#-keep class com.gstar.widget.** { *; } #实体类不参与混淆
+#-keep class com.jni.** { *; } #实体类不参与混淆
+#-keep class com.stone.tools.** { *; } #实体类不参与混淆
+
 # 指定不去忽略非公共库的类
 -dontskipnonpubliclibraryclasses
 

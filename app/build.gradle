@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+//apply plugin: 'com.dxc.mycollector.dexnkife'
 
 android {
     compileSdkVersion 25
@@ -10,7 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
+//        multiDexEnabled true
         // 不声明ndk标签,项目默认会创建一个libapp.so的文件
         ndk {
             // 声明创建so库的文件名,会自动添加lib前缀, 添加了前缀,不会自动添加
@@ -26,7 +27,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -55,6 +56,10 @@ android {
         cruncherEnabled = false
         useNewCruncher = false
     }
+    dexOptions {
+        keepRuntimeAnnotatedClasses false
+        jumboMode true
+    }
 }
 
 dependencies {
@@ -64,10 +69,11 @@ dependencies {
     })
     compile files('libs/jsoup-1.8.1.jar')
     compile files('libs/gson-2.6.2.jar')
-    compile project(':tableview')
+    compile files('libs/GstarSDK.jar')
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
     testCompile 'junit:junit:4.12'
-    compile files('libs/GstarSDK.jar')
+    //    classpath 'com.ceabie.dextools:gradle-dexknife-plugin:1.5.6'
+    //    compile 'com.android.support:multidex:'
 }

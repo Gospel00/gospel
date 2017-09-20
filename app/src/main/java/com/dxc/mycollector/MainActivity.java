@@ -119,8 +119,6 @@ public class MainActivity extends Activity implements
         registerBtn = (Button) findViewById(R.id.register);
         username = (EditText) findViewById(R.id.username);
         lgpwd = (EditText) findViewById(R.id.lgpwd);
-        username.setText("gospel");
-        lgpwd.setText("gospel5200");
         Drawable username_drawable = getResources().getDrawable(R.drawable.login);
         Drawable password_drawable = getResources().getDrawable(R.drawable.lock);
         //四个参数分别是设置图片的左、上、右、下的尺寸
@@ -181,9 +179,10 @@ public class MainActivity extends Activity implements
         String kyncdx = "可运行内存：" + getAvailMemory();
 //        String zxtncdx = "总系统内存：" + getTotalMemory();
         String zn = "总系统内存：" + getZm();
+        String CPU_ABI = "CPU型号：" + android.os.Build.CPU_ABI;
         String deviceInfo = weiyibiaoshi + "\n" + pingpai + "\n" + xinghao +
                 "\n" + api + "\n" + sdkhao + "\n" + sbhight +
-                "\n" + sbwidht + "\n" + kyncdx + "\n" + zn;
+                "\n" + sbwidht + "\n" + kyncdx + "\n" + zn + "\n" + CPU_ABI;
         Logger.i("DeviceInfo", deviceInfo);
         // 更新当前位置
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

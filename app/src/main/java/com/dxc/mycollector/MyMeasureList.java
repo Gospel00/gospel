@@ -53,9 +53,9 @@ public class MyMeasureList extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.my_measure_main_layout);
+        instance = this;
         waitingDialog();//加载等待页面对话框方法
         context = this;
-        instance = this;
         //获取任务完成标识
         potid = this.getIntent().getStringExtra("potid");
 

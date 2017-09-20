@@ -1,1 +1,1 @@
-include ':app', ':tableview'
+include ':app'

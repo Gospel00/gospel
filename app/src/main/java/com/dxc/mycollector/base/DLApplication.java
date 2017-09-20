@@ -25,9 +25,9 @@ public class DLApplication extends Application {
         super.onCreate();
         this.startService(new Intent(this, DownLoadService.class));
         //使用默认包名，默认水印图标进行初始化
-        GstarSDK.getInstance(this);
+//        GstarSDK.getInstance(this);
 //		//使用默认包名，用户定制水印图标进行初始化
-//        GstarSDK.getInstance(this, mcKey.getMcKey());
+        GstarSDK.getInstance(this, mcKey.getMcKey());
         //使用用户给定的包名，用户定制水印图标进行初始化
 //		GstarSDK.getInstance(this,this.getApplicationContext().getPackageName() ,mcKey.getMcKey());
     }
