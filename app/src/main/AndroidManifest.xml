@@ -75,7 +75,10 @@
             android:name=".UserListAcitvity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".UserDetailActivity"
+        android:name=".UserDetailActivity"
+        android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".UserDetail1Activity"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ShowTaskInfo"
