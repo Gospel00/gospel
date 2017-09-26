@@ -111,7 +111,7 @@ public class MainActivity extends Activity implements
         //初始化文件夹
         initFolder();
         if (DLApplication.userName != null && DLApplication.userName.length() > 0) {
-            startActivity(new Intent(getApplicationContext(), PersonAcitvity.class));
+            startActivity(new Intent(getApplicationContext(), HomeAcitvity.class));
             finish();
         }
         context = this;
@@ -119,6 +119,8 @@ public class MainActivity extends Activity implements
         registerBtn = (Button) findViewById(R.id.register);
         username = (EditText) findViewById(R.id.username);
         lgpwd = (EditText) findViewById(R.id.lgpwd);
+        username.setText("gospel");
+        lgpwd.setText("gospel5200");
         Drawable username_drawable = getResources().getDrawable(R.drawable.login);
         Drawable password_drawable = getResources().getDrawable(R.drawable.lock);
         //四个参数分别是设置图片的左、上、右、下的尺寸
@@ -143,7 +145,7 @@ public class MainActivity extends Activity implements
                         DLApplication.userName = username.getText().toString();
                         Logger.i(TAG, DLApplication.userName + " login success.");
 //                        context.startService(new Intent(context, DownLoadService.class));
-                        startActivity(new Intent(context, PersonAcitvity.class));
+                        startActivity(new Intent(context, HomeAcitvity.class));
                         finish();
                     } else if (isTure == 0) {
                         Toast.makeText(MainActivity.this, "用户不存在", Toast.LENGTH_LONG).show();

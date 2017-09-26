@@ -268,7 +268,7 @@ public class BaseActivity extends AppCompatActivity {
 //        Toast.makeText(BaseActivity.this, planetTitles[position], Toast.LENGTH_SHORT).show();
         switch (position) {
             case 0:
-                startActivity(new Intent(this, PersonAcitvity.class));
+                startActivity(new Intent(this, HomeAcitvity.class));
                 break;
             case 1:
                 startActivity(new Intent(this, ShowTaskInfo.class));

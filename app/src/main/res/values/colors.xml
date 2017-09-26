@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="black_1">#333333</color>
     <color name="shouyebg">#38454F</color>
     <color name="forgetpwd">#FC6F75</color>
     <color name="loginTextColor">#838D8F</color>

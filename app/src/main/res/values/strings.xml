@@ -43,6 +43,21 @@
         <item>@mipmap/about_app</item>
     </string-array>
 
+    <!-- Fragment -->
+    <string name="item_measure">量测任务</string>
+    <string name="item_security">安全检查</string>
+    <string name="item_gas">气体检测</string>
+    <string name="item_cad">CAD图纸</string>
+    <string name="tips">Hello</string>
+    <string name="navigation_navigation_bar">NavigationBar</string>
+
+    <array name="task_tab">
+        <item>未完成@dream@0</item>
+        <item>已完成@dream@1</item>
+        <item>待上传@dream@2</item>
+        <item>已上传@dream@3</item>
+    </array>
+
 
     <!-- GstarSDK所需要的资源信息 -->
     <string name="cad_cancel">取消</string>

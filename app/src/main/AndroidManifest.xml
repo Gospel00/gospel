@@ -43,7 +43,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.dxc.mycollector.cadutils.LocalFilesActivity"></activity>
+        <activity
+            android:name="com.dxc.mycollector.HomeAcitvity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.dxc.mycollector.cadutils.LocalFilesActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name="com.gstar.android.GstarCadFilesActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -75,8 +80,8 @@
             android:name=".UserListAcitvity"
             android:screenOrientation="portrait"></activity>
         <activity
-        android:name=".UserDetailActivity"
-        android:screenOrientation="portrait"></activity>
+            android:name=".UserDetailActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".UserDetail1Activity"
             android:screenOrientation="portrait"></activity>
