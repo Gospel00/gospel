@@ -3,7 +3,6 @@ package com.dxc.mycollector.taskDownload;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 
 import com.dxc.mycollector.dbhelp.SqliteUtils;
 import com.dxc.mycollector.logs.Logger;
@@ -202,14 +201,14 @@ public class DownLoadManager {
                         //下载任务接口返回FAIL,重新请求，3次后不在
                         Logger.i(TAG, "平台测量数据上传接口请求失败，resultJsonupload:" + resultJsonupload);
 //                        Logger.i(TAG, ui + " 次上传请求...");
-                        uploadCallback.callback(false, resultJsonupload);
+                        uploadCallback.callback(false, resultJsonupload, taskInfo.getTaskId(), taskInfo.getCldianId());
                         //每2秒从平台下载一次任务
 //                        sleep(2000);
                         ui++;
                     } else {
                         ui = 0;
                         Logger.i(TAG, "平台测量数据上传成功，resultJsonupload:" + resultJsonupload);
-                        uploadCallback.callback(true, resultJsonupload);
+                        uploadCallback.callback(true, resultJsonupload, taskInfo.getTaskId(), taskInfo.getCldianId());
                     }
 //                    }
                 } catch (Exception e) {
@@ -225,7 +224,7 @@ public class DownLoadManager {
     }
 
     public interface UploadCallback {
-        void callback(boolean statu, String msg);
+        void callback(boolean statu, String msg, String taskId, String pointId);
     }
 
 //    /**
