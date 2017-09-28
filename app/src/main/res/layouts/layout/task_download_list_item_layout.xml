@@ -25,7 +25,7 @@
                 android:id="@+id/show_task_name_point1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="沉降"
+                android:text=""
                 android:textColor="@color/white" />
         </LinearLayout>
 

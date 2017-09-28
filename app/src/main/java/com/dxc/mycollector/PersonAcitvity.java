@@ -60,43 +60,43 @@ public class PersonAcitvity extends BaseActivity {
                         }
                     }).show();
         }
-        findViewById(R.id.clgl_layout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(PersonAcitvity.this, MyMeasureList.class));
-            }
-        });
-        findViewById(R.id.sjgl_layout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(PersonAcitvity.this, UploadBlueToothFolder.class));
-            }
-        });
-        findViewById(R.id.rwgl_layout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(PersonAcitvity.this, ShowTaskInfo.class));
-            }
-        });
-        findViewById(R.id.aqgl_layout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(PersonAcitvity.this, "敬请期待......", Toast.LENGTH_LONG).show();
-            }
-        });
-        findViewById(R.id.cadtz_layout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(PersonAcitvity.this, LocalFilesActivity.class));
+//        findViewById(R.id.clgl_layout).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(PersonAcitvity.this, MyMeasureList.class));
+//            }
+//        });
+//        findViewById(R.id.sjgl_layout).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(PersonAcitvity.this, UploadBlueToothFolder.class));
+//            }
+//        });
+//        findViewById(R.id.rwgl_layout).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(PersonAcitvity.this, ShowTaskInfo.class));
+//            }
+//        });
+//        findViewById(R.id.aqgl_layout).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
 //                Toast.makeText(PersonAcitvity.this, "敬请期待......", Toast.LENGTH_LONG).show();
-            }
-        });
-        findViewById(R.id.tjgl_layout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(PersonAcitvity.this, "敬请期待......", Toast.LENGTH_LONG).show();
-            }
-        });
+//            }
+//        });
+//        findViewById(R.id.cadtz_layout).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(PersonAcitvity.this, LocalFilesActivity.class));
+////                Toast.makeText(PersonAcitvity.this, "敬请期待......", Toast.LENGTH_LONG).show();
+//            }
+//        });
+//        findViewById(R.id.tjgl_layout).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(PersonAcitvity.this, "敬请期待......", Toast.LENGTH_LONG).show();
+//            }
+//        });
 
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();

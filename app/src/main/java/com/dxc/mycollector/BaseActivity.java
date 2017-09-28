@@ -26,7 +26,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dxc.mycollector.base.DLApplication;
-import com.dxc.mycollector.dbhelp.SqliteUtils;
 
 import java.util.List;
 
@@ -41,8 +40,9 @@ public class BaseActivity extends AppCompatActivity {
     protected ListView drawerList;
     protected FrameLayout frameLayout;
     protected String[] planetTitles = null;//{"个人信息", "任务管理", "数据管理", "安全管理", "仪器设置", "系统升级", "关于系统"};
-    protected int[] imagesId = {R.drawable.assignment, R.drawable.down,
-            R.drawable.data, R.drawable.measure, R.drawable.update, R.drawable.system, R.drawable.safe};
+    protected int[] imagesId = {R.drawable.warn_1, R.drawable.assignment,
+            //R.drawable.data,
+            R.drawable.measure, R.drawable.update, R.drawable.system, R.drawable.safe};
     Context context;
     private Dialog mWeiboDialog;//对话框
     private ActionBarDrawerToggle toggle;
@@ -90,39 +90,7 @@ public class BaseActivity extends AppCompatActivity {
         super.setContentView(drawerLayout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
         setUpNavigation();
-//        View layout = View.inflate(context, R.layout.menu_list_item, null);
-//        LinearLayout lin1 = (LinearLayout) layout.findViewById(R.id.item_lin_1_1);
-//        final TextView num = (TextView) layout.findViewById(R.id.num);
-//        toggle = new ActionBarDrawerToggle(this, drawerLayout,
-//                R.drawable.more_wirte,
-//                R.string.open,
-//                R.string.close) {
-//
-//            @Override
-//            public void onDrawerClosed(View drawerView) {
-//                super.onDrawerClosed(drawerView);
-////                Toast.makeText(context, "open", Toast.LENGTH_SHORT).show();
-//                alltask = SqliteUtils.getInstance(context).loadTasksCount();
-//                num.setText(String.valueOf(alltask));
-//            }
-//
-//            @Override
-//            public void onDrawerOpened(View drawerView) {
-//                super.onDrawerOpened(drawerView);
-////                Toast.makeText(context, "close", Toast.LENGTH_SHORT).show();
-//                uploadtask = SqliteUtils.getInstance(context).queryMeasureCount();
-//                num.setText(String.valueOf(uploadtask));
-//            }
-//
-//        };
-//        drawerLayout.setDrawerListener(toggle);
     }
-
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater menuInflater = new MenuInflater(getApplication());
-//        menuInflater.inflate(R.menu.chapter11_menu, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
 
     /**
      * 初始化侧滑菜单
@@ -179,29 +147,31 @@ public class BaseActivity extends AppCompatActivity {
                     layout.setVisibility(View.VISIBLE);
                     layout.invalidate();
                 } else {
+                    lin1.setVisibility(View.GONE);
+                    num.setVisibility(View.GONE);
                     //任务数
-                    if (position == 1) {
-                        {
-                            num.setVisibility(View.VISIBLE);
-                            alltask = SqliteUtils.getInstance(context).loadTasksCount();
-                            num.setText(String.valueOf(alltask));
-                            lin1.setBackground(getResources().getDrawable(R.drawable.textviewstyle));
-                        }
-                    }
+//                    if (position == 1) {
+//                        {
+//                            num.setVisibility(View.VISIBLE);
+//                            alltask = SqliteUtils.getInstance(context).loadTasksCount();
+//                            num.setText(String.valueOf(alltask));
+//                            lin1.setBackground(getResources().getDrawable(R.drawable.textviewstyle));
+//                        }
+//                    }
                     //待上传的测量数
-                    if (position == 2) {
-                        {
-                            num.setVisibility(View.VISIBLE);
-                            uploadtask = SqliteUtils.getInstance(context).queryMeasureCount();
-                            num.setText(String.valueOf(uploadtask));
-                            lin1.setBackground(getResources().getDrawable(R.drawable.textviewstyle3));
-                        }
-                    }
+//                    if (position == 2) {
+//                        {
+//                            num.setVisibility(View.VISIBLE);
+//                            uploadtask = SqliteUtils.getInstance(context).queryMeasureCount();
+//                            num.setText(String.valueOf(uploadtask));
+//                            lin1.setBackground(getResources().getDrawable(R.drawable.textviewstyle3));
+//                        }
+//                    }
                 }
 
                 //admin
                 if (DLApplication.userName != null && !DLApplication.userName.equals(DLApplication.amdin)) {
-                    if (position != 6) {
+                    if (position != 5) {
                         face.setImageResource(imagesId[position]);
                         name.setText(planetTitles[position]);
                     } else {//==7
@@ -214,7 +184,7 @@ public class BaseActivity extends AppCompatActivity {
                     name.setText(planetTitles[position]);
                 }
 
-                if (position != 6) {
+                if (position != 5) {
 //                    logout.setVisibility(View.GONE);
 //                    btnexitall.setVisibility(View.GONE);
 //                    mm.setVisibility(View.GONE);
@@ -271,34 +241,43 @@ public class BaseActivity extends AppCompatActivity {
                 startActivity(new Intent(this, HomeAcitvity.class));
                 break;
             case 1:
-                startActivity(new Intent(this, ShowTaskInfo.class));
+                startActivity(new Intent(this, PersonAcitvity.class));
+                //startActivity(new Intent(this, ShowTaskInfo.class));
 //                Logger.i(TAG, "click task download.");
                 break;
             case 2:
+                startActivity(new Intent(this, DeviceSettingActivity.class));
+                //startActivity(new Intent(this, ShowTaskInfo.class));
+//                Logger.i(TAG, "click task download.");
+                break;
+            case 3:
+                startActivity(new Intent(this, UpdateSystemActivity.class));
                 //startActivity(new Intent(this, BlueToothFolder.class));
-                startActivity(new Intent(this, UploadBlueToothFolder.class));
+                //startActivity(new Intent(this, UploadBlueToothFolder.class));
 //                Logger.i(TAG, "click bluetooth folder  search.");
                 break;
 //            case 3:
 //                startActivity(new Intent(this, ShowExamineRecord.class));
 //                Logger.i(TAG, "click safety examine.");
 //                break;
-            case 3:
-                startActivity(new Intent(this, DeviceSettingActivity.class));
+            case 4:
+                startActivity(new Intent(this, AboutSystemActivity.class));
+//                startActivity(new Intent(this, DeviceSettingActivity.class));
 //                Logger.i(TAG, "click devices setting.");
                 break;
-            case 4:
-                startActivity(new Intent(this, UpdateSystemActivity.class));
+            case 5:
+                startActivity(new Intent(this, UserListAcitvity.class));
+                //startActivity(new Intent(this, UpdateSystemActivity.class));
 //                Logger.i(TAG, "click update system.");
                 break;
-            case 5:
-                startActivity(new Intent(this, AboutSystemActivity.class));
-//                Logger.i(TAG, "click about system.");
-                break;
-            case 6:
-                startActivity(new Intent(this, UserListAcitvity.class));
-//                Logger.i(TAG, "click user list.This operation belongs to the administrator.");
-                break;
+//            case 6:
+//                //startActivity(new Intent(this, AboutSystemActivity.class));
+////                Logger.i(TAG, "click about system.");
+//                break;
+//            case 7:
+////                startActivity(new Intent(this, UserListAcitvity.class));
+////                Logger.i(TAG, "click user list.This operation belongs to the administrator.");
+//                break;
         }
     }
 

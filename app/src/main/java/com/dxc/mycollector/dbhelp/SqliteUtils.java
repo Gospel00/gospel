@@ -70,8 +70,8 @@ public class SqliteUtils {
             } else {
                 try {
                     db.execSQL("insert into tbl_users(username,password,repassword,phone,realname,idcard,address, gongdian)" +
-                            "values(?,?,?,?,?,?,?,?) ", new String[]{user.getuName().toString(), user.getuPwd().toString(),user.getuRePwd().toString(),
-                            user.getuPhone().toString(),user.geturealName().toString(),user.getidCard().toString(),user.getuAddress().toString(),user.getgongDian().toString(),});
+                            "values(?,?,?,?,?,?,?,?) ", new String[]{user.getuName().toString(), user.getuPwd().toString(), user.getuRePwd().toString(),
+                            user.getuPhone().toString(), user.geturealName().toString(), user.getidCard().toString(), user.getuAddress().toString(), user.getgongDian().toString(),});
                 } catch (Exception e) {
                     Log.d("保存用户信息错误", e.getMessage().toString());
                 }
@@ -136,6 +136,7 @@ public class SqliteUtils {
             return 0;
         }
     }
+
     /**
      * 修改用户信息
      *
@@ -191,10 +192,10 @@ public class SqliteUtils {
     /**
      * 查询未上传的测量数据
      */
-    public List<MeasureData> queryMeasure() {
+    public List<MeasureData> queryMeasure(String status) {
         List<MeasureData> list = new ArrayList<MeasureData>();
         try {
-            Cursor cursor = db.rawQuery("select * from tbl_measure where status =?", new String[]{"1"});
+            Cursor cursor = db.rawQuery("select * from tbl_measure where status =?", new String[]{status});
             if (cursor.moveToFirst()) {
                 do {
                     MeasureData downLoadData = new MeasureData();
@@ -312,9 +313,47 @@ public class SqliteUtils {
     public List<TaskInfo> loadTasks() {
         List<TaskInfo> list = new ArrayList<TaskInfo>();
         List<TaskDetails> listd = new ArrayList<TaskDetails>();
-//        Cursor cursor = db
-//                .query("tbl_task", null, null, null, null, null, null);
         Cursor cursor = db.rawQuery("select * from tbl_task order by startTime desc", null);
+        if (cursor.moveToFirst()) {
+            do {
+                TaskInfo downLoadData = new TaskInfo();
+//                downLoadData.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                downLoadData.setTaskId(cursor.getString(cursor.getColumnIndex("taskId")));
+                downLoadData.setUserId(cursor.getString(cursor.getColumnIndex("userId")));
+                downLoadData.setTaskType(cursor.getString(cursor.getColumnIndex("taskType")));
+                downLoadData.setMeasureType(cursor.getString(cursor.getColumnIndex("measureType")));
+                downLoadData.setStartTime(cursor.getString(cursor.getColumnIndex("startTime")));
+                downLoadData.setEndTime(cursor.getString(cursor.getColumnIndex("endTime")));
+                downLoadData.setStatus(cursor.getString(cursor.getColumnIndex("status")));
+                downLoadData.setSjz(cursor.getString(cursor.getColumnIndex("sjz")));
+                downLoadData.setCz(cursor.getString(cursor.getColumnIndex("cz")));
+                //任务详情
+                TaskDetails td = new TaskDetails();
+                td.setProName(cursor.getString(cursor.getColumnIndex("proName")));
+                td.setSection(cursor.getString(cursor.getColumnIndex("section")));
+                td.setMileageLabel(cursor.getString(cursor.getColumnIndex("mileageLabel")));
+                td.setMileageId(cursor.getString(cursor.getColumnIndex("mileageId")));
+                td.setPointLabel(cursor.getString(cursor.getColumnIndex("pointLabel")));
+                td.setPointId(cursor.getString(cursor.getColumnIndex("pointId")));
+                td.setInitialValue(cursor.getString(cursor.getColumnIndex("initialValue")));
+                listd.add(td);
+                //任务详情
+                downLoadData.setTaskDetail(td);
+                list.add(downLoadData);
+            } while (cursor.moveToNext());
+        }
+        return list;
+    }
+
+    /**
+     * 未完成量测任务列表
+     *
+     * @return
+     */
+    public List<TaskInfo> loadTasksByStatus(String status) {
+        List<TaskInfo> list = new ArrayList<TaskInfo>();
+        List<TaskDetails> listd = new ArrayList<TaskDetails>();
+        Cursor cursor = db.rawQuery("select * from tbl_task where status =? order by startTime desc", new String[]{status});
         if (cursor.moveToFirst()) {
             do {
                 TaskInfo downLoadData = new TaskInfo();

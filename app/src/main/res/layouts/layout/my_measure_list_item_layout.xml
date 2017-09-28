@@ -22,7 +22,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/show_task_name_point1"
+                android:id="@+id/show_task_name_point2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="沉降"

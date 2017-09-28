@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ copyright (c)2018-8-15
+  ~ DXC technology
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/no_upload_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="没有要上传的测量数据" />
+
+    <LinearLayout
+        android:id="@+id/upload_titile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/no_upload_tool">
+
+        <com.dxc.mycollector.pullableview.PullToRefreshLayout
+            android:id="@+id/no_upload_refresh_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/refresh_head" />
+
+            <com.dxc.mycollector.pullableview.PullableListView
+                android:id="@+id/no_upload_listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/gray"
+                android:dividerHeight="1dp" />
+
+            <include layout="@layout/load_more" />
+
+        </com.dxc.mycollector.pullableview.PullToRefreshLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/no_upload_tool"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/allor_choose"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_load_style"
+            android:text="全选/反选"
+            android:textColor="@drawable/btn_load_txtcol"
+            android:textSize="@dimen/all_btn" />
+
+        <Button
+            android:id="@+id/all_upload"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_load_style"
+            android:text="批量上传"
+            android:textColor="@drawable/btn_load_txtcol"
+            android:textSize="@dimen/all_btn" />
+    </LinearLayout>
+</RelativeLayout>
