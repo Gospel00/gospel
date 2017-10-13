@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.dxc.mycollector.pullableview.PullToRefreshLayout
+        android:id="@+id/gas_refresh_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/refresh_head" />
+
+        <com.dxc.mycollector.pullableview.PullableListView
+            android:id="@+id/gas_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/gray"
+            android:dividerHeight="1dp"
+            android:padding="3dp" />
+
+        <include layout="@layout/load_more" />
+
+    </com.dxc.mycollector.pullableview.PullToRefreshLayout>
+
+    <TextView
+        android:id="@+id/gas_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="没有气体检查数据" />
+
+</RelativeLayout>

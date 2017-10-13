@@ -9,6 +9,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -38,6 +39,11 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             return list.size();
         return 0;
     }
+
+//    @Override
+//    public Object instantiateItem(ViewGroup container, int position) {
+////        return FragmentTest.instantiation(3);
+//    }
 
     @Override
     public CharSequence getPageTitle(int position) {

@@ -56,11 +56,11 @@ public class MyListViewAdapter extends BaseAdapter {
             holder.fileName = (TextView) convertView.findViewById(R.id.upload_bluetoothfile_file_name);
             holder.fileTime = (TextView) convertView.findViewById(R.id.upload_bluetoothfile_file_time);
             holder.checkboxOperateData = (CheckBox) convertView.findViewById(R.id.checkbox_operate_data);
-            //已完成任务
-            ImageView imageViews1 = (ImageView) convertView.findViewById(R.id.upload_imageView1);
-            //待完成任务
-            ImageView imageViews = (ImageView) convertView.findViewById(R.id.upload_imageView);
             holder.tasknamepoint3 = (TextView) convertView.findViewById(R.id.show_task_name_point3);
+            //已完成任务
+            holder.uploadimage1 = (ImageView) convertView.findViewById(R.id.upload_imageView1);
+            //待完成任务
+            holder.uploadimage = (ImageView) convertView.findViewById(R.id.upload_imageView);
             convertView.setTag(holder);
         } else {
             holder = (Holder) convertView.getTag();
@@ -82,18 +82,14 @@ public class MyListViewAdapter extends BaseAdapter {
             } else {
                 holder.checkboxOperateData.setVisibility(View.GONE);
             }
-            //已完成任务
-            ImageView imageViews1 = (ImageView) convertView.findViewById(R.id.upload_imageView1);
-            //待完成任务
-            ImageView imageViews = (ImageView) convertView.findViewById(R.id.upload_imageView);
             // 如果potid不为空说明是完成任务后跳转过来的，在列表中能找到该任务，将其状态改为已完成
             if (taskInfo != null && taskInfo.getStatus().equals("0")) {
-                imageViews.setVisibility(View.GONE);
-                imageViews1.setVisibility(View.VISIBLE);
+                holder.uploadimage.setVisibility(View.GONE);
+                holder.uploadimage1.setVisibility(View.VISIBLE);
                 convertView.invalidate();
             } else {
-                imageViews1.setVisibility(View.GONE);
-                imageViews.setVisibility(View.VISIBLE);
+                holder.uploadimage1.setVisibility(View.GONE);
+                holder.uploadimage.setVisibility(View.VISIBLE);
                 convertView.invalidate();
             }
             holder.checkboxOperateData.setChecked(taskInfo.isCheck);
@@ -131,6 +127,8 @@ public class MyListViewAdapter extends BaseAdapter {
         TextView fileName = null;
         TextView fileTime = null;
         TextView tasknamepoint3 = null;
+        ImageView uploadimage1 = null;
+        ImageView uploadimage = null;
         CheckBox checkboxOperateData;
     }
 }

@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.dxc.mycollector.logs.Logger;
+import com.dxc.mycollector.model.GasInfo;
 import com.dxc.mycollector.model.MeasureData;
 import com.dxc.mycollector.model.TaskDetails;
 import com.dxc.mycollector.model.TaskInfo;
@@ -35,7 +36,7 @@ public class SqliteUtils {
     /**
      * 数据库版本
      */
-    public static final int VERSION = 1;
+    public static final int VERSION = 2017101016;
 
     private static SqliteUtils sqliteDB;
 
@@ -212,6 +213,7 @@ public class SqliteUtils {
                     downLoadData.setSources(cursor.getString(cursor.getColumnIndex("sources")));
                     downLoadData.setChushizhi(cursor.getString(cursor.getColumnIndex("chushizhi")));
                     downLoadData.setChazhi(cursor.getString(cursor.getColumnIndex("chazhi")));
+                    downLoadData.setStatus(cursor.getString(cursor.getColumnIndex("status")));
                     list.add(downLoadData);
                 } while (cursor.moveToNext());
             }
@@ -498,4 +500,48 @@ public class SqliteUtils {
         }
     }
 
+    /**
+     * 获取所有气体检查数据
+     *
+     * @return
+     */
+    public List<GasInfo> loadGasList() {
+        List<GasInfo> list = new ArrayList<GasInfo>();
+        Cursor cursor = db.rawQuery("select * from tbl_gas order by checkTime desc", null);
+        if (cursor.moveToFirst()) {
+            do {
+                GasInfo gasInfo = new GasInfo();
+                gasInfo.setCarbonMonoxide(cursor.getString(cursor.getColumnIndex("carbonMonoxide")));
+                gasInfo.setCarbonDioxide(cursor.getString(cursor.getColumnIndex("carbonDioxide")));
+                gasInfo.setMethane(cursor.getString(cursor.getColumnIndex("methane")));
+                gasInfo.setHydrogenSulfide(cursor.getString(cursor.getColumnIndex("hydrogenSulfide")));
+                gasInfo.setCheckTime(cursor.getString(cursor.getColumnIndex("checkTime")));
+                gasInfo.setStatus(cursor.getString(cursor.getColumnIndex("status")));
+                list.add(gasInfo);
+            } while (cursor.moveToNext());
+        }
+        return list;
+    }
+
+    /**
+     * 手动录入气体检查结果
+     *
+     * @param gasInfo
+     * @return
+     */
+    public int saveGasByManual(GasInfo gasInfo) {
+        if (gasInfo != null) {
+            try {
+                db.execSQL("insert into tbl_gas(carbonMonoxide,carbonDioxide,methane,hydrogenSulfide,checkTime,status)" +
+                        "values(?,?,?,?,?,?) ", new String[]{gasInfo.getCarbonMonoxide(), gasInfo.getCarbonDioxide(),
+                        gasInfo.getMethane(), gasInfo.getHydrogenSulfide(), gasInfo.getCheckTime(), gasInfo.getStatus()});
+            } catch (Exception e) {
+                Log.d("手动录入气体检查结果错误", e.getMessage().toString());
+                e.printStackTrace();
+            }
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }

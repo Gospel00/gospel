@@ -55,9 +55,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return databasename;
     }
 
-    public static final String TABLE_NAME1 = "tbl_users"; //用户信息
-    public static final String TABLE_NAME2 = "tbl_task"; //任务下载信息
-    public static final String TABLE_NAME3 = "tbl_measure"; //解析后的测量信息
+    public static final String TABLE_USERS = "tbl_users"; //用户信息
+    public static final String TABLE_TASKS = "tbl_task"; //量测任务信息表
+    public static final String TABLE_MEASURE = "tbl_measure"; //量测数据结果表
+    public static final String TABLE_SECURITY = "tbl_security"; //安全检查表
+    public static final String TABLE_GAS = "tbl_gas"; //气体检测表
 
 //    public SQLiteHelper(Context context) {
 //        super(context, mDatabasename, mFactory, mVersion);
@@ -76,8 +78,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Logger.i(TAG, "tbl_task create success.");
         createMeasure(db);
         Logger.i(TAG, "tbl_measure create success.");
+        createGas(db);
+        Logger.i(TAG, "tbl_gas create success.");
+        createSecurity(db);
+        Logger.i(TAG, "tbl_security create success.");
 
 //        formatTable(db);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int _oldVersion, int _newVersion) {
+        //数据库版本号升级，会执行的方法，一般用于数据库表或者字段更新（增加，删除，修改）等
+//        createUser(db);
+//        Logger.i(TAG, "tbl_users upgrade success.");
+//        createDownloadinfo(db);
+//        Logger.i(TAG, "tbl_task upgrade success.");
+//        createMeasure(db);
+//        Logger.i(TAG, "tbl_measure upgrade success.");
+//        createGas(db);
+//        Logger.i(TAG, "tbl_gas upgrade success.");
+//        createSecurity(db);
+//        Logger.i(TAG, "tbl_security upgrade success.");
+//        db.execSQL("alter table tbl_gas add checkTime varchar");
+//        db.execSQL("alter table tbl_gas add status varchar");
     }
 
     public void formatTable(SQLiteDatabase db) {
@@ -99,10 +122,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param db
      */
     public void createUser(SQLiteDatabase db) {
-
         //创建用户信息表
-
-        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME1 +
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_USERS +
                 "(id integer primary key autoincrement," +
                 "username varchar(20)," +
                 "password varchar(20)," +
@@ -115,7 +136,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             db.execSQL(sql);
             db.execSQL("insert into tbl_users(username,password,repassword,phone,realname,idcard, address,gongdian) values(?,?,?,?,?,?,?,?) ",
-                    new String[]{"gospel", "gospel5200","gospel5200","11","gospel","1111","beijing","1"});
+                    new String[]{"gospel", "gospel5200", "gospel5200", "11", "gospel", "1111", "beijing", "1"});
         } catch (Exception e) {
             Logger.e(TAG, "tbl_users create failed." + e.getMessage());
         }
@@ -128,7 +149,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public void createDownloadinfo(SQLiteDatabase db) {
         //创建任务下载信息数据表
-        String downloadsql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME2 + " ("
+        String downloadsql = "CREATE TABLE IF NOT EXISTS " + TABLE_TASKS + " ("
                 + "id integer primary key autoincrement, "
                 + "taskId VARCHAR, "
                 + "userId VARCHAR, "
@@ -160,14 +181,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param db
      */
     public void createMeasure(SQLiteDatabase db) {
-        //创建用户信息表
-        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME3
+        //量测结果信息表
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_MEASURE
                 + " (id integer primary key autoincrement," +
                 "taskId  varchar(100)," +
-                "cllicheng varchar(2000)," +
-                "cldian varchar(2000)," +
-                "cllichengId varchar(2000)," +
-                "cldianId varchar(2000)," +
+                "cllicheng varchar(200)," +
+                "cldian varchar(200)," +
+                "cllichengId varchar(200)," +
+                "cldianId varchar(200)," +
                 "clren varchar(100)," +
                 "cltime varchar(50)," +
                 "gaocheng varchar(100)," +
@@ -176,7 +197,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "datatype varchar(100)," +
                 "createtime varchar(50)," +
                 "updatetime varchar(50)," +
-                "sources varchar(1000)," +
+                "sources varchar(2000)," +
                 "chushizhi varchar(50)," +
                 "chazhi varchar(50))";
         try {
@@ -186,9 +207,46 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    /**
+     * 安全检查表
+     *
+     * @param db
+     */
+    public void createSecurity(SQLiteDatabase db) {
+        //安全检查信息表
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_SECURITY
+                + " (id integer primary key autoincrement," +
+                "type varchar(50)," +
+                "isHg varchar(50)," +
+                "checkTime varchar(50)," +
+                "status varchar(50))";
+        try {
+            db.execSQL(sql);
+        } catch (Exception e) {
+            Logger.i(TAG, "tbl_security create failed." + e.getMessage());
+        }
+    }
 
+    /**
+     * 气体检测表
+     *
+     * @param db
+     */
+    public void createGas(SQLiteDatabase db) {
+        //气体检测信息表
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_GAS
+                + " (id integer primary key autoincrement," +
+                "carbonDioxide varchar(50)," +
+                "carbonMonoxide varchar(50)," +
+                "methane varchar(50)," +
+                "hydrogenSulfide varchar(50)," +
+                "checkTime varchar(50)," +
+                "status varchar(50))";
+        try {
+            db.execSQL(sql);
+        } catch (Exception e) {
+            Logger.i(TAG, "tbl_gas create failed." + e.getMessage());
+        }
     }
 
     @Override

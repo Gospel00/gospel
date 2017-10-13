@@ -48,7 +48,7 @@ public class SecurityFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sub_content, container, false);
+        View view = inflater.inflate(R.layout.security_fragment, container, false);
         Bundle bundle = getArguments();
         String s = bundle.getString(Constants.ARGS);
         TextView textView = (TextView) view.findViewById(R.id.fragment_text_view);

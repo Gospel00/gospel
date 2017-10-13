@@ -69,7 +69,15 @@ public class MeasureMainFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        viewContent = inflater.inflate(R.layout.fragment_parent1, container, false);
+        //解决ViewPager里的Fragment之间切换的时候，Fragment空白的问题
+        if (viewContent != null) {
+            ViewGroup parent = (ViewGroup) viewContent.getParent();
+            if (parent != null) {
+                parent.removeView(viewContent);
+            }
+            return viewContent;
+        }
+        viewContent = inflater.inflate(R.layout.measure_main_fragment, container, false);
 //        Bundle bundle = getArguments();
 //        String s = bundle.getString(Constants.ARGS);
 //        TextView textView = (TextView) viewContent.findViewById(R.id.fragment_text_view);

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black_1">#333333</color>
+    <color name="gas_text_color">#41505D</color>
+    <color name="gas_edit_color">#C3C3C3</color>
     <color name="shouyebg">#38454F</color>
     <color name="forgetpwd">#FC6F75</color>
     <color name="loginTextColor">#838D8F</color>
@@ -38,8 +40,10 @@
     <color name="blue_tag">#ff01aeed</color>
     <color name="bright_foreground_disabled_material_dark">#80ffffff</color>
     <color name="bright_foreground_disabled_material_light">#80000000</color>
-    <color name="bright_foreground_inverse_material_dark">@color/bright_foreground_material_light</color>
-    <color name="bright_foreground_inverse_material_light">@color/bright_foreground_material_dark</color>
+    <color name="bright_foreground_inverse_material_dark">@color/bright_foreground_material_light
+    </color>
+    <color name="bright_foreground_inverse_material_light">@color/bright_foreground_material_dark
+    </color>
     <color name="bright_foreground_material_dark">@android:color/white</color>
     <color name="bright_foreground_material_light">@android:color/black</color>
     <color name="button_material_dark">#ff5a595b</color>
@@ -63,8 +67,10 @@
     <color name="green_gre">#ff57ff0b</color>
     <color name="highlighted_text_material_dark">#6680cbc4</color>
     <color name="highlighted_text_material_light">#66009688</color>
-    <color name="hint_foreground_material_dark">@color/bright_foreground_disabled_material_dark</color>
-    <color name="hint_foreground_material_light">@color/bright_foreground_disabled_material_light</color>
+    <color name="hint_foreground_material_dark">@color/bright_foreground_disabled_material_dark
+    </color>
+    <color name="hint_foreground_material_light">@color/bright_foreground_disabled_material_light
+    </color>
     <color name="hui">#ff82858b</color>
     <color name="inset">#99000000</color>
     <color name="link_text_material_dark">@color/material_deep_teal_200</color>
@@ -104,7 +110,7 @@
     <color name="switch_thumb_normal_material_dark">#ffbdbdbd</color>
     <color name="switch_thumb_normal_material_light">#fff1f1f1</color>
     <!-- From: file:/Users/xyy/gitworkspace/CommonLibrary/common_base/src/main/res/values/colors.xml -->
-    <eat-comment/>
+    <eat-comment />
     <color name="alice_blue">#F0F8FF</color>
     <color name="antique_white">#FAEBD7</color>
     <color name="aqua">#00FFFF</color>
@@ -317,9 +323,16 @@
     <color name="updatesystem">#4e5f6f</color>
     <color name="updatesystem1">#6e859a</color>
     <color name="updatesystem2">#6e859a</color>
-    <declare-styleable name="linear_grid_layout"><attr format="boolean" name="showHorizontalDivider"/><attr format="boolean" name="showVerticalDivider"/><attr format="boolean" name="isHashBorder"/><attr format="color" name="dividerColor"/><attr format="dimension" name="dividerHeight"/><attr format="integer" name="numColumns"/></declare-styleable>
+    <declare-styleable name="linear_grid_layout">
+        <attr name="showHorizontalDivider" format="boolean" />
+        <attr name="showVerticalDivider" format="boolean" />
+        <attr name="isHashBorder" format="boolean" />
+        <attr name="dividerColor" format="color" />
+        <attr name="dividerHeight" format="dimension" />
+        <attr name="numColumns" format="integer" />
+    </declare-styleable>
     <!-- From: file:/Users/xyy/gitworkspace/CommonLibrary/common_base/src/main/res/values/dimens.xml -->
-    <eat-comment/>
+    <eat-comment />
     <dimen name="dimens0">0dp</dimen>
     <dimen name="dimens1">1dp</dimen>
     <dimen name="dimens10">10dp</dimen>

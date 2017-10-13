@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ copyright (c)2018-8-15
+  ~ DXC technology
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:isScrollContainer="true"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingTop="@dimen/activity_horizontal_margin"
+    android:scrollbars="vertical"
+    android:weightSum="1"
+    tools:context="com.dxc.mycollector.AddGasAcitvity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <LinearLayout
+            android:id="@+id/zd"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--<View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:background="@color/gray" />-->
+            <LinearLayout
+                android:id="@+id/eyhd"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="16dp"
+                android:gravity="left"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal">
+
+                    <ImageView
+                        android:id="@+id/eyht"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentLeft="true"
+                        app:srcCompat="@drawable/co2" />
+
+                    <TextView
+                        android:id="@+id/showname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@+id/eyht"
+                        android:gravity="center"
+                        android:hint="二氧化碳"
+                        android:textColor="@color/gas_text_color"
+                        android:textSize="@dimen/personal_text_view2" />
+
+                    <EditText
+                        android:id="@+id/eyhtvalue"
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@+id/showname"
+                        android:background="@drawable/edittext"
+                        android:gravity="center"
+                        android:hint="0.00"
+                        android:inputType="number"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/gas_edit_color"
+                        android:textSize="@dimen/all_edit_text" />
+
+                    <TextView
+                        android:id="@+id/unitname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@+id/eyhtvalue"
+                        android:gravity="center"
+                        android:hint="%VOL"
+                        android:textColor="@color/gas_text_color"
+                        android:textSize="@dimen/personal_text_view3" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/gray" />
+
+            <LinearLayout
+                android:id="@+id/jw"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="16dp"
+                android:gravity="left"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal">
+
+                    <ImageView
+                        android:id="@+id/jwimg"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentLeft="true"
+                        app:srcCompat="@drawable/ch4" />
+
+                    <TextView
+                        android:id="@+id/jwname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@+id/jwimg"
+                        android:gravity="center"
+                        android:hint="甲        烷"
+                        android:textColor="@color/gas_text_color"
+                        android:textSize="@dimen/personal_text_view2" />
+
+                    <EditText
+                        android:id="@+id/jwvalue"
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@+id/jwname"
+                        android:background="@drawable/edittext"
+                        android:gravity="center"
+                        android:hint="0.00"
+                        android:inputType="number"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/gas_edit_color"
+                        android:textSize="@dimen/all_edit_text" />
+
+                    <TextView
+                        android:id="@+id/jwunitname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@+id/jwvalue"
+                        android:gravity="center"
+                        android:hint="%VOL"
+                        android:textColor="@color/gas_text_color"
+                        android:textSize="@dimen/personal_text_view3" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/gray" />
+
+            <LinearLayout
+                android:id="@+id/yyht"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="16dp"
+                android:gravity="left"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal">
+
+                    <ImageView
+                        android:id="@+id/yyhtimg"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentLeft="true"
+                        app:srcCompat="@drawable/co" />
+
+                    <TextView
+                        android:id="@+id/yyhtname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@+id/yyhtimg"
+                        android:gravity="center"
+                        android:hint="一氧化碳"
+                        android:textColor="@color/gas_text_color"
+                        android:textSize="@dimen/personal_text_view2" />
+
+                    <EditText
+                        android:id="@+id/yyhtvalue"
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@+id/yyhtname"
+                        android:background="@drawable/edittext"
+                        android:gravity="center"
+                        android:hint="0.00"
+                        android:inputType="number"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/gas_edit_color"
+                        android:textSize="@dimen/all_edit_text" />
+
+                    <TextView
+                        android:id="@+id/yyhtunitname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@+id/yyhtvalue"
+                        android:gravity="center"
+                        android:hint=" PPM "
+                        android:textColor="@color/gas_text_color"
+                        android:textSize="@dimen/personal_text_view3" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/gray" />
+
+            <LinearLayout
+                android:id="@+id/lht"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="16dp"
+                android:gravity="left"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal">
+
+                    <ImageView
+                        android:id="@+id/lhtimg"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentLeft="true"
+                        app:srcCompat="@drawable/h2s" />
+
+                    <TextView
+                        android:id="@+id/lhtname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@+id/lhtimg"
+                        android:gravity="center"
+                        android:hint="硫  化  氢"
+                        android:textSize="@dimen/personal_text_view2" />
+
+                    <EditText
+                        android:id="@+id/lhtvalue"
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@+id/lhtname"
+                        android:background="@drawable/edittext"
+                        android:gravity="center"
+                        android:hint="0.00"
+                        android:inputType="number"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/gas_edit_color"
+                        android:textSize="@dimen/all_edit_text" />
+
+                    <TextView
+                        android:id="@+id/lhtunitname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@+id/lhtvalue"
+                        android:gravity="center"
+                        android:hint=" PPM "
+                        android:textColor="@color/gas_text_color"
+                        android:textSize="@dimen/personal_text_view3" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <!--<View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/gray" />-->
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="150dp">
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/savegas"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/btn_load_style"
+                android:text="保存"
+                android:textColor="@drawable/btn_load_txtcol"
+                android:textSize="@dimen/all_btn" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

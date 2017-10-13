@@ -4,7 +4,7 @@
     android:layout_height="50dp"
     android:descendantFocusability="blocksDescendants"
     android:gravity="center_vertical"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/imageViewFileIcon"
@@ -20,7 +20,7 @@
         android:layout_marginLeft="10dp"
         android:layout_weight="1.5"
         android:gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textViewFileName"
@@ -29,15 +29,14 @@
             android:ellipsize="end"
             android:gravity="left"
             android:singleLine="true"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/white" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <LinearLayout
             android:id="@+id/viewFileSizeAndTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone" >
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/textViewFileSize"
